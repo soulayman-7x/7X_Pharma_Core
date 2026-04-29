@@ -2,10 +2,9 @@
 require_once 'Constants.php';
 
 class Database {
-    private static $instance = null;
     private $conn;
 
-    private function __construct() {
+    public function __construct() {
         $host = $_ENV['DB_HOST'] ?? '127.0.0.1';
         $port = $_ENV['DB_PORT'] ?? '3307';
         $db_name = $_ENV['DB_NAME'] ?? 'pharma_core';
@@ -58,13 +57,9 @@ class Database {
         file_put_contents($logFile, $logMessage, FILE_APPEND);
     }  
 
-    public static function getConnection() {
-        if (self::$instance == null) {
-            self::$instance = new Database();
-        }
-        return self::$instance->conn;
+    public function getConnection() {
+        return $this->conn;
     }
 }
 
-$db = Database::getConnection();
 ?>
