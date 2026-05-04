@@ -1,0 +1,115 @@
+/* ==========================================================================
+   CLIENT CREDIT LEDGER PAGE CSS
+   ========================================================================== */
+
+/* Summary cards at the top */
+.credit-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-3);
+    margin-bottom: var(--space-4);
+}
+
+.credit-stat-card {
+    background-color: var(--color-bg-secondary);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-lg);
+    padding: var(--space-4);
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    transition: transform var(--transition-speed);
+}
+.credit-stat-card:hover { transform: translateY(-2px); }
+
+.credit-stat-icon {
+    width: 48px; height: 48px; border-radius: var(--border-radius-md);
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    font-size: 1.4rem;
+}
+.credit-stat-icon.blue   { background-color: rgba(0,114,255,0.12);   color: var(--color-primary); }
+.credit-stat-icon.purple { background-color: rgba(106,13,173,0.12);  color: var(--color-accent);  }
+.credit-stat-icon.red    { background-color: rgba(239,68,68,0.12);   color: var(--color-danger);  }
+
+.credit-stat-body .stat-value {
+    font-size: 1.5rem; font-weight: 700; color: var(--color-text-primary);
+}
+.credit-stat-body .stat-label {
+    font-size: 0.8rem; color: var(--color-text-secondary); font-weight: 500;
+}
+
+/* Filter bar (reused pattern) */
+.credit-filter-bar {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+}
+.credit-filter-bar .search-input-wrap {
+    position: relative; flex: 1; min-width: 220px;
+}
+.credit-filter-bar .search-input-wrap svg {
+    position: absolute; left: 0.875rem; top: 50%; transform: translateY(-50%);
+    color: var(--color-text-secondary); pointer-events: none;
+}
+.credit-filter-bar input[type="search"] {
+    width: 100%; padding: 0.625rem 1rem 0.625rem 2.75rem;
+    background-color: var(--color-bg-primary);
+    border: 1px solid var(--color-border); border-radius: var(--border-radius-md);
+    color: var(--color-text-primary); font-size: 0.9rem;
+    font-family: var(--font-family); transition: border-color var(--transition-speed), box-shadow var(--transition-speed);
+}
+.credit-filter-bar input[type="search"]:focus {
+    outline: none; border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(0,114,255,0.15);
+}
+
+/* Debt amount color */
+.debt-amount {
+    font-weight: 700; font-size: 0.95rem;
+}
+.debt-amount.high   { color: var(--color-danger);  }
+.debt-amount.medium { color: var(--color-warning); }
+.debt-amount.low    { color: var(--color-success); }
+
+/* "Add Payment" button in table */
+.btn-pay {
+    padding: 0.35rem 0.7rem; font-size: 0.75rem; font-weight: 600;
+    border-radius: var(--border-radius-sm);
+    background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+    color: #fff; border: none; cursor: pointer;
+    font-family: var(--font-family); transition: opacity var(--transition-speed);
+    display: inline-flex; align-items: center; gap: 4px;
+}
+.btn-pay:hover { opacity: 0.85; }
+
+.btn-table-action {
+    padding: 0.3rem 0.6rem; font-size: 0.75rem;
+    border-radius: var(--border-radius-sm);
+    border: 1px solid var(--color-border); background: transparent;
+    color: var(--color-text-secondary); cursor: pointer;
+    font-family: var(--font-family); transition: all var(--transition-speed);
+    display: inline-flex; align-items: center; gap: 4px;
+}
+.btn-table-action:hover { border-color: var(--color-primary); color: var(--color-primary); }
+
+/* Payment Modal */
+.pay-modal-body { padding: var(--space-4); display: flex; flex-direction: column; gap: var(--space-3); }
+.pay-modal-client-info {
+    background-color: var(--color-bg-primary);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-md);
+    padding: var(--space-3);
+    display: flex; flex-direction: column; gap: 4px;
+}
+.pay-modal-client-info .client-name-lg {
+    font-size: 1.05rem; font-weight: 700;
+}
+.pay-modal-client-info .client-balance {
+    font-size: 0.85rem; color: var(--color-danger); font-weight: 600;
+}
+
+@media (max-width: 768px) {
+    .credit-stats { grid-template-columns: 1fr; }
+    .credit-filter-bar { flex-direction: column; align-items: stretch; }
+}

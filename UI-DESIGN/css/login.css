@@ -1,0 +1,69 @@
+/* login.css — 7X Brand Colors */
+.login-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-3);
+    background-image:
+        radial-gradient(circle at top right, rgba(0, 114, 255, 0.06), transparent 40%),
+        radial-gradient(circle at bottom left, rgba(106, 13, 173, 0.06), transparent 40%);
+}
+
+.login-card {
+    background-color: var(--color-bg-secondary);
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--shadow-md);
+    width: 100%;
+    max-width: 420px;
+    padding: var(--space-5);
+    border: 1px solid var(--color-border);
+}
+
+.login-header { text-align: center; margin-bottom: var(--space-4); }
+
+.logo-wrapper {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 68px; height: 68px;
+    background: linear-gradient(135deg, rgba(0,114,255,0.15), rgba(106,13,173,0.15));
+    border-radius: 50%;
+    margin-bottom: var(--space-3);
+    color: var(--color-primary);
+    border: 1px solid rgba(0, 114, 255, 0.2);
+}
+
+.logo-wrapper img {
+    width: 100px;
+}
+
+.login-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: var(--space-1);
+}
+
+.login-subtitle { color: var(--color-text-secondary); font-size: 0.875rem; }
+
+.login-form { margin-top: var(--space-4); }
+
+.forgot-password {
+    display: block;
+    text-align: right;
+    font-size: 0.875rem;
+    margin-top: var(--space-2);
+    color: var(--color-accent);
+}
+.forgot-password:hover { color: var(--color-accent-hover); }
+
+.login-footer {
+    margin-top: var(--space-4);
+    text-align: center;
+    font-size: 0.8rem;
+    color: var(--color-text-secondary);
+}
