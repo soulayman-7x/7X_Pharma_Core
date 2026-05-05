@@ -5,7 +5,8 @@ class AuthController extends Controller {
         if (isset($_SESSION['user_id'])) {
             $this->redirect('dashboard');
         }
-        $this->view('login');
+        $toast = $this->getFlash('toast_alert');
+        $this->view('login', ['toast' => $toast]);
     }
 
     // Function for processing data coming from the form
@@ -24,7 +25,8 @@ class AuthController extends Controller {
                 $_SESSION['name'] = $user['name'];
                 $this->redirect('dashboard');
             } else {
-                $this->view('login', ['error' =>  'Incorrect username or password']);
+                $this->setFlash('toast_alert', 'Incorrect username or password', 'error');
+                $this->redirect('auth');
             }
         }
     }
