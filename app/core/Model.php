@@ -5,7 +5,7 @@ class Model {
     protected $table;
 
     public function __construct() {
-        require_once ROOT_DIR . 'app/config/Database.php';
+        require_once ROOT_DIR . '/app/config/Database.php';
         $database = new Database();
         $this->db = $database->getConnection();
     }

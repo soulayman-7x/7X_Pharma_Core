@@ -7,7 +7,7 @@ class Batch extends Model {
     public function getExpiringSoon($days = 90) {
         $sql = "SELECT * FROM {$this->table} 
                 WHERE expiry_date <= DATE_ADD(CURDATE(), INTERVAL ? DAY) 
-                AND quantity > 0 
+                AND current_quantity > 0 
                 ORDER BY expiry_date ASC";
         $stmt = $this->query($sql, [$days]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -15,7 +15,7 @@ class Batch extends Model {
 
     // Function to deduct quantity after sale
     public function decreaseQuantity($batchId, $qtyToDeduct) {
-        $sql = "UPDATE {$this->table} SET quantity = quantity - ? WHERE id = ? AND quantity >= ?";
+        $sql = "UPDATE {$this->table} SET current_quantity= current_quantity- ? WHERE id = ? AND current_quantity>= ?";
         $stmt = $this->query($sql, [$qtyToDeduct, $batchId, $qtyToDeduct]);
         return $stmt->rowCount() > 0;
     }
