@@ -1,9 +1,0 @@
-Options -Indexes
-RewriteEngine On
-
-# منع الوصول المباشر للمجلدات إذا لم تكن تحتوي على index.php
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteCond %{REQUEST_FILENAME} !-f
-
-# توجيه أي رابط إلى ملف index.php مع تمرير الرابط كمتغير اسمه url
-RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]
