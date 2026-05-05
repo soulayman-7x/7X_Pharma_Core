@@ -1,6 +1,6 @@
 <?php 
 // 1. Paths
-define('BASE_URL', $_ENV['APP_URL'] ?? 'http://localhost/7X_Pharma_Core');
+define('BASE_URL', $_ENV['APP_URL'] ?? 'http://localhost/7X_Pharma_Core/public');
 define('ROOT_DIR', dirname(__DIR__, 2));
 
 // 2. Financial constants of the Moroccan market
