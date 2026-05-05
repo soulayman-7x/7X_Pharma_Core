@@ -9,7 +9,7 @@ class Controller {
             extract($data);
         }
 
-        $viewFile = ROOT_DIR . '/views/' . $view .'.php';
+        $viewFile = ROOT_DIR . '/views/pages/' . $view .'.php';
         if (file_exists($viewFile)) {
             require_once $viewFile;
         } else {
@@ -40,8 +40,25 @@ class Controller {
 
     // 3. Redirect function
     public function redirect($url) {
-        header("Location: /" . $url);
+        header("Location: " . BASE_URL . "/" . $url);
         exit();
+    }
+
+    // toasts
+    public function setFlash($key, $message, $type = 'error') {
+        $_SESSION[$key] = [
+            'message' => $message,
+            'type'   => $type
+        ];
+    }
+
+    public function getFlash($key) {
+        if (isset($_SESSION[$key])) {
+            $flashData = $_SESSION[$key];
+            unset($_SESSION[$key]);
+            return $flashData;
+        }
+        return null;
     }
 }
 ?>
