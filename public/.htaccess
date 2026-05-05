@@ -1,0 +1,9 @@
+Options -Indexes
+RewriteEngine On
+
+RewriteBase /7X_PHARMA_CORE/public/
+
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+
+RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]
