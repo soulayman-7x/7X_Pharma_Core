@@ -252,6 +252,79 @@
 .receipt-row { display: flex; justify-content: space-between; padding: 3px 0; color: var(--color-text-secondary); }
 .receipt-row.total { font-weight: 700; color: var(--color-primary); font-size: 1rem; }
 
+
+/* ==========================================================================
+   RECEIPT MODAL (Clean CSS)
+   ========================================================================== */
+.modal-box.receipt-modal {
+    background: var(--color-bg-secondary);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 2rem;
+    max-width: 400px;
+    width: 100%;
+}
+
+.receipt-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+
+.receipt-title {
+    color: #06b6d4; /* Cyan */
+}
+
+.receipt-close {
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    font-size: 1.5rem;
+}
+
+.receipt-body {
+    font-family: monospace;
+    background: var(--color-bg-primary);
+    padding: 1.5rem;
+    border-radius: 8px;
+}
+
+.receipt-brand-text {
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.receipt-brand-text p {
+    color: var(--color-text-secondary);
+    font-size: 0.8rem;
+}
+
+.receipt-divider {
+    border-color: rgba(255, 255, 255, 0.1);
+    margin: 10px 0;
+}
+
+.receipt-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+}
+
+.receipt-row.total-row {
+    font-weight: bold;
+    color: #06b6d4;
+    font-size: 1.1rem;
+}
+
+.receipt-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 1.5rem;
+}
+
+.receipt-actions .btn {
+    flex: 1;
+    text-align: center;
+}
 /* ===== RESPONSIVE ===== */
 @media (max-width: 768px) {
     .pos-content { flex-direction: column; }
