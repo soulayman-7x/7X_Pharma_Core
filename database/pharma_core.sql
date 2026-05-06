@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3307
--- Generation Time: Apr 20, 2026 at 11:10 PM
+-- Generation Time: May 06, 2026 at 05:38 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -138,10 +138,19 @@ CREATE TABLE `sale_items` (
 CREATE TABLE `users` (
   `id` int(11) NOT NULL,
   `name` varchar(100) NOT NULL,
+  `username` varchar(50) NOT NULL,
+  `password` varchar(255) NOT NULL,
   `role` enum('admin','pharmacist') DEFAULT 'pharmacist',
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`id`, `name`, `username`, `password`, `role`, `created_at`, `deleted_at`) VALUES
+(1, 'Soulayman Id Baha', 'soulayman', '$2y$10$FmTb1pEZSslfG0ivILNMLe9/CRRkfGLXdjICA6L96be8FGykOoz2m', 'admin', '2026-05-05 16:38:55', NULL);
 
 --
 -- Indexes for dumped tables
@@ -206,7 +215,8 @@ ALTER TABLE `sale_items`
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `username_unique` (`username`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -258,7 +268,7 @@ ALTER TABLE `sale_items`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Constraints for dumped tables
