@@ -49,7 +49,7 @@
 
                     <!-- Search Form -->
                     <form method="GET" action="<?= BASE_URL ?>/pos" class="search-wrapper" role="search">
-                        <i class="fa-solid fa-magnifying-glass" style="color: var(--color-text-secondary); margin-left: 10px;"></i>
+                        <i class="fa-solid fa-magnifying-glass"></i>
                         <input type="search" name="q" id="medicine-search"
                             value="<?= htmlspecialchars($_GET['q'] ?? '') ?>"
                             placeholder="Search by name or barcode... (Press F3)"
