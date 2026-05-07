@@ -21,8 +21,8 @@ class Medicine extends Model {
 
         // ida khtar chi 7aja mn 4ir "all" 
         if ($category !== 'all') {
-            $sql .= " AND medicines.category = ?";
-            $params[] = $category;
+            $sql .= " AND LOWER(medicines.category) = LOWER(?)";
+            $params[] = trim($category);
         }
 
         $sql .= " GROUP BY medicines.id";
