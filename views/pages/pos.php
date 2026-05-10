@@ -134,11 +134,6 @@
                         <?php endif; ?>
                     </div>
 
-                    <div class="cart-client-section">
-                        <input type="text" name="client_name" form="checkout-form" class="form-control" id="client-name"
-                            placeholder="Client name (optional)..." aria-label="Client name" autocomplete="off">
-                    </div>
-
                     <div class="cart-items-list" id="cart-items-list">
                         <?php if (empty($_SESSION['cart'])): ?>
                             <div class="cart-empty-msg" style="text-align: center; padding: 3rem 1rem; color: var(--color-text-secondary);">
@@ -187,42 +182,37 @@
 
                     <!-- Cart Footer -->
                     <div class="cart-footer">
-                        <div class="summary-row">
-                            <span>Subtotal</span>
-                            <span id="cart-subtotal"><?= number_format($cart_subtotal ?? 0, 2) ?> DH</span>
-                        </div>
 
-                        <div class="discount-row">
-                            <label for="discount-input">Discount</label>
-                            <input type="number" id="discount-input" name="discount" form="checkout-form"
-                                class="form-control" min="0" max="100" value="0" placeholder="0">
-                            <span style="font-size:.85rem;color:var(--color-text-secondary);">%</span>
-                        </div>
+                        <form method="POST" action="<?= BASE_URL ?>/pos/checkout" id="checkout-form" style="margin-top: 1.5rem;">
 
-                        <div class="summary-row total">
-                            <span>TOTAL</span>
-                            <span class="amount" id="cart-total"><?= number_format($cart_total ?? 0, 2) ?> DH</span>
-                        </div>
+                            <div class="form-group" style="margin-bottom: 1rem;">
+                                <label class="form-label" for="pos-client"><i class="fa-solid fa-user"></i> Select Client (Optional)</label>
+                                <select name="client_id" id="pos-client" class="form-control">
+                                    <option value="">-- Walk-in Customer (General) --</option>
+                                    <?php if (!empty($clients)): ?>
+                                        <?php foreach ($clients as $client): ?>
+                                            <option value="<?= $client['id'] ?>"><?= htmlspecialchars($client['name']) ?> (<?= $client['phone'] ?>)</option>
+                                        <?php endforeach; ?>
+                                    <?php endif; ?>
+                                </select>
+                            </div>
 
-                        <div class="payment-methods" role="radiogroup" aria-label="Payment method">
-                            <label>
-                                <input type="radio" name="payment_method" value="cash" form="checkout-form" checked>
-                                <span><i class="fa-solid fa-money-bill"></i> Cash</span>
-                            </label>
-                            <label>
-                                <input type="radio" name="payment_method" value="card" form="checkout-form">
-                                <span><i class="fa-solid fa-credit-card"></i> Card</span>
-                            </label>
-                            <label>
-                                <input type="radio" name="payment_method" value="credit" form="checkout-form">
-                                <span><i class="fa-solid fa-file-invoice-dollar"></i> Credit</span>
-                            </label>
-                        </div>
+                            <div class="form-group" style="margin-bottom: 1rem;">
+                                <label class="form-label" for="pos-payment-method"><i class="fa-solid fa-wallet"></i> Payment Method</label>
+                                <select name="payment_method" id="pos-payment-method" class="form-control" required>
+                                    <option value="cash">Cash</option>
+                                    <option value="card">Credit Card</option>
+                                    <option value="credit">Store Credit (Unpaid)</option>
+                                </select>
+                            </div>
 
-                        <form id="checkout-form" method="POST" action="<?= BASE_URL ?>/pos/checkout">
-                            <button type="submit" class="btn-checkout" id="btn-checkout" <?= empty($_SESSION['cart']) ? 'disabled style="opacity:0.5; cursor:not-allowed;"' : '' ?>>
-                                <i class="fa-solid fa-check-double"></i>
-                                Checkout &nbsp;&mdash;&nbsp; <?= number_format($cart_total ?? 0, 2) ?> DH
+                            <div class="form-group" style="margin-bottom: 1.5rem;">
+                                <label class="form-label" for="pos-discount"><i class="fa-solid fa-tags"></i> Discount (%)</label>
+                                <input type="number" name="discount" id="pos-discount" class="form-control" min="0" max="100" value="0" placeholder="0%">
+                            </div>
+
+                            <button type="submit" class="btn btn-primary" style="width: 100%; padding: 12px; font-size: 1.1rem; display: flex; justify-content: center; gap: 10px;" <?= empty($_SESSION['cart']) ? 'disabled' : '' ?>>
+                                <i class="fa-solid fa-check-double"></i> Complete Sale
                             </button>
                         </form>
                     </div>
@@ -261,8 +251,8 @@
                     <?php if (isset($last_sale_items)): ?>
                         <?php foreach ($last_sale_items as $item): ?>
                             <div class="receipt-row">
-                                <span><?= htmlspecialchars($item['name']) ?> x<?= $item['quantity'] ?></span>
-                                <span><?= number_format($item['price'] * $item['quantity'], 2) ?> DH</span>
+                                <span><?= htmlspecialchars($item['details']['name'] ?? $item['current_name'] ?? 'Unknown Item') ?> x<?= $item['quantity'] ?></span>
+                                <span><?= number_format($item['unit_price'], 2) ?> DH</span>
                             </div>
                         <?php endforeach; ?>
                     <?php else: ?>

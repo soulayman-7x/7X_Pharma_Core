@@ -14,11 +14,13 @@ class POSController extends Controller {
     //  1. Displaying the POS screen (Medicines, Search, Filtering)
     public function index() {
         $medicineModel = $this->model('Medicine');
+        $clientModel = $this->model('Client');
 
         $keyword = trim($_GET['q'] ?? '');
         $category = trim($_GET['category'] ?? 'all');
 
         $medicines = $medicineModel->searchAndFilter($keyword, $category);
+        $clients = $clientModel->getAll();
 
         $subtotal = 0;
         foreach ($_SESSION['cart'] as $item) {
@@ -34,6 +36,7 @@ class POSController extends Controller {
 
         $this->view('pos', [
             'medicines' => $medicines,
+            'clients' => $clients,
             'cart_subtotal' =>$subtotal,
             'cart_total' => $subtotal,
             'last_sale_items' => $last_sale_items
@@ -113,71 +116,80 @@ class POSController extends Controller {
         }
     }
 
-    // 3. Checkout Process (الدفع ومعالجة البيع)
+    // 3. Checkout Process
+   // 3. Checkout Process
     public function checkout() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_SESSION['cart'])) {
-            $client_name = $_POST['client_name'] ?? 'Walk-in Customer';
-            $payment_method = $_POST['payment_method'] ?? 'Cash';
+            
+            $payment_method = strtolower($_POST['payment_method'] ?? 'cash');
             $discount_percentage = floatval($_POST['discount'] ?? 0);
+            
+            // 🌟 الجديد: استقبال معرف العميل إذا تم اختياره
+            $client_id = !empty($_POST['client_id']) ? intval($_POST['client_id']) : null;
 
             $subtotal = 0;
-            $items_count = 0;
-
             foreach ($_SESSION['cart'] as $item) {
                 $subtotal += ($item['price'] * $item['quantity']);
-                $items_count += $item['quantity'];
             }
-
             $discount_amount = $subtotal * ($discount_percentage / 100);
             $total_amount = $subtotal - $discount_amount;
 
-            $receipt_no = 'RX-' . strtoupper(substr(uniqid(), -6));
-
             $saleModel = $this->model('Sale');
-            $saleDetailModel = $this->model('SaleDetail');
-            $medicineModel = $this->model('Medicine');
-
             $saleData = [
-                'receipt_number' => $receipt_no,
                 'user_id' => $_SESSION['user_id'],
-                'client_name' => empty($client_name) ? 'Walk-in Customer' : $client_name,
-                'items_count' => $items_count,
-                'subtotal' => $subtotal,
-                'discount' => $discount_amount,
+                'client_id' => $client_id, // 🌟 الآن أصبح ديناميكياً
                 'total_amount' => $total_amount,
-                'payment_method' => $payment_method,
-                'status' => ($payment_method === 'credit') ? 'pending' : 'paid'
+                'payment_method' => $payment_method
             ];
 
+            // 1. General Invoice Entry
             $sale_id = $saleModel->insert($saleData);
 
             if ($sale_id) {
+                $medicineModel = $this->model('Medicine');
+                $saleDetailModel = $this->model('SaleDetail'); 
+                
                 foreach ($_SESSION['cart'] as $med_id => $item) {
+                    // 2. Fetch oldest batch
+                    $batch_id = $medicineModel->getOldestBatchId($med_id);
+
+                    $snapshot = json_encode([
+                        'name' => $item['name'], 
+                        'price' => $item['price']
+                    ]);
+
+                    // 3. Record item details
                     $saleDetailModel->insert([
                         'sale_id' => $sale_id,
-                        'medicine_id' => $med_id,
+                        'batch_id' => $batch_id,
                         'quantity' => $item['quantity'],
-                        'unit_price' => $item['price']
+                        'unit_price' => $item['price'],
+                        'snapshot_data' => $snapshot
                     ]);
 
-                    // حساب المخزون الجديد
-                    $med = $medicineModel->getById($med_id);
-                    $new_qty = $med['current_quantity'] - $item['quantity'];
-
-                    $medicineModel->update($med_id, [
-                        'current_quantity' => $new_qty
-                    ]);
+                    // 4. Stock discount
+                    $medicineModel->deductStock($med_id, $item['quantity']);
                 }
-                $_SESSION['last_sale_id'] = $sale_id;
-                $_SESSION['cart'] = [];
 
-                $redirectUrl = 'pos?recept=1&recept_no=' . $receipt_no . '&method' . $payment_method . '&total=' . number_format($total_amount, 2);
+                // 🌟 الجديد: تسجيل الدين في حساب العميل إذا كان الدفع "كريدي"
+                if ($payment_method === 'credit' && $client_id) {
+                    $clientModel = $this->model('Client');
+                    $clientModel->addDebt($client_id, $total_amount);
+                }
+
+                $_SESSION['last_sale_id'] = $sale_id;
+                $_SESSION['cart'] = []; 
+
+                // Generate a fake invoice number for display purposes only
+                $receipt_no = 'RX-' . str_pad($sale_id, 6, '0', STR_PAD_LEFT);
+                
+                $redirectUrl = "pos?receipt=1&receipt_no={$receipt_no}&method={$payment_method}&total=" . number_format($total_amount, 2);
                 $this->redirect($redirectUrl);
             } else {
                 die("Critical Error: Could not save the sale to the database.");
             }
-        }  else {
+        } else {
             $this->redirect('pos');
-        } 
+        }
     }
 }
