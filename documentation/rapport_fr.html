@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rapport de Projet - 7X Pharma Nexus</title>
+    <style>
+        :root {
+            --primary: #0072FF;
+            --secondary: #111827;
+            --accent: #6A0DAD;
+            --text-main: #0F172A;
+            --text-muted: #475569;
+            --border: #E2E8F0;
+        }
+
+        @page {
+            size: A4;
+            margin: 2.5cm;
+            @bottom-center {
+                content: counter(page);
+            }
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: var(--text-main);
+            background-color: #FFFFFF;
+            margin: 0;
+            padding: 0;
+            font-size: 12pt;
+        }
+
+        h1, h2, h3, h4 {
+            color: var(--secondary);
+            font-weight: bold;
+        }
+
+        h1 {
+            font-size: 24pt;
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 10px;
+            margin-top: 2em;
+        }
+
+        h2 {
+            font-size: 18pt;
+            margin-top: 1.5em;
+            color: var(--primary);
+        }
+
+        h3 {
+            font-size: 14pt;
+            margin-top: 1.2em;
+        }
+
+        p {
+            margin-bottom: 1em;
+            text-align: justify;
+        }
+
+        .cover-page {
+            text-align: center;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            page-break-after: always;
+        }
+
+        .cover-page img {
+            max-width: 200px;
+            margin-bottom: 20px;
+        }
+
+        .cover-title {
+            font-size: 32pt;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .cover-subtitle {
+            font-size: 18pt;
+            color: var(--accent);
+            margin-bottom: 50px;
+        }
+
+        .cover-details {
+            font-size: 14pt;
+            margin-top: auto;
+            margin-bottom: 50px;
+        }
+
+        .page-break {
+            page-break-before: always;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            page-break-inside: avoid;
+        }
+
+        th, td {
+            border: 1px solid var(--border);
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f8fafc;
+            color: var(--primary);
+        }
+
+        pre {
+            background-color: #f1f5f9;
+            padding: 15px;
+            border-radius: 5px;
+            border-left: 4px solid var(--primary);
+            overflow-x: auto;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 10pt;
+            page-break-inside: avoid;
+        }
+
+        code {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #f1f5f9;
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+
+        .toc {
+            margin-bottom: 2em;
+        }
+
+        .toc ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        .toc li {
+            margin-bottom: 5px;
+        }
+
+        .toc a {
+            text-decoration: none;
+            color: var(--text-main);
+        }
+
+        .toc a:hover {
+            color: var(--primary);
+        }
+
+        @media print {
+            body {
+                font-size: 11pt;
+            }
+            .no-print {
+                display: none;
+            }
+            a {
+                color: black;
+                text-decoration: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 1. Cover page -->
+    <div class="cover-page">
+        <img src="../../public/assets/images/logo/7X-PHARMA-LOGO.png" alt="7X Pharma Nexus Logo" onerror="this.src='../../public/assets/images/logo/7X-PHARMA-ICO.png'">
+        <h1 class="cover-title" style="border:none;">7X Pharma Nexus</h1>
+        <h2 class="cover-subtitle">Système de Gestion de Pharmacie</h2>
+        <div class="cover-details">
+            <p><strong>Rapport de Projet de Fin d'Études</strong></p>
+            <p>Développé par : Soulayman Id Baha</p>
+            <p>Année : 2026</p>
+        </div>
+    </div>
+
+    <!-- 2. Acknowledgments -->
+    <div class="page-break">
+        <h1>Remerciements</h1>
+        <p>Je tiens à exprimer ma profonde gratitude envers toutes les personnes qui ont contribué à la réalisation de ce projet. Merci à mes encadrants pour leurs conseils précieux et leur soutien tout au long du développement de 7X Pharma Nexus.</p>
+    </div>
+
+    <!-- 3. Abstract / Summary -->
+    <div class="page-break">
+        <h1>Résumé</h1>
+        <p>7X Pharma Nexus est une application web complète développée en PHP natif (sans framework) utilisant l'architecture Modèle-Vue-Contrôleur (MVC). Le système gère les ventes (Point de Vente - POS), l'inventaire des médicaments, les lots avec dates d'expiration, et les crédits des clients. L'interface utilisateur est moderne, réactive et utilise un thème sombre/clair avec des couleurs primaires bleu (0072FF) et violet (6A0DAD). Le système est sécurisé avec un système d'authentification robuste et des requêtes SQL préparées (PDO) pour éviter les injections SQL.</p>
+    </div>
+
+    <!-- 4. Table of contents -->
+    <div class="page-break">
+        <h1>Table des matières</h1>
+        <div class="toc">
+            <ul>
+                <li>1. <a href="#intro">Introduction Générale</a></li>
+                <li>2. <a href="#presentation">Présentation du Projet</a></li>
+                <li>3. <a href="#problematique">Problématique</a></li>
+                <li>4. <a href="#objectifs">Objectifs</a></li>
+                <li>5. <a href="#fonctionnel">Analyse Fonctionnelle</a></li>
+                <li>6. <a href="#non-fonctionnel">Exigences Non Fonctionnelles</a></li>
+                <li>7. <a href="#mvc">Explication de l'Architecture MVC</a></li>
+                <li>8. <a href="#routage">Système de Routage</a></li>
+                <li>9. <a href="#bdd">Analyse de la Base de Données</a></li>
+                <li>10. <a href="#relations">Relations de la Base de Données</a></li>
+                <li>11. <a href="#sql">Explication de la Structure SQL</a></li>
+                <li>12. <a href="#uml">Explication de l'Architecture Globale</a></li>
+                <li>13. <a href="#frontend">Analyse Front-end</a></li>
+                <li>14. <a href="#backend">Analyse Back-end</a></li>
+                <li>15. <a href="#auth">Système d'Authentification</a></li>
+                <li>16. <a href="#session">Gestion des Sessions</a></li>
+                <li>17. <a href="#crud">Explication des Opérations CRUD</a></li>
+                <li>18. <a href="#dashboard">Système de Tableau de Bord</a></li>
+                <li>19. <a href="#pos">Module POS (Point de Vente)</a></li>
+                <li>20. <a href="#inventaire">Module Inventaire</a></li>
+                <li>21. <a href="#credit">Module Gestion des Crédits</a></li>
+                <li>22. <a href="#roles">Rôles des Utilisateurs et Sécurité</a></li>
+                <li>23. <a href="#responsive">Conception Réactive</a></li>
+                <li>24. <a href="#tech">Technologies Utilisées</a></li>
+                <li>25. <a href="#environnement">Environnement de Développement</a></li>
+                <li>26. <a href="#tests">Tests et Validation</a></li>
+                <li>27. <a href="#resultats">Résultats et Discussion</a></li>
+                <li>28. <a href="#defis">Défis Rencontrés</a></li>
+                <li>29. <a href="#futur">Améliorations Futures</a></li>
+                <li>30. <a href="#conclusion">Conclusion Générale</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- 5. General introduction -->
+    <div class="page-break" id="intro">
+        <h1>5. Introduction Générale</h1>
+        <p>Le secteur pharmaceutique nécessite une gestion rigoureuse des stocks, des ventes et des dates d'expiration. La transformation numérique des pharmacies est essentielle pour améliorer l'efficacité et réduire les erreurs humaines. Ce projet présente <strong>7X Pharma Nexus</strong>, une solution logicielle sur mesure conçue pour répondre aux besoins spécifiques d'une pharmacie moderne.</p>
+    </div>
+
+    <!-- 6. Project presentation -->
+    <h2 id="presentation">6. Présentation du Projet</h2>
+    <p>7X Pharma Nexus est une plateforme web développée pour numériser la gestion d'une pharmacie. Le projet est structuré autour du modèle MVC en PHP orienté objet. Il intègre des modules vitaux comme un tableau de bord analytique, un point de vente rapide (POS), une gestion détaillée des lots de médicaments, et un registre des crédits clients.</p>
+
+    <!-- 7. Problematic -->
+    <h2 id="problematique">7. Problématique</h2>
+    <p>Les pharmacies traditionnelles font face à plusieurs défis :</p>
+    <ul>
+        <li>Difficulté à suivre les dates d'expiration des médicaments (risque de perte financière ou danger pour la santé).</li>
+        <li>Gestion inefficace des crédits accordés aux clients réguliers.</li>
+        <li>Lenteur lors du processus de vente et de facturation.</li>
+        <li>Manque de visibilité sur les statistiques journalières (recettes, nombre de transactions).</li>
+    </ul>
+
+    <!-- 8. Objectives -->
+    <h2 id="objectifs">8. Objectifs</h2>
+    <p>Le projet vise à :</p>
+    <ul>
+        <li>Créer une interface de vente (POS) intuitive et rapide utilisant un système de panier basé sur les sessions.</li>
+        <li>Automatiser les alertes pour les médicaments en rupture de stock (moins de 10 unités).</li>
+        <li>Gérer les paiements à crédit et conserver un historique détaillé des transactions clients.</li>
+        <li>Implémenter une logique FIFO (First In, First Out) pour déduire automatiquement le stock des lots les plus anciens.</li>
+    </ul>
+
+    <!-- 9. Functional analysis -->
+    <h2 id="fonctionnel">9. Analyse Fonctionnelle</h2>
+    <p>Le système offre les fonctionnalités suivantes :</p>
+    <ul>
+        <li><strong>Authentification :</strong> Connexion sécurisée pour les pharmaciens et administrateurs.</li>
+        <li><strong>Tableau de Bord :</strong> Affichage en temps réel des recettes du jour, du nombre de transactions, du crédit impayé et des alertes de stock.</li>
+        <li><strong>Point de Vente (POS) :</strong> Ajout au panier, gestion des quantités, application de remises, et finalisation de la vente avec différents modes de paiement (Cash, Carte, Crédit).</li>
+        <li><strong>Inventaire :</strong> Ajout, modification, suppression (soft delete) et recherche de médicaments avec gestion par lots (numéro de lot, date d'expiration).</li>
+        <li><strong>Crédits :</strong> Ajout de clients, enregistrement des paiements pour réduire la dette, et historique complet des paiements.</li>
+    </ul>
+
+    <!-- 10. Non-functional requirements -->
+    <h2 id="non-fonctionnel">10. Exigences Non Fonctionnelles</h2>
+    <ul>
+        <li><strong>Performance :</strong> Temps de réponse rapide de l'interface POS pour ne pas faire attendre les clients.</li>
+        <li><strong>Sécurité :</strong> Hachage des mots de passe (BCRYPT), protection contre les injections SQL via PDO, et gestion sécurisée des sessions.</li>
+        <li><strong>Ergonomie :</strong> Design moderne avec mode sombre/clair, menu latéral rétractable, et notifications "toast".</li>
+        <li><strong>Portabilité :</strong> Application web accessible depuis n'importe quel navigateur.</li>
+    </ul>
+
+    <!-- 11. MVC architecture explanation -->
+    <div class="page-break" id="mvc">
+        <h1>11. Architecture MVC</h1>
+        <p>Le projet est entièrement construit sur une architecture MVC (Modèle-Vue-Contrôleur) personnalisée :</p>
+        <ul>
+            <li><strong>Modèles (app/models/) :</strong> Héritent de la classe de base <code>Model.php</code>. Ils gèrent la logique des données et les requêtes SQL (ex: <code>Medicine.php</code>, <code>Sale.php</code>).</li>
+            <li><strong>Vues (views/pages/) :</strong> Fichiers HTML/PHP qui affichent l'interface utilisateur. Elles reçoivent les données du contrôleur (ex: <code>dashboard.php</code>, <code>pos.php</code>).</li>
+            <li><strong>Contrôleurs (app/controllers/) :</strong> Héritent de <code>Controller.php</code>. Ils font le lien entre les modèles et les vues, traitent les requêtes HTTP (GET/POST) et appliquent la logique métier.</li>
+        </ul>
+    </div>
+
+    <!-- 12. Routing system explanation -->
+    <h2 id="routage">12. Système de Routage</h2>
+    <p>Le fichier <code>Router.php</code> situé dans <code>app/core/</code> est le cœur de l'application. Il capture l'URL (ex: <code>/inventory/edit/5</code>), la nettoie et la découpe en tableau. Le premier élément définit le contrôleur (ex: <code>InventoryController</code>), le deuxième la méthode (ex: <code>edit</code>), et le reste les paramètres (ex: <code>5</code>). Si aucun contrôleur n'est spécifié, il charge <code>POSController</code> par défaut.</p>
+    <pre><code>
+// Extrait de Router.php
+$url = $this->parseUrl();
+if (isset($url[0]) && file_exists(ROOT_DIR . '/app/controllers/' . ucfirst($url[0]) . 'Controller.php')) {
+    $this->controller = ucfirst($url[0]) . 'Controller';
+    unset($url[0]);
+}
+    </code></pre>
+
+    <!-- 13. Database analysis -->
+    <h2 id="bdd">13. Analyse de la Base de Données</h2>
+    <p>La base de données <code>pharma_core</code> est conçue avec MySQL/MariaDB. Elle est connectée via PDO dans <code>Database.php</code>. Les tables principales sont :</p>
+    <ul>
+        <li><code>users</code> : Stocke les accès (id, username, password, role).</li>
+        <li><code>medicines</code> : Informations de base du médicament (barcode, name, dci, ppv).</li>
+        <li><code>batches</code> : Gère le stock physique (batch_number, expiry_date, current_quantity) lié à un médicament.</li>
+        <li><code>sales</code> : En-tête de facture (total_amount, payment_method, client_id).</li>
+        <li><code>sale_items</code> : Lignes de facture, avec une sauvegarde JSON (snapshot_data) pour figer le nom et le prix au moment de la vente.</li>
+        <li><code>clients</code> : Gestion des dettes (credit_balance).</li>
+        <li><code>client_payments</code> : Historique des paiements des clients.</li>
+    </ul>
+
+    <!-- 14. Database relationships -->
+    <h2 id="relations">14. Relations de la Base de Données</h2>
+    <p>La base de données utilise des clés étrangères avec suppression en cascade ou restrictive :</p>
+    <ul>
+        <li>Un <strong>Médicament</strong> (medicines) a plusieurs <strong>Lots</strong> (batches).</li>
+        <li>Une <strong>Vente</strong> (sales) a plusieurs <strong>Articles</strong> (sale_items). Chaque article pointe vers un lot spécifique (batch_id).</li>
+        <li>Une <strong>Vente</strong> peut être liée à un <strong>Client</strong> (clients) si la vente est à crédit.</li>
+        <li>Un <strong>Paiement</strong> (client_payments) est lié à un <strong>Client</strong> et à l'<strong>Utilisateur</strong> (pharmacien) qui a reçu l'argent.</li>
+    </ul>
+
+    <!-- 15. SQL structure explanation -->
+    <div class="page-break" id="sql">
+        <h1>15. Explication de la Structure SQL</h1>
+        <p>Le projet utilise des requêtes SQL avancées dans les modèles. Par exemple, pour rechercher des médicaments avec leur quantité totale (qui est dispersée dans plusieurs lots), le système utilise des <code>LEFT JOIN</code> et <code>GROUP BY</code> :</p>
+        <pre><code>
+// Extrait de Medicine.php
+$sql = "SELECT medicines.*, 
+        COALESCE(SUM(batches.current_quantity), 0) as current_quantity
+        FROM medicines
+        LEFT JOIN batches ON medicines.id = batches.medicine_id
+        WHERE medicines.deleted_at IS NULL
+        GROUP BY medicines.id";
+        </code></pre>
+        <p>Le système utilise également la fonction <code>COALESCE</code> pour éviter les valeurs NULL, et le soft delete (<code>deleted_at IS NULL</code>) pour ne pas supprimer définitivement les données de la base.</p>
+    </div>
+
+    <!-- 16. UML / architecture explanation -->
+    <h2 id="uml">16. Explication de l'Architecture Globale</h2>
+    <p>L'architecture suit un flux unidirectionnel : Le client envoie une requête via le navigateur web. Le serveur Apache redirige (via <code>.htaccess</code>) vers <code>index.php</code>. Le <code>Router</code> instancie le bon <code>Controller</code>. Le contrôleur demande des données au <code>Model</code>, qui interroge la base de données. Les données sont ensuite renvoyées à la <code>View</code> qui génère le HTML final renvoyé au navigateur.</p>
+
+    <!-- 17. Front-end analysis -->
+    <h2 id="frontend">17. Analyse Front-end</h2>
+    <p>Le Front-end est construit avec HTML5, CSS3 pur (Vanilla) et JavaScript. Aucun framework CSS lourd n'est utilisé, ce qui garantit une vitesse de chargement optimale.</p>
+    <ul>
+        <li><strong>CSS Global :</strong> <code>global.css</code> définit les variables CSS (couleurs, espacements) et gère le basculement entre le mode clair et sombre (<code>[data-theme="light"]</code>).</li>
+        <li><strong>Composants :</strong> Utilisation de Flexbox et CSS Grid pour le layout du tableau de bord (<code>dashboard.css</code>) et du POS (<code>pos.css</code>).</li>
+        <li><strong>Interactivité JS :</strong> Le fichier <code>dashboard.js</code> gère le menu latéral mobile et le graphique Chart.js. Le fichier <code>toast.js</code> gère les notifications flottantes.</li>
+    </ul>
+
+    <!-- 18. Back-end analysis -->
+    <h2 id="backend">18. Analyse Back-end</h2>
+    <p>Le Back-end est en PHP 8+. La classe de base <code>Model.php</code> fournit des méthodes génériques (<code>getAll</code>, <code>getById</code>, <code>delete</code>, <code>insert</code>, <code>update</code>) qui construisent dynamiquement des requêtes SQL préparées pour éviter les répétitions de code (DRY - Don't Repeat Yourself). Par exemple, la méthode <code>insert</code> génère automatiquement les points d'interrogation pour la requête préparée en fonction des clés du tableau de données.</p>
+
+    <!-- 19. Authentication system -->
+    <div class="page-break" id="auth">
+        <h1>19. Système d'Authentification</h1>
+        <p>L'authentification est gérée par <code>AuthController.php</code>. Lors de la soumission du formulaire de connexion, le système appelle <code>User->verifyUser()</code>. La fonction utilise <code>password_verify()</code> pour comparer le mot de passe saisi avec le hash stocké dans la base de données. En cas de succès, les informations (id, nom, rôle) sont sauvegardées dans <code>$_SESSION</code>.</p>
+    </div>
+
+    <!-- 20. Session management -->
+    <h2 id="session">20. Gestion des Sessions</h2>
+    <p>Les sessions PHP sont lancées au début de <code>index.php</code>. Elles sont utilisées pour :</p>
+    <ol>
+        <li>Maintenir l'utilisateur connecté (<code>$_SESSION['user_id']</code>).</li>
+        <li>Gérer le panier d'achat temporaire du POS (<code>$_SESSION['cart']</code>), évitant ainsi de surcharger la base de données avant la validation de la vente.</li>
+        <li>Afficher des messages temporaires (Flash Messages) via les méthodes <code>setFlash</code> et <code>getFlash</code> du contrôleur principal.</li>
+    </ol>
+
+    <!-- 21. CRUD operations explanation -->
+    <h2 id="crud">21. Explication des Opérations CRUD</h2>
+    <p>Les opérations de création, lecture, mise à jour et suppression (CRUD) sont particulièrement visibles dans <code>InventoryController.php</code> :</p>
+    <ul>
+        <li><strong>Create :</strong> La méthode <code>add()</code> insère le médicament, puis si un numéro de lot est fourni, elle insère également le lot.</li>
+        <li><strong>Read :</strong> La méthode <code>index()</code> lit la liste des médicaments avec leurs quantités calculées.</li>
+        <li><strong>Update :</strong> La méthode <code>edit()</code> met à jour les informations du médicament (nom, prix, DCI).</li>
+        <li><strong>Delete :</strong> La méthode <code>delete()</code> utilise un "Soft Delete" en mettant à jour la colonne <code>deleted_at</code> avec la date actuelle.</li>
+    </ul>
+
+    <!-- 22. Dashboard system -->
+    <h2 id="dashboard">22. Système de Tableau de Bord</h2>
+    <p>Le <code>DashboardController</code> agrège les données essentielles pour le gérant. Il appelle la méthode <code>getTodayRevenue()</code> de <code>Sale.php</code> pour les recettes du jour, et <code>getLowStockAlerts()</code> de <code>Medicine.php</code> en utilisant la clause SQL <code>HAVING current_quantity <= 10</code>. Ces données sont envoyées à la vue <code>dashboard.php</code> qui les affiche sous forme de cartes statistiques (Stat Cards) et d'un graphique.</p>
+
+    <!-- 23. POS module -->
+    <div class="page-break" id="pos">
+        <h1>23. Module Point de Vente (POS)</h1>
+        <p>Le <code>POSController</code> est le module le plus complexe de l'application :</p>
+        <p><strong>Gestion du Panier :</strong> Les articles sont ajoutés dans <code>$_SESSION['cart']</code>. La quantité maximale est vérifiée par rapport au stock actuel (<code>current_quantity</code>).</p>
+        <p><strong>Processus de Checkout :</strong> Lors de la validation, le système :</p>
+        <ol>
+            <li>Crée une entrée globale dans la table <code>sales</code>.</li>
+            <li>Pour chaque article du panier, trouve le lot le plus ancien disponible (FIFO) via <code>getOldestBatchId()</code>.</li>
+            <li>Enregistre les détails de l'article dans <code>sale_items</code> avec un snapshot JSON du nom et du prix.</li>
+            <li>Déduit le stock via <code>Medicine->deductStock()</code>.</li>
+            <li>Si le paiement est "Crédit", il ajoute la dette au compte du client via <code>Client->addDebt()</code>.</li>
+        </ol>
+    </div>
+
+    <!-- 24. Inventory module -->
+    <h2 id="inventaire">24. Module Inventaire</h2>
+    <p>Ce module permet de gérer la base de données des médicaments. Il intègre un système de recherche par mot-clé (nom ou code-barres) et de filtrage par catégorie. L'interface affiche clairement le stock total de chaque médicament et met en évidence les médicaments en rupture de stock avec un style CSS rouge "danger".</p>
+
+    <!-- 25. Credit management module -->
+    <h2 id="credit">25. Module Gestion des Crédits</h2>
+    <p>Le <code>CreditController</code> permet de gérer les clients réguliers ("Carnet de crédit"). L'interface affiche la liste des clients et leur dette (<code>credit_balance</code>). Lorsqu'un client paie sa dette, la méthode <code>makePayment()</code> est appelée. Cette méthode réduit le solde du client et enregistre la transaction dans la table <code>client_payments</code> pour garder un historique complet, affichable sur la page <code>credit-history.php</code>.</p>
+
+    <!-- 26. User roles and security -->
+    <h2 id="roles">26. Rôles des Utilisateurs et Sécurité</h2>
+    <p>La sécurité est assurée à plusieurs niveaux :</p>
+    <ul>
+        <li>Redirection automatique vers la page de login si <code>$_SESSION['user_id']</code> n'existe pas dans les constructeurs des contrôleurs protégés.</li>
+        <li>Nettoyage des entrées avec <code>trim()</code> et des URLs avec <code>filter_var(..., FILTER_SANITIZE_URL)</code>.</li>
+        <li>Protection contre les failles XSS en utilisant <code>htmlspecialchars()</code> dans toutes les vues PHP avant d'afficher des données provenant de la base.</li>
+    </ul>
+
+    <!-- 27. Responsive design explanation -->
+    <div class="page-break" id="responsive">
+        <h1>27. Conception Réactive</h1>
+        <p>L'interface utilisateur s'adapte automatiquement à la taille de l'écran (Mobile, Tablette, Desktop) grâce aux requêtes média (Media Queries) définies dans les fichiers CSS. Le menu latéral (Sidebar) se rétrécit ou se transforme en menu superposé (Overlay) sur les petits écrans, tandis que la grille CSS passe d'un format 4 colonnes à 2 ou 1 colonne pour les cartes de statistiques (Stats Cards).</p>
+    </div>
+
+    <!-- 28. Technologies used -->
+    <h2 id="tech">28. Technologies Utilisées</h2>
+    <table aria-label="Technologies du projet">
+        <thead>
+            <tr>
+                <th>Technologie</th>
+                <th>Utilisation</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>PHP 8.2</td>
+                <td>Logique Back-end, Orienté Objet, PDO</td>
+            </tr>
+            <tr>
+                <td>MySQL / MariaDB</td>
+                <td>Gestion de la Base de Données Relationnelle</td>
+            </tr>
+            <tr>
+                <td>HTML5 / CSS3</td>
+                <td>Structure de la page et style personnalisé (Variables CSS, Flexbox, Grid)</td>
+            </tr>
+            <tr>
+                <td>JavaScript (ES6)</td>
+                <td>DOM manipulation, Requêtes asynchrones, Graphiques</td>
+            </tr>
+            <tr>
+                <td>Chart.js</td>
+                <td>Bibliothèque pour générer le graphique des ventes dans le tableau de bord</td>
+            </tr>
+            <tr>
+                <td>FontAwesome</td>
+                <td>Bibliothèque d'icônes vectorielles</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- 29. Development environment -->
+    <h2 id="environnement">29. Environnement de Développement</h2>
+    <p>Le projet a été développé dans l'environnement suivant : XAMPP pour le serveur Apache et la base de données locale MySQL, Visual Studio Code comme éditeur de code, et Git pour la gestion des versions du code source. Le fichier <code>.env</code> est utilisé pour gérer les configurations de la base de données en fonction de l'environnement (développement vs production).</p>
+
+    <!-- 30. Testing and validation -->
+    <h2 id="tests">30. Tests et Validation</h2>
+    <p>Des tests manuels approfondis ont été réalisés sur :</p>
+    <ul>
+        <li><strong>Tests de Logique FIFO :</strong> Vérification que lors de la vente de 15 boîtes, si le lot A en contient 10 et le lot B en contient 20, le système vide le lot A et déduit 5 du lot B. (Validé via <code>deductStock()</code>).</li>
+        <li><strong>Tests UI :</strong> Vérification de l'affichage correct sur différentes résolutions d'écran.</li>
+        <li><strong>Gestion des erreurs :</strong> Affichage de la page personnalisée <code>db_error.php</code> en cas de coupure de connexion avec la base de données.</li>
+    </ul>
+
+    <!-- 31. Results and discussion -->
+    <div class="page-break" id="resultats">
+        <h1>31. Résultats et Discussion</h1>
+        <p>Le résultat final est un système robuste, fluide et ergonomique. Le choix de développer en PHP natif avec un modèle MVC sur mesure a permis de garder le contrôle total sur les performances sans être ralenti par le poids d'un framework externe. Le temps de chargement des pages est minime, ce qui est crucial pour un point de vente de pharmacie où la rapidité est de rigueur.</p>
+    </div>
+
+    <!-- 32. Challenges encountered -->
+    <h2 id="defis">32. Défis Rencontrés</h2>
+    <p>Le principal défi technique a été la conception de l'algorithme FIFO pour la déduction des stocks (méthode <code>deductStock()</code> dans <code>Medicine.php</code>). Il a fallu s'assurer que le système puisse traverser plusieurs lots d'un même médicament avec des dates d'expiration différentes pour satisfaire une seule vente en grande quantité.</p>
+
+    <!-- 33. Future improvements -->
+    <h2 id="futur">33. Améliorations Futures</h2>
+    <p>Pour l'avenir, le projet pourrait être amélioré par :</p>
+    <ul>
+        <li>L'intégration d'un scanner de code-barres physique via une API JavaScript.</li>
+        <li>L'exportation des factures et rapports en format PDF en utilisant la bibliothèque mPDF ou FPDF.</li>
+        <li>La mise en place de tâches planifiées (Cron jobs) pour envoyer un email quotidien des médicaments expirés au gérant.</li>
+        <li>L'ajout d'un module de gestion des fournisseurs et des commandes d'achat.</li>
+    </ul>
+
+    <!-- 34. General conclusion -->
+    <h2 id="conclusion">34. Conclusion Générale</h2>
+    <p>En conclusion, 7X Pharma Nexus démontre une maîtrise complète des concepts de développement web moderne (MVC, PDO, architecture front-end sans framework). L'application répond avec précision à la problématique initiale de numérisation de la pharmacie, offrant un outil puissant, rapide et sécurisé pour la gestion quotidienne des médicaments et des finances.</p>
+
+    <!-- 35. Bibliography -->
+    <div class="page-break">
+        <h1>35. Bibliographie</h1>
+        <ul>
+            <li>Documentation officielle de PHP : php.net</li>
+            <li>Manuel de référence MySQL : dev.mysql.com/doc/</li>
+            <li>Mozilla Developer Network (MDN) pour HTML, CSS et JavaScript.</li>
+            <li>Documentation de Chart.js : chartjs.org</li>
+        </ul>
+    </div>
+
+    <!-- 36. Appendices -->
+    <div class="page-break">
+        <h1>36. Annexes</h1>
+        <h3>Annexe A : Structure de l'application</h3>
+        <pre>
+7X_Pharma_Core/
+├── app/
+│   ├── config/ (Constants.php, Database.php)
+│   ├── controllers/ (Gestion de la logique)
+│   ├── core/ (Moteur MVC : Router, Model, Controller)
+│   └── models/ (Accès base de données)
+├── database/ (Scripts SQL)
+├── public/ (Point d'entrée index.php, assets CSS/JS)
+└── views/ (Fichiers d'interface utilisateur HTML/PHP)
+        </pre>
+    </div>
+
+</body>
+</html>

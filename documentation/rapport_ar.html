@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تقرير مشروع - 7X Pharma Nexus</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0072FF;
+            --secondary: #111827;
+            --accent: #6A0DAD;
+            --text-main: #0F172A;
+            --text-muted: #475569;
+            --border: #E2E8F0;
+        }
+
+        @page {
+            size: A4;
+            margin: 2.5cm;
+            @bottom-center {
+                content: counter(page);
+            }
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            line-height: 1.8;
+            color: var(--text-main);
+            background-color: #FFFFFF;
+            margin: 0;
+            padding: 0;
+            font-size: 13pt; /* Slightly larger for Arabic readability */
+        }
+
+        h1, h2, h3, h4 {
+            color: var(--secondary);
+            font-weight: 700;
+        }
+
+        h1 {
+            font-size: 26pt;
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 10px;
+            margin-top: 2em;
+        }
+
+        h2 {
+            font-size: 20pt;
+            margin-top: 1.5em;
+            color: var(--primary);
+        }
+
+        h3 {
+            font-size: 16pt;
+            margin-top: 1.2em;
+        }
+
+        p {
+            margin-bottom: 1em;
+            text-align: justify;
+        }
+
+        ul, ol {
+            margin-right: 20px;
+        }
+
+        .cover-page {
+            text-align: center;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            page-break-after: always;
+        }
+
+        .cover-page img {
+            max-width: 200px;
+            margin-bottom: 20px;
+        }
+
+        .cover-title {
+            font-size: 34pt;
+            color: var(--primary);
+            margin-bottom: 10px;
+            border: none;
+        }
+
+        .cover-subtitle {
+            font-size: 20pt;
+            color: var(--accent);
+            margin-bottom: 50px;
+        }
+
+        .cover-details {
+            font-size: 16pt;
+            margin-top: auto;
+            margin-bottom: 50px;
+        }
+
+        .page-break {
+            page-break-before: always;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            page-break-inside: avoid;
+        }
+
+        th, td {
+            border: 1px solid var(--border);
+            padding: 12px;
+            text-align: right;
+        }
+
+        th {
+            background-color: #f8fafc;
+            color: var(--primary);
+        }
+
+        pre {
+            background-color: #f1f5f9;
+            padding: 15px;
+            border-radius: 5px;
+            border-right: 4px solid var(--primary);
+            overflow-x: auto;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 11pt;
+            page-break-inside: avoid;
+            direction: ltr; /* Code should always be LTR */
+            text-align: left;
+        }
+
+        code {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #f1f5f9;
+            padding: 2px 4px;
+            border-radius: 3px;
+            direction: ltr;
+        }
+
+        .toc {
+            margin-bottom: 2em;
+        }
+
+        .toc ul {
+            list-style-type: none;
+            padding-right: 0;
+        }
+
+        .toc li {
+            margin-bottom: 8px;
+        }
+
+        .toc a {
+            text-decoration: none;
+            color: var(--text-main);
+        }
+
+        .toc a:hover {
+            color: var(--primary);
+        }
+
+        @media print {
+            body {
+                font-size: 12pt;
+            }
+            .no-print {
+                display: none;
+            }
+            a {
+                color: black;
+                text-decoration: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 1. Cover page -->
+    <div class="cover-page">
+        <img src="../../public/assets/images/logo/7X-PHARMA-LOGO.png" alt="شعار 7X Pharma Nexus" onerror="this.src='../../public/assets/images/logo/7X-PHARMA-ICO.png'">
+        <h1 class="cover-title">7X Pharma Nexus</h1>
+        <h2 class="cover-subtitle">نظام الإدارة الصيدلانية الشامل</h2>
+        <div class="cover-details">
+            <p><strong>تقرير مشروع التخرج (نهاية الدراسة)</strong></p>
+            <p>من إعداد: سليمان إد باها (Soulayman Id Baha)</p>
+            <p>السنة: 2026</p>
+        </div>
+    </div>
+
+    <!-- 2. Acknowledgments -->
+    <div class="page-break">
+        <h1>شكر وتقدير</h1>
+        <p>أتقدم بخالص الشكر وعظيم الامتنان لكل من ساهم في إنجاز هذا المشروع. أشكر الأساتذة والمشرفين على توجيهاتهم القيمة ودعمهم المستمر طوال فترة تطوير نظام 7X Pharma Nexus، كما أشكر عائلتي على تشجيعهم الدائم.</p>
+    </div>
+
+    <!-- 3. Abstract / Summary -->
+    <div class="page-break">
+        <h1>الملخص</h1>
+        <p>نظام "7X Pharma Nexus" هو تطبيق ويب متكامل تم تطويره باستخدام لغة PHP الأصلية (بدون إطارات عمل جاهزة) استناداً إلى معمارية (MVC). يهدف النظام إلى إدارة نقاط البيع (POS)، جرد الأدوية، تتبع الدفعات وتواريخ الصلاحية، وإدارة ديون العملاء. يتميز النظام بواجهة مستخدم حديثة ومتجاوبة، تعتمد على النمط الداكن/الفاتح وألوان جذابة (الأزرق والبنفسجي). يوفر التطبيق حماية عالية من خلال نظام مصادقة قوي واستخدام استعلامات البيانات المحضرة (PDO) لمنع الثغرات الأمنية.</p>
+    </div>
+
+    <!-- 4. Table of contents -->
+    <div class="page-break">
+        <h1>فهرس المحتويات</h1>
+        <div class="toc">
+            <ul>
+                <li>1. <a href="#intro">مقدمة عامة</a></li>
+                <li>2. <a href="#presentation">تقديم المشروع</a></li>
+                <li>3. <a href="#problematique">الإشكالية</a></li>
+                <li>4. <a href="#objectifs">الأهداف</a></li>
+                <li>5. <a href="#fonctionnel">التحليل الوظيفي</a></li>
+                <li>6. <a href="#non-fonctionnel">المتطلبات غير الوظيفية</a></li>
+                <li>7. <a href="#mvc">شرح معمارية MVC</a></li>
+                <li>8. <a href="#routage">نظام التوجيه (Routing)</a></li>
+                <li>9. <a href="#bdd">تحليل قاعدة البيانات</a></li>
+                <li>10. <a href="#relations">علاقات قاعدة البيانات</a></li>
+                <li>11. <a href="#sql">شرح البنية الهيكلية SQL</a></li>
+                <li>12. <a href="#uml">الهيكلية العامة للنظام</a></li>
+                <li>13. <a href="#frontend">تحليل الواجهة الأمامية (Front-end)</a></li>
+                <li>14. <a href="#backend">تحليل الواجهة الخلفية (Back-end)</a></li>
+                <li>15. <a href="#auth">نظام المصادقة وتسجيل الدخول</a></li>
+                <li>16. <a href="#session">إدارة الجلسات (Sessions)</a></li>
+                <li>17. <a href="#crud">شرح عمليات إدارة البيانات (CRUD)</a></li>
+                <li>18. <a href="#dashboard">نظام لوحة التحكم (Dashboard)</a></li>
+                <li>19. <a href="#pos">وحدة نقطة البيع (POS)</a></li>
+                <li>20. <a href="#inventaire">وحدة إدارة المخزون</a></li>
+                <li>21. <a href="#credit">وحدة إدارة الديون والائتمان</a></li>
+                <li>22. <a href="#roles">أدوار المستخدمين والأمن</a></li>
+                <li>23. <a href="#responsive">التصميم المتجاوب (Responsive Design)</a></li>
+                <li>24. <a href="#tech">التقنيات المستخدمة</a></li>
+                <li>25. <a href="#environnement">بيئة التطوير</a></li>
+                <li>26. <a href="#tests">الاختبار والمصادقة</a></li>
+                <li>27. <a href="#resultats">النتائج والمناقشة</a></li>
+                <li>28. <a href="#defis">التحديات والصعوبات</a></li>
+                <li>29. <a href="#futur">التحسينات المستقبلية</a></li>
+                <li>30. <a href="#conclusion">خاتمة عامة</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- 5. General introduction -->
+    <div class="page-break" id="intro">
+        <h1>1. مقدمة عامة</h1>
+        <p>يعتبر القطاع الصيدلاني من أهم القطاعات التي تتطلب دقة متناهية في إدارة المخزون والمبيعات وتتبع تواريخ الصلاحية. إن التحول الرقمي للصيدليات أصبح ضرورة ملحة لتحسين الكفاءة وتقليل الأخطاء البشرية. في هذا الإطار، يأتي مشروع <strong>7X Pharma Nexus</strong> كحل برمجي مخصص ليلبي الاحتياجات المعقدة للصيدليات الحديثة.</p>
+    </div>
+
+    <!-- 6. Project presentation -->
+    <h2 id="presentation">2. تقديم المشروع</h2>
+    <p>برنامج 7X Pharma Nexus هو منصة ويب صُممت لرقمنة تسيير الصيدلية بشكل احترافي. يعتمد المشروع على هندسة البرمجيات الكائنية (OOP) عبر نمط (MVC). يتضمن النظام وحدات أساسية مثل: لوحة تحكم تحليلية، نقطة بيع سريعة، إدارة تفصيلية لدفعات الأدوية، وسجل خاص للتعاملات المالية والديون الخاصة بالعملاء.</p>
+
+    <!-- 7. Problematic -->
+    <h2 id="problematique">3. الإشكالية</h2>
+    <p>تواجه الصيدليات التقليدية عدة تحديات رئيسية منها:</p>
+    <ul>
+        <li>صعوبة تتبع تواريخ انتهاء الصلاحية مما يؤدي لخسائر مادية ومخاطر صحية.</li>
+        <li>القصور في إدارة الديون للزبناء الموثوقين.</li>
+        <li>بطء إجراءات البيع وإصدار الفواتير مما يسبب ازدحاماً.</li>
+        <li>انعدام الرؤية الواضحة للإحصائيات اليومية (كالأرباح وحجم المعاملات).</li>
+    </ul>
+
+    <!-- 8. Objectives -->
+    <h2 id="objectifs">4. الأهداف</h2>
+    <p>يهدف هذا المشروع إلى:</p>
+    <ul>
+        <li>برمجة واجهة نقطة بيع (POS) سريعة الاستجابة تعتمد على الجلسات (Sessions).</li>
+        <li>أتمتة إشعارات الأدوية التي يوشك مخزونها على النفاذ (أقل من 10 وحدات).</li>
+        <li>تسجيل الديون وإدارة مدفوعات العملاء مع الاحتفاظ بسجل مالي دقيق.</li>
+        <li>تطبيق خوارزمية (FIFO) لخصم الكميات المباعة من دفعات الأدوية الأقدم تلقائياً.</li>
+    </ul>
+
+    <!-- 9. Functional analysis -->
+    <h2 id="fonctionnel">5. التحليل الوظيفي</h2>
+    <p>يوفر النظام الوظائف الأساسية التالية:</p>
+    <ul>
+        <li><strong>المصادقة:</strong> تسجيل دخول آمن للصيادلة والمدراء.</li>
+        <li><strong>لوحة التحكم:</strong> عرض فوري لأرباح اليوم، عدد المعاملات، مجموع الديون غير المسددة، وتنبيهات المخزون.</li>
+        <li><strong>نقطة البيع (POS):</strong> إدارة سلة المشتريات، الخصومات، وإتمام عملية البيع بطرق دفع متعددة (نقدي، بطاقة، آجل).</li>
+        <li><strong>المخزون:</strong> إدراج، تعديل، حذف ناعم (Soft Delete)، والبحث عن الأدوية وإدارة الدفعات المختلفة.</li>
+        <li><strong>الائتمان والديون:</strong> إضافة عملاء، تسجيل الدفعات لتقليص الديون، واستعراض السجل المالي لكل عميل.</li>
+    </ul>
+
+    <!-- 10. Non-functional requirements -->
+    <h2 id="non-fonctionnel">6. المتطلبات غير الوظيفية</h2>
+    <ul>
+        <li><strong>الأداء:</strong> سرعة عالية في استجابة واجهة البيع لتجنب تأخير العملاء.</li>
+        <li><strong>الأمان:</strong> تشفير كلمات المرور باستخدام (BCRYPT)، والوقاية من هجمات الحقن (SQL Injection) عبر (PDO).</li>
+        <li><strong>سهولة الاستخدام:</strong> واجهة عصرية تدعم الوضعين الداكن والفاتح، مع إشعارات منبثقة (Toasts).</li>
+        <li><strong>التوافقية:</strong> إمكانية الوصول للنظام عبر أي متصفح ويب حديث.</li>
+    </ul>
+
+    <!-- 11. MVC architecture explanation -->
+    <div class="page-break" id="mvc">
+        <h1>7. شرح معمارية MVC</h1>
+        <p>تم بناء المشروع كلياً على معمارية Model-View-Controller مخصصة (Custom MVC):</p>
+        <ul>
+            <li><strong>النماذج (Models):</strong> ترث من الفئة الأساسية <code>Model.php</code>، وتتكفل بالاتصال بقاعدة البيانات وتنفيذ استعلامات SQL (مثل <code>Medicine.php</code>، <code>Sale.php</code>).</li>
+            <li><strong>العروض (Views):</strong> ملفات HTML/PHP المسؤولة عن الواجهة الرسومية وتتلقى البيانات من المتحكم لعرضها للمستخدم.</li>
+            <li><strong>المتحكمات (Controllers):</strong> ترث من <code>Controller.php</code>، وتلعب دور الوسيط؛ حيث تعالج الطلبات الواردة (GET/POST)، تطبق منطق العمل، وتستدعي العروض المناسبة.</li>
+        </ul>
+    </div>
+
+    <!-- 12. Routing system explanation -->
+    <h2 id="routage">8. نظام التوجيه (Routing)</h2>
+    <p>ملف <code>Router.php</code> هو القلب النابض للنظام. يقوم بالتقاط الرابط (URL)، تنظيفه وتقسيمه إلى مصفوفة. العنصر الأول يمثل اسم المتحكم (مثلاً <code>InventoryController</code>)، والثاني هو الدالة، والباقي عبارة عن متغيرات. وفي حالة عدم تحديد متحكم، يقوم بتوجيه المستخدم افتراضياً إلى <code>POSController</code>.</p>
+    <pre><code>
+// مقتطف من ملف Router.php
+$url = $this->parseUrl();
+if (isset($url[0]) && file_exists(ROOT_DIR . '/app/controllers/' . ucfirst($url[0]) . 'Controller.php')) {
+    $this->controller = ucfirst($url[0]) . 'Controller';
+    unset($url[0]);
+}
+    </code></pre>
+
+    <!-- 13. Database analysis -->
+    <h2 id="bdd">9. تحليل قاعدة البيانات</h2>
+    <p>تم تصميم قاعدة البيانات <code>pharma_core</code> باستخدام MySQL. يتم الاتصال بها عبر صنف <code>Database.php</code>. أهم الجداول هي:</p>
+    <ul>
+        <li><code>users</code>: لتخزين بيانات الدخول والصلاحيات.</li>
+        <li><code>medicines</code>: للمعلومات الأساسية للدواء (الباركود، الاسم، السعر).</li>
+        <li><code>batches</code>: لإدارة المخزون الفعلي (رقم الدفعة، تاريخ انتهاء الصلاحية، الكمية الحالية) المرتبط بكل دواء.</li>
+        <li><code>sales</code>: رأس الفاتورة (المجموع، طريقة الدفع).</li>
+        <li><code>sale_items</code>: تفاصيل الفاتورة، وتشمل حقلاً من نوع (JSON) لحفظ لقطة (Snapshot) لاسم وسعر الدواء لحظة البيع.</li>
+        <li><code>clients</code>: لتدوين بيانات الزبناء ورصيد الديون (credit_balance).</li>
+        <li><code>client_payments</code>: سجل تتبع المدفوعات للزبناء.</li>
+    </ul>
+
+    <!-- 14. Database relationships -->
+    <h2 id="relations">10. علاقات قاعدة البيانات</h2>
+    <p>تعتمد القاعدة على مفاتيح أجنبية (Foreign Keys) مع ضوابط الحذف التتابعي أو المقيّد:</p>
+    <ul>
+        <li>كل <strong>دواء</strong> (medicines) يمتلك عدة <strong>دفعات</strong> (batches).</li>
+        <li>كل <strong>عملية بيع</strong> (sales) تحتوي على عدة <strong>عناصر</strong> (sale_items). كل عنصر يرتبط بدفعة محددة (batch_id).</li>
+        <li><strong>عملية البيع</strong> قد ترتبط <strong>بعميل</strong> (clients) إذا كان الدفع آجلاً (Credit).</li>
+        <li>كل <strong>دفعة مالية</strong> (client_payments) ترتبط <strong>بعميل</strong> وكذلك <strong>بالمستخدم/الصيدلي</strong> الذي قام بالتحصيل.</li>
+    </ul>
+
+    <!-- 15. SQL structure explanation -->
+    <div class="page-break" id="sql">
+        <h1>11. شرح البنية الهيكلية SQL</h1>
+        <p>يستخدم المشروع استعلامات متقدمة لحساب البيانات. على سبيل المثال، لاسترداد قائمة الأدوية مع مجموع كمياتها (الموزعة على عدة دفعات)، نستخدم (LEFT JOIN) و (GROUP BY):</p>
+        <pre><code>
+// مقتطف من ملف Medicine.php
+$sql = "SELECT medicines.*, 
+        COALESCE(SUM(batches.current_quantity), 0) as current_quantity
+        FROM medicines
+        LEFT JOIN batches ON medicines.id = batches.medicine_id
+        WHERE medicines.deleted_at IS NULL
+        GROUP BY medicines.id";
+        </code></pre>
+        <p>نلاحظ استخدام <code>COALESCE</code> لتفادي القيم الفارغة (NULL)، واستخدام الحذف الناعم (<code>deleted_at IS NULL</code>) لمنع حذف البيانات الحساسة بشكل نهائي.</p>
+    </div>
+
+    <!-- 16. UML / architecture explanation -->
+    <h2 id="uml">12. الهيكلية العامة للنظام</h2>
+    <p>دورة حياة الطلب تتم في اتجاه واحد: يرسل المتصفح طلباً، يقوم خادم Apache (عبر <code>.htaccess</code>) بتحويل الطلب إلى <code>index.php</code>، الذي يقوم بتهيئة نظام التوجيه. يستدعي التوجيه المتحكم المعني الذي يتواصل مع النماذج (Models) لجلب أو تعديل البيانات في القاعدة. أخيراً، تُمرر البيانات للعرض (View) لتوليد صفحات HTML.</p>
+
+    <!-- 17. Front-end analysis -->
+    <h2 id="frontend">13. تحليل الواجهة الأمامية (Front-end)</h2>
+    <p>تم بناء الواجهة الأمامية باستخدام HTML5 و CSS3 (بدون مكاتب ضخمة كـ Bootstrap) بالإضافة إلى JavaScript النقي، مما يضمن سرعة أداء استثنائية.</p>
+    <ul>
+        <li><strong>التنسيق العام:</strong> يحتوي <code>global.css</code> على المتغيرات اللونية ويدير التبديل بين الوضع المظلم والفاتح.</li>
+        <li><strong>المكونات:</strong> الاعتماد على (Flexbox) و (CSS Grid) في تنسيق لوحة التحكم (<code>dashboard.css</code>) ونقطة البيع (<code>pos.css</code>).</li>
+        <li><strong>التفاعل (JS):</strong> ملف <code>dashboard.js</code> يدير القائمة الجانبية ورسم البيانات البيانية (Chart.js)، وملف <code>toast.js</code> مسؤول عن التنبيهات.</li>
+    </ul>
+
+    <!-- 18. Back-end analysis -->
+    <h2 id="backend">14. تحليل الواجهة الخلفية (Back-end)</h2>
+    <p>تعمل الواجهة الخلفية على بيئة PHP 8+. توفر الفئة الأم <code>Model.php</code> وظائف مبرمجة ديناميكياً لتفادي تكرار الأكواد (DRY). الدالة <code>insert</code> على سبيل المثال تقوم تلقائياً بتكوين علامات الاستفهام (؟) للاستعلام المحضر (Prepared Statement) بناءً على مفاتيح المصفوفة الممررة.</p>
+
+    <!-- 19. Authentication system -->
+    <div class="page-break" id="auth">
+        <h1>15. نظام المصادقة وتسجيل الدخول</h1>
+        <p>يُدار التسجيل من خلال <code>AuthController.php</code>. عند إرسال النموذج، تُستدعى دالة <code>verifyUser()</code> في نموذج المستخدم. تستخدم الدالة <code>password_verify()</code> للتحقق من تطابق كلمة المرور مع التشفير المحفوظ في قاعدة البيانات. عند النجاح، تُحفظ بيانات المستخدم (المعرف، الاسم، الدور) داخل الجلسة (<code>$_SESSION</code>).</p>
+    </div>
+
+    <!-- 20. Session management -->
+    <h2 id="session">16. إدارة الجلسات (Sessions)</h2>
+    <p>تُفتتح الجلسة (<code>session_start()</code>) في ملف <code>index.php</code>، وتلعب ثلاث أدوار رئيسية:</p>
+    <ol>
+        <li>التحقق من حالة تسجيل الدخول للمستخدم عبر <code>$_SESSION['user_id']</code>.</li>
+        <li>إدارة سلة المشتريات بشكل مؤقت <code>$_SESSION['cart']</code> لتخفيف الضغط عن قاعدة البيانات قبل إتمام عملية البيع.</li>
+        <li>تخزين الرسائل المؤقتة (Flash Messages) للتنبيهات عبر دوال <code>setFlash</code> و <code>getFlash</code>.</li>
+    </ol>
+
+    <!-- 21. CRUD operations explanation -->
+    <h2 id="crud">17. شرح عمليات إدارة البيانات (CRUD)</h2>
+    <p>تتجلى عمليات (الإنشاء، القراءة، التحديث، الحذف) بشكل واضح في <code>InventoryController.php</code>:</p>
+    <ul>
+        <li><strong>الإنشاء (Create):</strong> دالة <code>add()</code> تُسجل الدواء، وإذا توفر رقم دفعة، تُسجله كدفعة جديدة في المخزون.</li>
+        <li><strong>القراءة (Read):</strong> دالة <code>index()</code> تعرض جدول الأدوية مع حساب المخزون المتوفر لكل دواء.</li>
+        <li><strong>التحديث (Update):</strong> دالة <code>edit()</code> تُعدل بيانات الدواء كالاسم والسعر والتصنيف.</li>
+        <li><strong>الحذف (Delete):</strong> تعتمد دالة <code>delete()</code> على الحذف الناعم (Soft Delete) بتحديث حقل <code>deleted_at</code> ليحتفظ النظام بسلامة الفواتير السابقة.</li>
+    </ul>
+
+    <!-- 22. Dashboard system -->
+    <h2 id="dashboard">18. نظام لوحة التحكم (Dashboard)</h2>
+    <p>يجمع <code>DashboardController</code> البيانات الحيوية للمدير. يعتمد على دوال مثل <code>getTodayRevenue()</code> لاستخراج أرباح اليوم، و <code>getLowStockAlerts()</code> لإصدار إشعارات المخزون المنخفض (باستخدام الشرط <code>HAVING current_quantity <= 10</code>). تُمرر هذه الإحصائيات لتُعرض بأسلوب رسومي متطور داخل <code>dashboard.php</code>.</p>
+
+    <!-- 23. POS module -->
+    <div class="page-break" id="pos">
+        <h1>19. وحدة نقطة البيع (POS)</h1>
+        <p>يُعد <code>POSController</code> الوحدة الأكثر تعقيداً في النظام:</p>
+        <p><strong>إدارة السلة:</strong> تُضاف الأدوية إلى <code>$_SESSION['cart']</code>، مع التحقق من عدم تجاوز الكمية المتوفرة في المخزون الفعلي.</p>
+        <p><strong>عملية الدفع (Checkout):</strong> عند تأكيد البيع، يقوم النظام بما يلي:</p>
+        <ol>
+            <li>إنشاء سجل للفاتورة في جدول <code>sales</code>.</li>
+            <li>جلب أقدم دفعة (FIFO) لكل دواء في السلة لخصم الكمية منها.</li>
+            <li>إضافة العناصر المباعة لجدول <code>sale_items</code> مع تخزين اسمها وسعرها في حقل بصيغة JSON كأرشفة (Snapshot).</li>
+            <li>تحديث كميات المخزون وتخفيضها.</li>
+            <li>في حالة كان نوع الدفع "ائتمان" (Credit)، تُضاف قيمة الفاتورة كديون في رصيد العميل.</li>
+        </ol>
+    </div>
+
+    <!-- 24. Inventory module -->
+    <h2 id="inventaire">20. وحدة إدارة المخزون</h2>
+    <p>يتيح هذا القسم مراقبة الأدوية وتفاصيلها. يدمج نظام بحث يعتمد على الكلمات المفتاحية (الاسم أو الباركود) ونظام فلترة بالتصنيف. يُعرض المخزون الإجمالي بوضوح، مع تظليل الأدوية التي تعاني من نقص في الكمية باللون الأحمر التنبيهي.</p>
+
+    <!-- 25. Credit management module -->
+    <h2 id="credit">21. وحدة إدارة الديون والائتمان</h2>
+    <p>يتيح <code>CreditController</code> إدارة سجل ديون العملاء الموثوقين. يتم عرض قائمة العملاء ورصيد ديونهم (<code>credit_balance</code>). عند استلام دفعة من العميل، تُنفذ الدالة <code>makePayment()</code> التي تخفض الدين وتوثق المعاملة في جدول <code>client_payments</code> لتسجيل التاريخ والمبلغ والصيدلي المستلم، ويُمكن استعراض هذا السجل في واجهة <code>credit-history.php</code>.</p>
+
+    <!-- 26. User roles and security -->
+    <h2 id="roles">22. أدوار المستخدمين والأمن</h2>
+    <p>يُطبق النظام معايير حماية صارمة:</p>
+    <ul>
+        <li>التحقق الإلزامي من الجلسة في دوال بناء (Constructors) المتحكمات، لضمان عدم دخول الزوار غير المصرح لهم.</li>
+        <li>تنقية المدخلات عبر <code>trim()</code> و فلترة الروابط لمنع التلاعب عبر <code>FILTER_SANITIZE_URL</code>.</li>
+        <li>منع ثغرات (XSS) من خلال تطبيق <code>htmlspecialchars()</code> على أي بيانات يتم عرضها في واجهات المستخدم (Views).</li>
+    </ul>
+
+    <!-- 27. Responsive design explanation -->
+    <div class="page-break" id="responsive">
+        <h1>23. التصميم المتجاوب (Responsive Design)</h1>
+        <p>تتأقلم الواجهة تلقائياً مع أحجام الشاشات (الحواسيب، الأجهزة اللوحية، الهواتف) من خلال تقنية (Media Queries) في ملفات CSS. القائمة الجانبية (Sidebar) تنطوي لتوفر مساحة، وبطاقات الإحصائيات تتحول من شبكة رباعية إلى عمودين أو عمود واحد لضمان تجربة استخدام ممتازة على كافة الأجهزة.</p>
+    </div>
+
+    <!-- 28. Technologies used -->
+    <h2 id="tech">24. التقنيات المستخدمة</h2>
+    <table aria-label="التقنيات المستخدمة">
+        <thead>
+            <tr>
+                <th>التقنية</th>
+                <th>دورها في المشروع</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>PHP 8.2</td>
+                <td>برمجة الواجهة الخلفية، البرمجة الكائنية، التعامل مع قواعد البيانات (PDO)</td>
+            </tr>
+            <tr>
+                <td>MySQL / MariaDB</td>
+                <td>إدارة وتخزين قواعد البيانات العلائقية</td>
+            </tr>
+            <tr>
+                <td>HTML5 / CSS3</td>
+                <td>بناء الهيكل وتصميم الواجهة (تنسيق مخصص بدون إطارات عمل)</td>
+            </tr>
+            <tr>
+                <td>JavaScript (ES6)</td>
+                <td>إدارة التفاعلات (الوضع الليلي، الرسومات البيانية، إشعارات التنبيه)</td>
+            </tr>
+            <tr>
+                <td>Chart.js</td>
+                <td>رسم الإحصائيات في لوحة التحكم بشكل تفاعلي</td>
+            </tr>
+            <tr>
+                <td>FontAwesome</td>
+                <td>مكتبة الأيقونات المتجهة</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- 29. Development environment -->
+    <h2 id="environnement">25. بيئة التطوير</h2>
+    <p>تطوير النظام تم باستخدام بيئة XAMPP التي توفر خادم Apache وقاعدة بيانات محلية . استُخدم محرر الأكواد (Visual Studio Code)، ونظام Git لإدارة النسخ. يتم التحكم في إعدادات الربط بقاعدة البيانات عبر ملف البيئة المخفي <code>.env</code>.</p>
+
+    <!-- 30. Testing and validation -->
+    <h2 id="tests">26. الاختبار والمصادقة</h2>
+    <p>خضع النظام لاختبارات يدوية شملت:</p>
+    <ul>
+        <li><strong>اختبار خوارزمية FIFO:</strong> تم التأكد من أنه في حال بيع 15 وحدة، وكان الدفعة (أ) تحوي 10 والدفعة (ب) تحوي 20، فإن النظام يفرغ الدفعة (أ) بالكامل ويخصم 5 من الدفعة (ب) بنجاح.</li>
+        <li><strong>اختبارات الواجهة:</strong> مطابقة التصميم لأبعاد الشاشات المختلفة.</li>
+        <li><strong>معالجة الأخطاء:</strong> التأكد من ظهور صفحة خطأ مخصصة <code>db_error.php</code> بدلاً من توقف التطبيق عند انقطاع الاتصال بقاعدة البيانات.</li>
+    </ul>
+
+    <!-- 31. Results and discussion -->
+    <div class="page-break" id="resultats">
+        <h1>27. النتائج والمناقشة</h1>
+        <p>أسفر المشروع عن بناء نظام متين وسريع. كان قرار الاعتماد على برمجة (PHP Native) وتصميم (MVC) خاص خياراً صائباً لامتلاك تحكم كامل في الكود وتفادي الثقل المصاحب لإطارات العمل الجاهزة (Frameworks)، وهو أمر حاسم في نقطة بيع الصيدلية التي تتطلب استجابة فورية.</p>
+    </div>
+
+    <!-- 32. Challenges encountered -->
+    <h2 id="defis">28. التحديات والصعوبات</h2>
+    <p>تجلّى التحدي الأكبر في صياغة خوارزمية تفريغ المخزون التدريجي (FIFO) في الدالة <code>deductStock()</code>، حيث وجب على النظام التنقل بين الدفعات المتعددة للدواء الواحد، مرتبةً حسب الأقدمية في الصلاحية، لسد كمية البيع المطلوبة دون أخطاء محاسبية.</p>
+
+    <!-- 33. Future improvements -->
+    <h2 id="futur">29. التحسينات المستقبلية</h2>
+    <p>تشمل خطط التطوير المستقبلية للنظام ما يلي:</p>
+    <ul>
+        <li>ربط النظام بجهاز قراءة الباركود بشكل مباشر عبر API لتعزيز سرعة البيع.</li>
+        <li>تصدير التقارير والفواتير بصيغة (PDF) باستعمال مكاتب متخصصة مثل mPDF أو FPDF.</li>
+        <li>تفعيل المهام المجدولة (Cron Jobs) لإرسال بريد إلكتروني يومي للمدير بالأدوية المنتهية الصلاحية.</li>
+        <li>إضافة وحدة متكاملة لإدارة الموردين وتتبع طلبيات الشراء.</li>
+    </ul>
+
+    <!-- 34. General conclusion -->
+    <h2 id="conclusion">30. خاتمة عامة</h2>
+    <p>في الختام، يبرهن مشروع (7X Pharma Nexus) على الاستيعاب التام لمفاهيم تطوير الويب الحديثة (هندسة MVC، أمان PDO، تطوير الواجهات بشكل أصيل). يلبي النظام بشكل دقيق إشكالية رقمنة القطاع الصيدلاني عبر توفير أداة قوية، سريعة، وآمنة لتسيير الأدوية والشؤون المالية باحترافية تامة.</p>
+
+    <!-- 35. Bibliography -->
+    <div class="page-break">
+        <h1>31. المراجع</h1>
+        <ul dir="ltr" style="text-align: left;">
+            <li>PHP Official Documentation: <a href="https://www.php.net/">php.net</a></li>
+            <li>MySQL Reference Manual: <a href="https://dev.mysql.com/doc/">dev.mysql.com</a></li>
+            <li>Mozilla Developer Network (MDN) for HTML, CSS, and JS.</li>
+            <li>Chart.js Documentation: <a href="https://www.chartjs.org/">chartjs.org</a></li>
+        </ul>
+    </div>
+
+    <!-- 36. Appendices -->
+    <div class="page-break">
+        <h1>32. الملاحق</h1>
+        <h3>ملحق (أ): هيكلية ملفات النظام</h3>
+        <pre>
+7X_Pharma_Core/
+├── app/
+│   ├── config/ (ملفات الإعداد كـ Database.php)
+│   ├── controllers/ (متحكمات النظام)
+│   ├── core/ (النواة الأساسية: Router, Model, Controller)
+│   └── models/ (نماذج الاتصال بالقاعدة)
+├── database/ (ملفات SQL ومخططات البيانات)
+├── public/ (نقطة الدخول index.php، وملفات التصميم assets)
+└── views/ (ملفات واجهة المستخدم HTML/PHP)
+        </pre>
+    </div>
+
+</body>
+</html>
