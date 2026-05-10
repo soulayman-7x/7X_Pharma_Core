@@ -1,20 +1,22 @@
-
+/* ==========================================================================
+   INVENTORY PAGE STYLES
+   ========================================================================== */
 .inv-filter-bar {
     display: flex;
     align-items: center;
-    gap: var(--space-2);
+    gap: var(--space-3);
     flex-wrap: wrap;
 }
 
 .inv-filter-bar .search-input-wrap {
     position: relative;
     flex: 1;
-    min-width: 220px;
+    min-width: 240px;
 }
 
-.inv-filter-bar .search-input-wrap svg {
+.inv-filter-bar .search-input-wrap i {
     position: absolute;
-    left: 0.875rem;
+    left: 1rem;
     top: 50%;
     transform: translateY(-50%);
     color: var(--color-text-secondary);
@@ -23,7 +25,7 @@
 
 .inv-filter-bar input[type="search"] {
     width: 100%;
-    padding: 0.625rem 1rem 0.625rem 2.75rem;
+    padding: 0.625rem 1rem 0.625rem 2.5rem;
     background-color: var(--color-bg-primary);
     border: 1px solid var(--color-border);
     border-radius: var(--border-radius-md);
@@ -75,17 +77,21 @@
 /* Barcode cell */
 .barcode-cell {
     font-family: 'Courier New', monospace;
-    font-size: 0.8rem;
+    font-size: 0.85rem;
     color: var(--color-text-secondary);
     letter-spacing: 0.05em;
+    background-color: var(--color-bg-primary);
+    padding: 4px 8px;
+    border-radius: var(--border-radius-sm);
+    border: 1px dashed var(--color-border);
 }
 
 /* Action buttons in table */
 .btn-table-action {
-    padding: 0.3rem 0.6rem;
-    font-size: 0.75rem;
+    padding: 0.4rem 0.6rem;
+    font-size: 0.8rem;
     border-radius: var(--border-radius-sm);
-    border: 1px solid var(--color-border);
+    border: 1px solid transparent;
     background: transparent;
     color: var(--color-text-secondary);
     cursor: pointer;
@@ -94,12 +100,11 @@
     text-decoration: none;
     display: inline-flex;
     align-items: center;
-    gap: 4px;
+    gap: 6px;
 }
 
 .btn-table-action:hover {
-    border-color: var(--color-primary);
-    color: var(--color-primary);
+    background-color: var(--color-bg-primary);
 }
 
 .btn-table-action.btn-edit:hover {
@@ -116,12 +121,17 @@
 .qty-bar-wrap {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
+}
+
+.qty-bar-wrap span {
+    min-width: 25px;
+    font-weight: 600;
 }
 
 .qty-bar-bg {
     flex: 1;
-    height: 5px;
+    height: 6px;
     background-color: var(--color-border);
     border-radius: 999px;
     overflow: hidden;
@@ -156,6 +166,69 @@
     gap: var(--space-3);
 }
 
+/* ==========================================================================
+   MODERN BADGES OVERRIDE 
+   ========================================================================== */
+.data-table .badge {
+    white-space: nowrap !important; 
+    padding: 6px 12px !important;
+    border-radius: 6px !important;
+    border: 1px solid transparent !important;
+    display: inline-flex !important;
+    align-items: center;
+    gap: 8px; 
+    font-weight: 600;
+    font-size: 0.75rem;
+    letter-spacing: 0.03em;
+}
+
+.data-table .badge::before {
+    content: "";
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+}
+
+.data-table .badge-success {
+    background-color: rgba(16, 185, 129, 0.1) !important;
+    color: #34D399 !important; 
+    border-color: rgba(16, 185, 129, 0.2) !important;
+}
+.data-table .badge-success::before {
+    background-color: #34D399;
+    box-shadow: 0 0 6px #34D399;
+}
+
+.data-table .badge-warning {
+    background-color: rgba(245, 158, 11, 0.1) !important;
+    color: #FBBF24 !important;
+    border-color: rgba(245, 158, 11, 0.2) !important;
+}
+.data-table .badge-warning::before {
+    background-color: #FBBF24;
+    box-shadow: 0 0 6px #FBBF24;
+}
+
+.data-table .badge-danger {
+    background-color: rgba(239, 68, 68, 0.1) !important;
+    color: #F87171 !important;
+    border-color: rgba(239, 68, 68, 0.2) !important;
+}
+.data-table .badge-danger::before {
+    background-color: #F87171;
+    box-shadow: 0 0 6px #F87171;
+}
+
+.data-table .badge-info {
+    background-color: rgba(0, 114, 255, 0.1) !important;
+    color: #60A5FA !important;
+    border-color: rgba(0, 114, 255, 0.2) !important;
+}
+.data-table .badge-info::before {
+    display: none; 
+}
+
 @media (max-width: 600px) {
     .modal-form-row {
         grid-template-columns: 1fr;
@@ -164,5 +237,9 @@
     .inv-filter-bar {
         flex-direction: column;
         align-items: stretch;
+    }
+    
+    .inv-filter-bar .search-input-wrap {
+        min-width: 100%;
     }
 }

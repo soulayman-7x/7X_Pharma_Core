@@ -10,46 +10,63 @@ class InventoryController extends Controller {
     // link: /inventory
     public function index() {
         $medicineModel = $this->model('Medicine');
-        $medicines = $medicineModel->getAll();
+        
+        $keyword = trim($_GET['q'] ?? '');
+        $category = trim($_GET['category'] ?? 'all');
+
+        $medicines = $medicineModel->searchAndFilter($keyword, $category);
+        
+        $low_stock_items = $medicineModel->getLowStockAlerts(10);
 
         // Sending data to the inventory interface
         $this->view('inventory', [
-            'medicines' => $medicines
+            'medicines' => $medicines,
+            'low_stock_count' => count($low_stock_items)
         ]);
     }
 
-    // 2. add new medicine
+    // 2. add new medicine (From the Modal)
     // link: /inventory/add
     public function add() {
         // If the order is of type POST (meaning the pharmacist pressed the "save medicine" button)
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $medicineModel = $this->model('Medicine');
+            $batchModel = $this->model('Batch');
 
-            // Prepare the data from the form into a sorted array
+            // Prepare the data matching our NEW database schema
             $data = [
                 'name' => trim($_POST['name']),
                 'barcode' => trim($_POST['barcode']),
-                'dci' => trim($_POST['dci']),
+                'dci' => trim($_POST['dci'] ?? ''),
                 'category' => trim($_POST['category']),
-                'pvp' => $_POST['pvp'],
-                'pph' => $_POST['pph'],
-                'is_tableau_b' => isset($_POST['is_tableau_b']) ? 1 : 0
+                'price' => $_POST['price'] 
             ];
 
-            $medicineModel->insert($data);
+            $med_id = $medicineModel->insert($data);
+
+            if ($med_id && !empty($_POST['batch'])) {
+                $expiry_date = trim($_POST['expiry_date']);
+                if (strlen($expiry_date) === 7) {
+                    $expiry_date .= '-01';
+                }
+
+                $batchModel->insert([
+                    'medicine_id' => $med_id,
+                    'batch_number' => trim($_POST['batch']),
+                    'expiry_date' => $expiry_date,
+                    'current_quantity' => $_POST['quantity']
+                ]);
+            }
 
             $this->redirect('inventory?status=added');
         } else {
-            // If it's not POST, it means the user only wants to "see" the extension's interface.
-            $this->view('add-medicine');
+            $this->redirect('inventory');
         }
     }
 
     // 3. edit medicine
     // link: /inventory/edit/5
-
     public function edit($id = null) {
-        // If the ID are not being processed via the link, return it to the inventory.
         if (!$id) {
             $this->redirect('inventory');
         }
@@ -62,12 +79,9 @@ class InventoryController extends Controller {
                 'barcode' => trim($_POST['barcode']),
                 'dci' => trim($_POST['dci']),
                 'category' => trim($_POST['category']),
-                'ppv' => $_POST['ppv'],
-                'pph' => $_POST['pph'],
-                'is_tableau_b' => isset($_POST['is_tableau_b']) ? 1 : 0
+                'price' => $_POST['price']
             ];
 
-            // update the medicine by the ID selected
             $medicineModel->update($id, $data);
             $this->redirect('inventory?status=updated');
         } else {
@@ -77,12 +91,11 @@ class InventoryController extends Controller {
                 $this->redirect('inventory');
             }
 
-            // Display the editing interface and send the drug data to it.
             $this->view('edit-medicine', ['medicine' => $medicine]);
         }
     }
 
-    // delete medicine
+    // 4. delete medicine
     // link: inventory/delete/5
     public function delete($id = null) {
         if ($id) {
@@ -92,4 +105,4 @@ class InventoryController extends Controller {
         $this->redirect('inventory?status=deleted');
     }
 }
-
+?>
