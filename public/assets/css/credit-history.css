@@ -1,0 +1,264 @@
+/* ── Client Profile Card ─────────────────────────────────────────────────── */
+.ch-profile-card {
+    background: linear-gradient(135deg, var(--color-bg-secondary) 60%, rgba(106, 13, 173, 0.08));
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-lg);
+    padding: var(--space-4);
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    margin-bottom: var(--space-4);
+    flex-wrap: wrap;
+    position: relative;
+    overflow: hidden;
+}
+
+.ch-profile-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: linear-gradient(180deg, var(--color-primary), var(--color-accent));
+    border-radius: 4px 0 0 4px;
+}
+
+.ch-profile-avatar {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+    color: #fff;
+    font-size: 1.4rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    box-shadow: 0 0 0 3px rgba(0, 114, 255, 0.2);
+}
+
+.ch-profile-info {
+    flex: 1;
+    min-width: 160px;
+}
+
+.ch-profile-name {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+
+.ch-profile-meta {
+    font-size: 0.82rem;
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+}
+
+.ch-profile-stats {
+    display: flex;
+    gap: var(--space-4);
+    border-left: 1px solid var(--color-border);
+    padding-left: var(--space-4);
+    flex-wrap: wrap;
+}
+
+.ch-profile-stat {
+    text-align: center;
+}
+
+.ch-stat-val {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--color-text-primary);
+}
+
+.ch-stat-val.danger {
+    color: var(--color-danger);
+}
+
+.ch-stat-val.success {
+    color: var(--color-success);
+}
+
+.ch-stat-lbl {
+    font-size: 0.72rem;
+    color: var(--color-text-secondary);
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.ch-profile-badge {
+    margin-left: auto;
+}
+
+/* ── Filter bar ──────────────────────────────────────────────────────────── */
+.ch-filter-bar {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+}
+
+.ch-filter-select {
+    width: auto;
+    min-width: 140px;
+    padding: 0.5rem 0.875rem;
+    font-size: 0.85rem;
+}
+
+/* ── History Table extras ─────────────────────────────────────────────────── */
+.ch-history-table .tx-date {
+    font-weight: 600;
+    font-size: 0.875rem;
+}
+
+.ch-history-table .tx-time {
+    font-size: 0.75rem;
+    color: var(--color-text-secondary);
+}
+
+/* Row accent */
+.ch-history-table .row-payment {
+    border-left: 3px solid var(--color-success);
+}
+
+.ch-history-table .row-credit {
+    border-left: 3px solid var(--color-danger);
+}
+
+/* Transaction type badge */
+.tx-type-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 3px 10px;
+    border-radius: 999px;
+    font-size: 0.72rem;
+    font-weight: 600;
+}
+
+.tx-type-badge.payment {
+    background: rgba(16, 185, 129, 0.12);
+    color: var(--color-success);
+}
+
+.tx-type-badge.credit {
+    background: rgba(239, 68, 68, 0.12);
+    color: var(--color-danger);
+}
+
+/* Amount column */
+.tx-amount {
+    font-weight: 700;
+    font-size: 0.95rem;
+}
+
+.tx-amount.credit {
+    color: var(--color-success);
+}
+
+/* payment = money comes in = green  */
+.tx-amount.debit {
+    color: var(--color-danger);
+}
+
+/* credit added = debt grows = red   */
+
+/* Balance after */
+.tx-balance {
+    font-weight: 600;
+    color: var(--color-text-secondary);
+    font-size: 0.875rem;
+}
+
+/* Note & user */
+.tx-note {
+    font-size: 0.82rem;
+    color: var(--color-text-secondary);
+    max-width: 200px;
+}
+
+.tx-user {
+    font-size: 0.82rem;
+    color: var(--color-text-secondary);
+}
+
+/* Method badges */
+.ch-method {
+    font-size: 0.78rem;
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: var(--color-bg-primary);
+    border: 1px solid var(--color-border);
+    color: var(--color-text-secondary);
+    display: inline-block;
+}
+
+.ch-method.cash {
+    background: rgba(16, 185, 129, 0.1);
+    color: var(--color-success);
+    border-color: rgba(16, 185, 129, 0.2);
+}
+
+.ch-method.card {
+    background: rgba(0, 114, 255, 0.1);
+    color: var(--color-primary);
+    border-color: rgba(0, 114, 255, 0.2);
+}
+
+.ch-method.cheque {
+    background: rgba(245, 158, 11, 0.1);
+    color: var(--color-warning);
+    border-color: rgba(245, 158, 11, 0.2);
+}
+
+/* ── Pagination ──────────────────────────────────────────────────────────── */
+.ch-pagination {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-3) var(--space-4);
+    border-top: 1px solid var(--color-border);
+    flex-wrap: wrap;
+    gap: var(--space-2);
+}
+
+.ch-page-info {
+    font-size: 0.82rem;
+    color: var(--color-text-secondary);
+}
+
+.ch-page-btns {
+    display: flex;
+    gap: var(--space-2);
+}
+
+/* ── Responsive ──────────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+    .ch-profile-card {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .ch-profile-stats {
+        border-left: none;
+        padding-left: 0;
+        border-top: 1px solid var(--color-border);
+        padding-top: var(--space-3);
+    }
+
+    .ch-profile-badge {
+        margin-left: 0;
+    }
+
+    .ch-filter-select {
+        width: 100%;
+    }
+
+    .ch-filter-bar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+}

@@ -7,43 +7,87 @@ class CreditController extends Controller {
     }
 
     // 1. default function : Debt ledger display
-    // link: /credit
     public function index() {
-        $clientModal = $this->model('Client');
-        $clients = $clientModal->getAll();
+        $clientModel = $this->model('Client');
+        $clients = $clientModel->getAll();
 
         // send data to credit interface
         $this->view('credit', ['clients' => $clients]);
     }
 
     // 2. Adding a new customer to the debt ledger
-    // link: /credit/add
     public function add() {
         if($_SERVER['REQUEST_METHOD'] == 'POST') {
-        $clientModal = $this->model('Client');
+            $clientModel = $this->model('Client');
 
-        // Preparing new customer data
-        $data = [
-            'name' => trim($_POST['name']),
-            'phone' => trim($_POST['phone']),
-            'balance' => 0 // The balance starts at 0 when adding a new customer.
-        ];
+            $name = trim($_POST['name'] ?? '');
+            $phone = trim($_POST['phone'] ?? '');
 
-        $clientModal->insert($data);
-        $this->redirect('credit?status=client_added');
+
+            if(!empty($name)) {
+                $data = [
+                    'name' => $name,
+                    'phone' => $phone,
+                    'credit_balance' => 0 
+                ];
+
+                $clientModel->insert($data);
+                $this->redirect('credit?status=client_added');
+            } else {
+                $this->redirect('credit?status=error');
+            }
+        } else {
+            $this->redirect('credit');
         }
     }
 
-    //  3. Recording a financial payment (paying part or all of the debt)
-    // link: /credit/pay
+    //  3. Recording a financial payment
     public function pay() {
         if($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $clientModal = $this->model('Client');
-            $clientId = $_POST['client_id'];
-            $amount = floatval($_POST['amount']); // تحويل المبلغ إلى رقم عشري لضمان الدقة
-            $clientModal->makePayment($clientId, $amount); // had function khas nzidha f class Client
+            $clientModel = $this->model('Client');
+            
+            $clientId = intval($_POST['client_id']);
+            $amount = floatval($_POST['amount']);
+            
+            $userId = $_SESSION['user_id']; 
 
-            $this->redirect('credit?status=payment_success');
+            if($clientId > 0 && $amount > 0) {
+                $clientModel->makePayment($clientId, $amount, $userId); 
+                $this->redirect('credit?status=payment_success');
+            } else {
+                $this->redirect('credit?status=invalid_amount');
+            }
         }
     }
+
+    // 4. View client credit history
+    // link: /credit/history/1
+    public function history($id = null) {
+        if (!$id) {
+            $this->redirect('credit');
+        }
+
+        $clientModel = $this->model('Client');
+        $client = $clientModel->getById($id);
+
+        if (!$client) {
+            $this->redirect('credit');
+        }
+
+        // جلب المدفوعات
+        $transactions = $clientModel->getClientTransactions($id);
+
+        // حساب إجمالي ما دفعه العميل
+        $total_paid = 0;
+        foreach ($transactions as $tx) {
+            $total_paid += floatval($tx['amount']);
+        }
+
+        $this->view('credit-history', [
+            'client' => $client,
+            'transactions' => $transactions,
+            'total_paid' => $total_paid
+        ]);
+    }
 }
+?>

@@ -3,20 +3,24 @@
 class Batch extends Model {
     protected $table = 'batches';
 
-    // kayjib products li b9at lihom 90day t9riban bax ikhsro
-    public function getExpiringSoon($days = 90) {
+    // Bring all the payments for a specific drug
+    public function getBatchesByMedicineId($medicine_id) {
         $sql = "SELECT * FROM {$this->table} 
-                WHERE expiry_date <= DATE_ADD(CURDATE(), INTERVAL ? DAY) 
-                AND current_quantity > 0 
+                WHERE medicine_id = ? 
                 ORDER BY expiry_date ASC";
-        $stmt = $this->query($sql, [$days]);
+        $stmt = $this->query($sql, [$medicine_id]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // Function to deduct quantity after sale
-    public function decreaseQuantity($batchId, $qtyToDeduct) {
-        $sql = "UPDATE {$this->table} SET current_quantity= current_quantity- ? WHERE id = ? AND current_quantity>= ?";
-        $stmt = $this->query($sql, [$qtyToDeduct, $batchId, $qtyToDeduct]);
-        return $stmt->rowCount() > 0;
+    // Adding a new batch (new stock of an existing drug)
+    public function addStock($medicine_id, $batch_number, $expiry_date, $quantity) {
+        return $this->insert([
+            'medicine_id' => $medicine_id,
+            'batch_number' => $batch_number,
+            'expiry_date' => $expiry_date,
+            'current_quantity' => $quantity,
+            'initial_quantity' => $quantity
+        ]);
     }
+
 }
