@@ -59,7 +59,7 @@ class Medicine extends Model {
         return $remainingToDeduct == 0;
     }
 
-    // جلب دواء واحد مع كميته الإجمالية
+    // 3. جلب دواء واحد مع كميته الإجمالية
     public function getById($id) {
         $sql = "SELECT medicines.*, 
                 COALESCE(SUM(batches.current_quantity), 0) as current_quantity
@@ -70,6 +70,45 @@ class Medicine extends Model {
                 
         $stmt = $this->query($sql, [$id]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    // 4. get in low stock medications
+    public function getLowStockAlerts($threshold = 10) {
+        // We add up the quantities and use HAVING to filter out medications whose quantities are less than or equal to the allowed limit.
+        $sql = "SELECT medicines.id, medicines.name, medicines.category, 
+                COALESCE(SUM(batches.current_quantity), 0) as current_quantity
+                FROM {$this->table}
+                LEFT JOIN batches ON medicines.id = batches.medicine_id
+                WHERE medicines.deleted_at IS NULL
+                GROUP BY medicines.id
+                HAVING current_quantity <= ?
+                ORDER BY current_quantity ASC";
+
+        $stmt = $this->query($sql, [$threshold]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+
+   // 4. Retrieve the number of the oldest available payment to link it to the invoice.
+    public function getOldestBatchId($medicine_id) {
+        $sql = "SELECT id FROM batches 
+                WHERE medicine_id = ? AND current_quantity > 0 
+                ORDER BY expiry_date ASC LIMIT 1";
+                
+        $stmt = $this->query($sql, [$medicine_id]);
+        $batch = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+        return $batch ? $batch['id'] : 0;
+    }
+
+    // =========================================================
+    // 5. Soft Delete
+    // =========================================================
+    public function delete($id) {
+        $sql = "UPDATE {$this->table} SET deleted_at = NOW() WHERE id = ?";
+        $stmt = $this->query($sql, [$id]);
+        
+        return $stmt->rowCount() > 0;
     }
 }
 ?>
