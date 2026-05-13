@@ -1,14 +1,14 @@
 <?php
 class Client extends Model {
     protected $table = 'clients';
-    // function designed to record a payment and reduce the debt from the customer account
-    public function makePayment($clientId, $amount, $userId) {
+    // 1. function designed to record a payment and reduce the debt
+    public function makePayment($clientId, $amount, $userId, $method = 'cash', $note = null) {
         $sql1 = "UPDATE {$this->table} SET credit_balance = credit_balance - ? WHERE id = ?";
         $stmt1 = $this->query($sql1, [$amount, $clientId]);
 
         if ($stmt1->rowCount() > 0) {
-            $sql2 = "INSERT INTO client_payments (client_id, amount, user_id, payment_date) VALUES (?, ?, ?, NOW())";
-            $this->query($sql2, [$clientId, $amount, $userId]);
+            $sql2 = "INSERT INTO client_payments (client_id, amount, payment_method, note, user_id, payment_date) VALUES (?, ?, ?, ?, ?, NOW())";
+            $this->query($sql2, [$clientId, $amount, $method, $note, $userId]);
             return true;
         }
         

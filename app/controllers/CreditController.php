@@ -48,12 +48,21 @@ class CreditController extends Controller {
             
             $clientId = intval($_POST['client_id']);
             $amount = floatval($_POST['amount']);
-            
             $userId = $_SESSION['user_id']; 
 
+            $method = strtolower($_POST['payment_method'] ?? 'cash');
+            $note = trim($_POST['note'] ?? '');
+            $note = $note === '' ? null : $note;
+
             if($clientId > 0 && $amount > 0) {
-                $clientModel->makePayment($clientId, $amount, $userId); 
-                $this->redirect('credit?status=payment_success');
+                $clientModel->makePayment($clientId, $amount, $userId, $method, $note); 
+                
+                $redirectTo = $_POST['redirect_to'] ?? 'credit';
+                if ($redirectTo === 'history') {
+                    $this->redirect("credit/history/{$clientId}?status=payment_success");
+                } else {
+                    $this->redirect('credit?status=payment_success');
+                }
             } else {
                 $this->redirect('credit?status=invalid_amount');
             }

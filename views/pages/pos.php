@@ -43,7 +43,7 @@
             <div class="pos-content">
 
                 <!-- ================================================
-                     LEFT PANEL — MEDICINE SEARCH & GRID 
+                    LEFT PANEL — MEDICINE SEARCH & GRID 
                 ================================================ -->
                 <section class="pos-panel-products" aria-label="Medicine selection">
 

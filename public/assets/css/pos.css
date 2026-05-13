@@ -165,7 +165,7 @@
     overflow: hidden;
     transition: all var(--transition-speed) ease;
     cursor: pointer;
-    min-height: 130px;
+    min-height: 150px !important;
 }
 
 .medicine-card::before {

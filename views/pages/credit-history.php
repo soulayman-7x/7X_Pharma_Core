@@ -111,7 +111,7 @@ $statusText = $balance > 0 ? 'Has Debt' : 'Cleared';
                 </div>
                 <div class="navbar-right">
                     <span class="navbar-clock" id="navbar-clock"></span>
-                                        <button id="theme-toggle" class="btn-icon" aria-label="Toggle Theme">
+                    <button id="theme-toggle" class="btn-icon" aria-label="Toggle Theme">
                         <span id="theme-icon"></span>
                     </button>
                     <a href="<?= BASE_URL ?>/credit" class="btn btn-outline btn-sm">
@@ -187,9 +187,24 @@ $statusText = $balance > 0 ? 'Has Debt' : 'Cleared';
                                             </td>
                                             <td><span class="tx-amount credit">- <?= number_format($tx['amount'], 2) ?></span></td>
                                             <td>
-                                                <span class="ch-method <?= strtolower($tx['payment_method']) ?>">
-                                                    <i class="fa-solid <?= $tx['payment_method'] === 'cash' ? 'fa-money-bill-wave' : 'fa-credit-card' ?>"></i>
-                                                    <?= ucfirst($tx['payment_method']) ?>
+                                                <?php
+                                                // 🌟 موزع الأيقونات (Icon Dispatcher)
+                                                $method = strtolower($tx['payment_method'] ?? 'cash');
+                                                $icon = 'fa-wallet'; // الأيقونة الافتراضية
+
+                                                if ($method === 'cash') {
+                                                    $icon = 'fa-money-bill-wave';
+                                                } elseif ($method === 'card') {
+                                                    $icon = 'fa-credit-card';
+                                                } elseif ($method === 'cheque') {
+                                                    $icon = 'fa-money-check-dollar';
+                                                } elseif ($method === 'transfer') {
+                                                    $icon = 'fa-building-columns';
+                                                }
+                                                ?>
+                                                <span class="ch-method <?= $method ?>">
+                                                    <i class="fa-solid <?= $icon ?>"></i>
+                                                    <?= ucfirst($method) ?>
                                                 </span>
                                             </td>
                                             <td class="tx-note"><?= htmlspecialchars($tx['note'] ?? '—') ?></td>
