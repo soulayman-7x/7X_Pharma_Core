@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تدفق العمليات - 7X Pharma Core</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-dark: #0f172a; --primary-light: #1e293b; --accent-cyan: #06b6d4; --accent-purple: #8b5cf6;
+            --text-main: #334155; --text-light: #64748b; --bg-body: #f8fafc; --bg-card: #ffffff; --border-color: #e2e8f0;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Cairo', sans-serif; }
+        body { background-color: var(--bg-body); color: var(--text-main); line-height: 1.8; }
+        @media print {
+            body { background: #fff; color: #000; font-size: 11pt; }
+            .no-print { display: none !important; }
+            .page-break { page-break-before: always; }
+            .card { border: 1px solid #000; box-shadow: none; break-inside: avoid; margin-bottom: 20px;}
+            header { background: #fff !important; color: #000 !important; border: 1px solid #000; padding: 20px; }
+            header * { color: #000 !important; text-shadow: none !important;}
+            .workflow-step { border-left: 3px solid #000 !important; background: #fff !important; color: #000 !important;}
+            .workflow-icon { background: #000 !important; color: #fff !important; }
+        }
+        .container { max-width: 1140px; margin: 0 auto; padding: 20px; }
+        header { background: linear-gradient(135deg, var(--primary-dark), var(--primary-light)); color: white; padding: 30px; border-radius: 12px; margin-bottom: 30px; text-align: center; }
+        header h1 { font-size: 2.5rem; margin-bottom: 10px; }
+        .breadcrumbs { margin-bottom: 20px; padding: 15px; background: var(--bg-card); border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); font-weight: 600; }
+        .breadcrumbs a { color: var(--accent-purple); text-decoration: none; margin-left: 5px; margin-right: 5px;}
+        .breadcrumbs a:hover { text-decoration: underline; }
+        .card { background: var(--bg-card); border-radius: 10px; padding: 30px; margin-bottom: 30px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); border: 1px solid var(--border-color); }
+        .card-header { display: flex; align-items: center; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid var(--bg-body); }
+        .card-header i { font-size: 1.8rem; color: var(--accent-cyan); margin-left: 15px; }
+        .card-header h2 { font-size: 1.6rem; color: var(--primary-dark); }
+        h3 { color: var(--primary-dark); margin: 20px 0 10px 0; font-size: 1.3rem; }
+        p { margin-bottom: 15px; font-size: 1.1rem; text-align: justify; }
+
+        /* Workflow Timeline */
+        .workflow { position: relative; margin: 30px 0 30px 20px; padding-right: 30px; }
+        .workflow::before { content: ''; position: absolute; right: 14px; top: 0; height: 100%; width: 4px; background: var(--border-color); border-radius: 4px; }
+        
+        .workflow-step { position: relative; margin-bottom: 25px; background: var(--bg-body); padding: 15px 20px; border-radius: 8px; border: 1px solid var(--border-color); }
+        .workflow-icon { position: absolute; right: -42px; top: 15px; width: 30px; height: 30px; background: var(--accent-cyan); color: white; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 0.9rem; z-index: 2; box-shadow: 0 0 0 4px var(--bg-card); }
+        .workflow-step h4 { color: var(--primary-dark); margin-bottom: 5px; font-size: 1.2rem; }
+        .workflow-step p { margin-bottom: 0; font-size: 1rem; color: var(--text-light); }
+
+        .note-box { background: #eff6ff; border-right: 4px solid #3b82f6; padding: 15px; margin: 20px 0; border-radius: 4px 8px 8px 4px; }
+        .note-box h4 { color: #1d4ed8; margin-bottom: 5px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1><i class="fas fa-project-diagram" style="color: var(--accent-cyan);"></i> تدفق العمليات (API Flow)</h1>
+        <p>التوثيق التفصيلي لمنطق العمل والخطوات المتبعة في أهم وظائف النظام</p>
+    </header>
+
+    <div class="breadcrumbs no-print">
+        <a href="home.html"><i class="fas fa-home"></i> الرئيسية</a> / <span>تدفق العمليات</span>
+    </div>
+
+    <section class="card">
+        <div class="card-header">
+            <i class="fas fa-shopping-cart"></i>
+            <h2>تدفق عملية البيع (POS Flow)</h2>
+        </div>
+        <p>تعتبر عملية البيع من أعقد العمليات في النظام حيث تؤثر على المبيعات، المخزون، والديون في وقت واحد. ويتم معالجتها عبر <code>POSController</code> و <code>Sale</code> Model.</p>
+
+        <div class="workflow">
+            <div class="workflow-step">
+                <div class="workflow-icon"><i class="fas fa-list"></i></div>
+                <h4>1. إرسال بيانات العربة (Cart Data)</h4>
+                <p>يقوم ملف الجافاسكربت <code>pos.js</code> بجمع عناصر العربة (رقم الدفعة، الكمية، السعر) وإرسالها عبر طلب <strong>AJAX (Fetch API)</strong> إلى <code>POSController/checkout</code>.</p>
+            </div>
+            
+            <div class="workflow-step">
+                <div class="workflow-icon"><i class="fas fa-check-circle"></i></div>
+                <h4>2. التحقق من المخزون (Validation)</h4>
+                <p>في الـ Controller، يتم أولاً التأكد من أن جميع الأدوية المطلوبة متوفرة بالكميات المطلوبة في جدول <code>batches</code> لتجنب بيع كميات وهمية.</p>
+            </div>
+            
+            <div class="workflow-step">
+                <div class="workflow-icon"><i class="fas fa-lock"></i></div>
+                <h4>3. بدء معاملة قواعد البيانات (DB Transaction)</h4>
+                <p>يتم تفعيل <code>beginTransaction()</code> لضمان تنفيذ كل الخطوات التالية معاً. إذا فشلت إحداها، يتم عمل <code>rollBack()</code> والتراجع عن كل شيء.</p>
+            </div>
+            
+            <div class="workflow-step">
+                <div class="workflow-icon"><i class="fas fa-file-invoice"></i></div>
+                <h4>4. إنشاء الفاتورة (Header)</h4>
+                <p>يتم إدراج سجل في جدول <code>sales</code> بالمعلومات العامة (المبلغ الإجمالي، طريقة الدفع، الصيدلي، العميل).</p>
+            </div>
+
+            <div class="workflow-step">
+                <div class="workflow-icon"><i class="fas fa-box-open"></i></div>
+                <h4>5. خصم المخزون وتسجيل العناصر (Items & Deductions)</h4>
+                <p>عبر حلقة تكرارية (Loop)، يتم:
+                    <br> - إدراج كل دواء في <code>sale_items</code> مع أخذ Snapshot بصيغة JSON.
+                    <br> - إنقاص <code>current_quantity</code> في جدول <code>batches</code>.
+                    <br> - إدراج سجل خروج (Sale) في <code>inventory_movements</code> لأغراض التتبع.
+                </p>
+            </div>
+
+            <div class="workflow-step">
+                <div class="workflow-icon"><i class="fas fa-hand-holding-usd"></i></div>
+                <h4>6. معالجة الديون (Credit Handling)</h4>
+                <p>إذا كانت طريقة الدفع <code>credit</code>، يتم إضافة المبلغ الإجمالي للفاتورة إلى <code>credit_balance</code> الخاص بالعميل المحدد في جدول <code>clients</code>.</p>
+            </div>
+
+            <div class="workflow-step">
+                <div class="workflow-icon"><i class="fas fa-save"></i></div>
+                <h4>7. إنهاء المعاملة (Commit)</h4>
+                <p>إذا نجحت كل الخطوات، يتم تنفيذ <code>commit()</code> ليتم حفظ كل التغييرات في قاعدة البيانات وإرجاع استجابة JSON للواجهة تفيد بالنجاح.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="card page-break">
+        <div class="card-header">
+            <i class="fas fa-boxes"></i>
+            <h2>تدفق إدارة المخزون (Inventory Flow)</h2>
+        </div>
+        <p>كيفية إضافة أدوية جديدة ودفعات للنظام.</p>
+
+        <div class="workflow">
+            <div class="workflow-step">
+                <div class="workflow-icon">1</div>
+                <h4>إضافة الدواء كمرجع (Medicine Entry)</h4>
+                <p>يتم إنشاء تعريف الدواء في جدول <code>medicines</code> (الباركود، الاسم، السعر).</p>
+            </div>
+            <div class="workflow-step">
+                <div class="workflow-icon">2</div>
+                <h4>إدخال دفعة جديدة (New Batch)</h4>
+                <p>عند وصول طلبية، لا يتم تغيير الدواء نفسه، بل يتم إنشاء "دفعة" في جدول <code>batches</code> تحتوي على رقم التشغيلة، تاريخ الصلاحية، والكمية المستلمة.</p>
+            </div>
+            <div class="workflow-step">
+                <div class="workflow-icon">3</div>
+                <h4>تسجيل الحركة (Movement Audit)</h4>
+                <p>فور إدخال الدفعة، يتم تلقائياً إنشاء سجل في <code>inventory_movements</code> بنوع حركة <code>in</code> لمعرفة من قام بالإدخال ومتى.</p>
+            </div>
+        </div>
+
+        <div class="note-box">
+            <h4><i class="fas fa-shield-alt"></i> تحليل الأمان (Security Analysis)</h4>
+            <p>جميع الطلبات المرسلة من الواجهة (AJAX) تخضع لـ Validation صارم في الخلفية (Backend). على سبيل المثال، لا يتم الاعتماد على السعر المرسل من المتصفح في حساب الإجمالي، بل يتم استخراج السعر الحقيقي من جدول <code>medicines</code> داخل السيرفر أثناء المعالجة لضمان عدم التلاعب بالأسعار من قبل المستخدم (Tampering).</p>
+        </div>
+    </section>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>معمارية النظام - 7X Pharma Core</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-dark: #0f172a; --primary-light: #1e293b; --accent-cyan: #06b6d4; --accent-purple: #8b5cf6;
+            --text-main: #334155; --text-light: #64748b; --bg-body: #f8fafc; --bg-card: #ffffff; --border-color: #e2e8f0;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Cairo', sans-serif; }
+        body { background-color: var(--bg-body); color: var(--text-main); line-height: 1.8; }
+        @media print {
+            body { background: #fff; color: #000; font-size: 12pt; }
+            .no-print { display: none !important; }
+            .page-break { page-break-before: always; }
+            .card { border: 1px solid #000; box-shadow: none; break-inside: avoid; margin-bottom: 20px;}
+            header { background: #fff !important; color: #000 !important; border: 1px solid #000; padding: 20px; }
+            header * { color: #000 !important; text-shadow: none !important;}
+            .flow-box { border: 1px solid #000 !important; background: #fff !important; color: #000 !important; }
+            .flow-arrow { color: #000 !important; }
+        }
+        .container { max-width: 1140px; margin: 0 auto; padding: 20px; }
+        header { background: linear-gradient(135deg, var(--primary-dark), var(--primary-light)); color: white; padding: 30px; border-radius: 12px; margin-bottom: 30px; text-align: center; }
+        header h1 { font-size: 2.5rem; margin-bottom: 10px; }
+        .breadcrumbs { margin-bottom: 20px; padding: 15px; background: var(--bg-card); border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); font-weight: 600; }
+        .breadcrumbs a { color: var(--accent-purple); text-decoration: none; margin-left: 5px; margin-right: 5px;}
+        .breadcrumbs a:hover { text-decoration: underline; }
+        .card { background: var(--bg-card); border-radius: 10px; padding: 30px; margin-bottom: 30px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); border: 1px solid var(--border-color); }
+        .card-header { display: flex; align-items: center; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid var(--bg-body); }
+        .card-header i { font-size: 1.8rem; color: var(--accent-cyan); margin-left: 15px; }
+        .card-header h2 { font-size: 1.6rem; color: var(--primary-dark); }
+        h3 { color: var(--primary-dark); margin: 20px 0 10px 0; font-size: 1.3rem; }
+        p { margin-bottom: 15px; font-size: 1.1rem; text-align: justify; }
+        ul { margin-right: 20px; margin-bottom: 15px; font-size: 1.1rem; }
+        li { margin-bottom: 8px; }
+
+        /* Flowchart Styles */
+        .flow-container { display: flex; justify-content: space-between; align-items: center; margin: 30px 0; flex-wrap: wrap; gap: 15px; }
+        .flow-box { background: var(--primary-dark); color: white; padding: 15px 20px; border-radius: 8px; font-weight: bold; text-align: center; flex: 1; min-width: 150px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); position: relative; }
+        .flow-arrow { font-size: 1.5rem; color: var(--accent-cyan); }
+        .flow-box-light { background: var(--bg-card); color: var(--primary-dark); border: 2px solid var(--accent-purple); }
+
+        .note-box { background: #fff7ed; border-right: 4px solid #f97316; padding: 15px; margin: 20px 0; border-radius: 4px 8px 8px 4px; }
+        .note-box h4 { color: #c2410c; margin-bottom: 5px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1><i class="fas fa-sitemap" style="color: var(--accent-cyan);"></i> معمارية النظام (System Architecture)</h1>
+        <p>التوثيق التفصيلي لهيكلة 7X Pharma Core</p>
+    </header>
+
+    <div class="breadcrumbs no-print">
+        <a href="home.html"><i class="fas fa-home"></i> الرئيسية</a> / <span>معمارية النظام</span>
+    </div>
+
+    <section class="card">
+        <div class="card-header">
+            <i class="fas fa-layer-group"></i>
+            <h2>نمط معمارية MVC المخصص</h2>
+        </div>
+        <p>
+            يعتمد نظام <strong>7X Pharma Core</strong> على معمارية <strong>MVC (Model-View-Controller)</strong> مطورة خصيصاً باستخدام لغة PHP (OOP). الهدف من هذا النمط هو فصل منطق العمل (Business Logic) عن واجهة المستخدم (UI)، مما يضمن:
+        </p>
+        <ul>
+            <li><strong>قابلية الصيانة (Maintainability):</strong> سهولة تحديد وتعديل الأكواد دون التأثير على أجزاء أخرى.</li>
+            <li><strong>الأمان (Security):</strong> حماية قواعد البيانات بتغليف الاستعلامات داخل Models بعيداً عن المتصفح.</li>
+            <li><strong>تنظيم الكود (Code Organization):</strong> كل ملف له دور محدد وواضح.</li>
+        </ul>
+
+        <h3>دورة حياة الطلب (Request Lifecycle)</h3>
+        <p>عندما يقوم المستخدم بطلب رابط معين، يمر الطلب عبر المراحل التالية بشكل تسلسلي:</p>
+        
+        <div class="flow-container">
+            <div class="flow-box">1. Browser<br><small>HTTP Request</small></div>
+            <i class="fas fa-arrow-left flow-arrow"></i>
+            <div class="flow-box flow-box-light">2. Router<br><small>توجيه الطلب</small></div>
+            <i class="fas fa-arrow-left flow-arrow"></i>
+            <div class="flow-box">3. Controller<br><small>معالجة المنطق</small></div>
+            <i class="fas fa-arrow-left flow-arrow"></i>
+            <div class="flow-box flow-box-light">4. Model<br><small>التواصل مع DB</small></div>
+            <i class="fas fa-arrow-left flow-arrow"></i>
+            <div class="flow-box">5. View<br><small>إرسال HTML</small></div>
+        </div>
+
+        <p>
+            يبدأ كل شيء من ملف <code>public/index.php</code>، والذي يقوم بتهيئة بيئة العمل، تشغيل الـ Sessions، واستدعاء ملفات الـ Core (مثل Database, Controller, Model) بالإضافة إلى استدعاء الكلاس <code>Router</code>.
+        </p>
+    </section>
+
+    <section class="card page-break">
+        <div class="card-header">
+            <i class="fas fa-route"></i>
+            <h2>آلية عمل الـ Router (الموجه)</h2>
+        </div>
+        <p>
+            الـ Router هو القلب النابض للنظام الذي يستقبل الرابط من المتصفح (عبر ملف <code>.htaccess</code>) ويقوم بتحليله وتوجيهه.
+        </p>
+        <h3>تدفق الـ Router:</h3>
+        <ul>
+            <li><strong>استقبال الرابط:</strong> يقوم بتحليل <code>$_GET['url']</code> وتقسيمه إلى مصفوفة (Array) باستخدام <code>explode('/', $url)</code>.</li>
+            <li><strong>تحديد المتحكم (Controller):</strong> العنصر الأول في المصفوفة يمثل اسم المتحكم (مثلاً: <code>pos</code> يصبح <code>POSController</code>). إذا لم يتم توفير متحكم، يتم استخدام <code>POSController</code> كقيمة افتراضية.</li>
+            <li><strong>تحديد الدالة (Method):</strong> العنصر الثاني يمثل الدالة المراد تنفيذها داخل المتحكم. القيمة الافتراضية هي <code>index</code>.</li>
+            <li><strong>المتغيرات (Parameters):</strong> ما تبقى من المصفوفة يتم تمريره كمتغيرات للدالة المحددة.</li>
+            <li><strong>التنفيذ:</strong> يتم استدعاء الدالة تمرير المتغيرات باستخدام <code>call_user_func_array()</code>.</li>
+        </ul>
+        <div class="note-box">
+            <h4><i class="fas fa-shield-alt"></i> تحليل الأمان (Security Analysis)</h4>
+            <p>يتم استخدام الدالة <code>filter_var($url, FILTER_SANITIZE_URL)</code> داخل الـ Router لتنظيف الرابط من أي أكواد ضارة (XSS) قبل تمريره إلى النظام، كما يتم التأكد من وجود ملف المتحكم قبل استدعائه <code>file_exists()</code> لمنع ثغرات File Inclusion.</p>
+        </div>
+    </section>
+
+    <section class="card page-break">
+        <div class="card-header">
+            <i class="fas fa-database"></i>
+            <h2>إدارة قواعد البيانات (Database & Models)</h2>
+        </div>
+        <p>
+            يتم الاتصال بقاعدة البيانات حصراً عبر كلاس <code>Database</code> الموجود في <code>app/config/</code> والذي يستخدم تقنية <strong>PDO (PHP Data Objects)</strong>.
+        </p>
+        <ul>
+            <li><strong>الحماية من SQL Injection:</strong> جميع الـ Models تعتمد على الـ <strong>Prepared Statements</strong> (أي <code>prepare()</code> ثم <code>execute()</code>) لحماية النظام بشكل كامل من حقن SQL.</li>
+            <li><strong>كلاس الـ Model الأساسي:</strong> يوفر كلاس <code>Model.php</code> في الـ core اتصالاً جاهزاً بقاعدة البيانات لترثه جميع النماذج الأخرى مثل (Medicine, Sale, Batch).</li>
+            <li><strong>استقلالية النماذج:</strong> كل Model يمثل جدولاً في قاعدة البيانات ويتعامل مع الاستعلامات الخاصة به فقط، مما يعزز مبدأ Single Responsibility.</li>
+        </ul>
+    </section>
+
+    <section class="card">
+        <div class="card-header">
+            <i class="fas fa-user-shield"></i>
+            <h2>إدارة الجلسات والمصادقة (Session & Auth)</h2>
+        </div>
+        <p>
+            بما أن النظام يتعامل مع بيانات حساسة للصيدلية، تم بناء نظام مصادقة صلب يعتمد على الـ Sessions.
+        </p>
+        <ul>
+            <li>يبدأ الـ Session في ملف <code>index.php</code> قبل أي إرسال للبيانات للمتصفح.</li>
+            <li>يقوم <code>AuthController</code> بالتحقق من بيانات الدخول الواردة ومقارنة كلمة المرور المشفرة (باستخدام <code>password_verify()</code>) مع قاعدة البيانات.</li>
+            <li>عند نجاح تسجيل الدخول، يتم تخزين <code>user_id</code> و <code>role</code> و <code>username</code> داخل الـ <code>$_SESSION</code>.</li>
+            <li><strong>Middleware وهمي:</strong> في كل Controller، يتم التحقق من وجود الـ Session (مثلاً عبر دالة <code>checkAuth()</code>) لمنع الوصول غير المصرح به للصفحات المحمية.</li>
+        </ul>
+        <div class="note-box">
+            <h4><i class="fas fa-lightbulb"></i> ملاحظات هندسية</h4>
+            <p><strong>التحسين المستقبلي:</strong> يمكن فصل منطق التحقق من تسجيل الدخول (Authentication Check) إلى كلاس <code>Middleware</code> مخصص يتم استدعاؤه في الـ Router لتقليل التكرار في الـ Controllers وجعل الكود أكثر نظافة (DRY Principle).</p>
+        </div>
+    </section>
+
+</div>
+
+</body>
+</html>

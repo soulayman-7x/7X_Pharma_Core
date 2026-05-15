@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medicine Model - 7X Pharma Core</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-dark: #0f172a; --primary-light: #1e293b; --accent-cyan: #06b6d4; --accent-purple: #8b5cf6;
+            --text-main: #334155; --text-light: #64748b; --bg-body: #f8fafc; --bg-card: #ffffff; --border-color: #e2e8f0;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Cairo', sans-serif; }
+        body { background-color: var(--bg-body); color: var(--text-main); line-height: 1.8; }
+        @media print {
+            body { background: #fff; color: #000; font-size: 11pt; }
+            .no-print { display: none !important; }
+            .page-break { page-break-before: always; }
+            .card { border: 1px solid #000; box-shadow: none; break-inside: avoid; margin-bottom: 20px;}
+            header { background: #fff !important; color: #000 !important; border: 1px solid #000; padding: 20px; }
+            header * { color: #000 !important; text-shadow: none !important;}
+        }
+        .container { max-width: 1140px; margin: 0 auto; padding: 20px; }
+        header { background: linear-gradient(135deg, var(--primary-dark), var(--primary-light)); color: white; padding: 30px; border-radius: 12px; margin-bottom: 30px; text-align: center; }
+        header h1 { font-size: 2.5rem; margin-bottom: 10px; }
+        .breadcrumbs { margin-bottom: 20px; padding: 15px; background: var(--bg-card); border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); font-weight: 600; }
+        .breadcrumbs a { color: var(--accent-purple); text-decoration: none; margin-left: 5px; margin-right: 5px;}
+        .breadcrumbs a:hover { text-decoration: underline; }
+        .card { background: var(--bg-card); border-radius: 10px; padding: 30px; margin-bottom: 30px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); border: 1px solid var(--border-color); }
+        .card-header { display: flex; align-items: center; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid var(--bg-body); }
+        .card-header i { font-size: 1.8rem; color: var(--accent-cyan); margin-left: 15px; }
+        .card-header h2 { font-size: 1.6rem; color: var(--primary-dark); }
+        p { margin-bottom: 15px; font-size: 1.1rem; text-align: justify; }
+
+        .method-box { background: var(--bg-body); border-right: 4px solid var(--accent-purple); padding: 15px; margin-bottom: 15px; border-radius: 4px; }
+        .method-box h4 { margin-bottom: 5px; color: var(--primary-dark); direction: ltr; text-align: left; font-family: monospace; font-size: 1.1rem;}
+        
+        .badge { display: inline-block; padding: 3px 8px; border-radius: 4px; font-size: 0.85rem; font-weight: bold; margin-left: 5px; }
+        .badge-public { background: #dcfce7; color: #15803d; }
+
+        .note-box { background: #eff6ff; border-right: 4px solid #3b82f6; padding: 15px; margin: 20px 0; border-radius: 4px 8px 8px 4px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1><i class="fas fa-pills" style="color: var(--accent-cyan);"></i> Medicine Model</h1>
+        <p>نموذج الأدوية والتعامل مع الخصومات من المخزون (FIFO)</p>
+    </header>
+
+    <div class="breadcrumbs no-print">
+        <a href="../home.html"><i class="fas fa-home"></i> الرئيسية</a> / <span>Models</span> / <span>Medicine.php</span>
+    </div>
+
+    <section class="card">
+        <div class="card-header">
+            <i class="fas fa-info-circle"></i>
+            <h2>وصف النموذج</h2>
+        </div>
+        <p>
+            يرث من الكلاس الأساسي <code>Model</code> ويتعامل مع جدول <code>medicines</code>. يتولى مسؤولية معالجة الاستعلامات المعقدة الخاصة بالأدوية مثل البحث، التصفية، وخصم المخزون الذكي الذي يعتمد على الدفعات.
+        </p>
+    </section>
+
+    <section class="card page-break">
+        <div class="card-header">
+            <i class="fas fa-cogs"></i>
+            <h2>الاستعلامات والدوال الأساسية</h2>
+        </div>
+
+        <div class="method-box">
+            <h4><span class="badge badge-public">public</span> searchAndFilter($searchQuery, $category)</h4>
+            <p><strong>استعلام معقد (JOIN & SUM):</strong> تقوم هذه الدالة بدمج جدول <code>medicines</code> مع <code>batches</code> باستخدام <code>LEFT JOIN</code> لجلب اسم الدواء وإجمالي كميته المتوفرة عبر دالة التجميع <code>SUM(batches.current_quantity)</code>. كما تستخدم <code>COALESCE</code> لإرجاع 0 في حال لم تكن هناك دفعات للدواء.</p>
+            <p>تدعم التصفية بواسطة الاسم أو الباركود (باستخدام <code>LIKE</code>) والتصفية بالتصنيف.</p>
+        </div>
+
+        <div class="method-box">
+            <h4><span class="badge badge-public">public</span> deductStock($id, $qtyToDeduct)</h4>
+            <p><strong>منطق خصم المخزون (FIFO Workflow):</strong> هذه هي أهم دالة تجارية (Business Logic) في النظام.</p>
+            <ul>
+                <li>تستخدم مبدأ <strong>FIFO (First In, First Out)</strong> بناءً على تاريخ الصلاحية <code>ORDER BY expiry_date ASC</code>.</li>
+                <li>يتم استدعاء كل الدفعات المتاحة التي تحتوي على كمية أكبر من صفر <code>current_quantity > 0</code>.</li>
+                <li>تدخل في حلقة <code>foreach</code> لخصم الكمية المطلوبة من أقدم دفعة (التي تنتهي صلاحيتها أولاً).</li>
+                <li>إذا كانت الدفعة القديمة لا تكفي لتغطية الكمية المباعة، يتم تفريغ الدفعة (تصبح 0)، والانتقال للدفعة التي تليها وخصم المتبقي منها.</li>
+            </ul>
+        </div>
+
+        <div class="method-box">
+            <h4><span class="badge badge-public">public</span> getLowStockAlerts($threshold = 10)</h4>
+            <p><strong>استعلام (HAVING):</strong> لجلب الأدوية التي شارفت على النفاذ. تستخدم <code>GROUP BY</code> مع <code>HAVING current_quantity <= ?</code> لفلترة النتائج بعد تجميع كميات الدفعات.</p>
+        </div>
+
+        <div class="method-box">
+            <h4><span class="badge badge-public">public</span> delete($id)</h4>
+            <p><strong>منطق Soft Delete:</strong> تقوم بتعديل دالة <code>delete</code> الموروثة من الأب. بدلاً من الحذف الفيزيائي الفعلي (<code>DELETE FROM</code>) الذي قد يسبب أخطاء في الفواتير القديمة المرتبطة، تقوم بعمل <code>UPDATE</code> لحقل <code>deleted_at = NOW()</code>. هكذا يختفي الدواء من الواجهة ولكنه يبقى في قاعدة البيانات كمرجع تاريخي.</p>
+        </div>
+    </section>
+
+</div>
+
+</body>
+</html>

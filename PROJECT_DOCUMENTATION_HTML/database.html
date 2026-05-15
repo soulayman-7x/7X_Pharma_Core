@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>قاعدة البيانات - 7X Pharma Core</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-dark: #0f172a; --primary-light: #1e293b; --accent-cyan: #06b6d4; --accent-purple: #8b5cf6;
+            --text-main: #334155; --text-light: #64748b; --bg-body: #f8fafc; --bg-card: #ffffff; --border-color: #e2e8f0;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Cairo', sans-serif; }
+        body { background-color: var(--bg-body); color: var(--text-main); line-height: 1.8; }
+        @media print {
+            body { background: #fff; color: #000; font-size: 11pt; }
+            .no-print { display: none !important; }
+            .page-break { page-break-before: always; }
+            .card { border: 1px solid #000; box-shadow: none; break-inside: avoid; margin-bottom: 20px;}
+            header { background: #fff !important; color: #000 !important; border: 1px solid #000; padding: 20px; }
+            header * { color: #000 !important; text-shadow: none !important;}
+            table { border-collapse: collapse; width: 100%; }
+            th, td { border: 1px solid #000 !important; padding: 5px !important; }
+            th { background-color: #eee !important; color: #000 !important; }
+        }
+        .container { max-width: 1140px; margin: 0 auto; padding: 20px; }
+        header { background: linear-gradient(135deg, var(--primary-dark), var(--primary-light)); color: white; padding: 30px; border-radius: 12px; margin-bottom: 30px; text-align: center; }
+        header h1 { font-size: 2.5rem; margin-bottom: 10px; }
+        .breadcrumbs { margin-bottom: 20px; padding: 15px; background: var(--bg-card); border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); font-weight: 600; }
+        .breadcrumbs a { color: var(--accent-purple); text-decoration: none; margin-left: 5px; margin-right: 5px;}
+        .breadcrumbs a:hover { text-decoration: underline; }
+        .card { background: var(--bg-card); border-radius: 10px; padding: 30px; margin-bottom: 30px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); border: 1px solid var(--border-color); }
+        .card-header { display: flex; align-items: center; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid var(--bg-body); }
+        .card-header i { font-size: 1.8rem; color: var(--accent-cyan); margin-left: 15px; }
+        .card-header h2 { font-size: 1.6rem; color: var(--primary-dark); }
+        h3 { color: var(--primary-dark); margin: 20px 0 10px 0; font-size: 1.3rem; }
+        p { margin-bottom: 15px; font-size: 1.1rem; text-align: justify; }
+
+        table { width: 100%; border-collapse: collapse; margin: 15px 0; font-size: 0.95rem; }
+        th, td { padding: 12px; text-align: right; border-bottom: 1px solid var(--border-color); }
+        th { background-color: var(--bg-body); font-weight: 700; color: var(--primary-dark); }
+        tr:hover { background-color: #f8fafc; }
+        
+        .badge { display: inline-block; padding: 3px 6px; border-radius: 4px; font-size: 0.8rem; font-weight: bold; }
+        .badge-pk { background: #fee2e2; color: #b91c1c; } /* Primary Key */
+        .badge-fk { background: #e0e7ff; color: #4338ca; } /* Foreign Key */
+        .badge-type { background: #f1f5f9; color: #475569; border: 1px solid #cbd5e1; }
+
+        .note-box { background: #f0fdf4; border-right: 4px solid #22c55e; padding: 15px; margin: 20px 0; border-radius: 4px 8px 8px 4px; }
+        .note-box h4 { color: #15803d; margin-bottom: 5px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1><i class="fas fa-database" style="color: var(--accent-cyan);"></i> قاعدة البيانات (Database Schema)</h1>
+        <p>التوثيق التفصيلي لهيكلة الجداول والعلاقات في MySQL</p>
+    </header>
+
+    <div class="breadcrumbs no-print">
+        <a href="home.html"><i class="fas fa-home"></i> الرئيسية</a> / <span>قاعدة البيانات</span>
+    </div>
+
+    <section class="card">
+        <div class="card-header">
+            <i class="fas fa-table"></i>
+            <h2>هيكلة الجداول الأساسية (Tables)</h2>
+        </div>
+        <p>
+            تعتمد قاعدة بيانات <code>pharma_core</code> على 8 جداول مترابطة ببعضها (Relational Database) لضمان تكامل البيانات وعدم تكرارها (Normalization).
+        </p>
+
+        <!-- Users Table -->
+        <h3>1. جدول المستخدمين (users)</h3>
+        <p>يحتفظ ببيانات الصيادلة والمدراء الذين لهم صلاحية الدخول للنظام.</p>
+        <table>
+            <tr><th>الحقل (Column)</th><th>النوع (Type)</th><th>الوصف والمفاتيح</th></tr>
+            <tr><td><code>id</code></td><td><span class="badge badge-type">INT</span></td><td><span class="badge badge-pk"><i class="fas fa-key"></i> PK</span> المعرف الفريد</td></tr>
+            <tr><td><code>username</code></td><td><span class="badge badge-type">VARCHAR(50)</span></td><td>اسم المستخدم للدخول (UNIQUE)</td></tr>
+            <tr><td><code>password</code></td><td><span class="badge badge-type">VARCHAR(255)</span></td><td>كلمة المرور مشفرة بـ BCrypt</td></tr>
+            <tr><td><code>role</code></td><td><span class="badge badge-type">ENUM</span></td><td>الصلاحيات ('admin', 'pharmacist')</td></tr>
+        </table>
+
+        <!-- Medicines Table -->
+        <h3>2. جدول الأدوية (medicines)</h3>
+        <p>الدليل الرئيسي للأدوية داخل الصيدلية. لا يحتوي على الكميات لأن الكميات مرتبطة بالدفعات (Batches).</p>
+        <table>
+            <tr><th>الحقل (Column)</th><th>النوع (Type)</th><th>الوصف والمفاتيح</th></tr>
+            <tr><td><code>id</code></td><td><span class="badge badge-type">INT</span></td><td><span class="badge badge-pk"><i class="fas fa-key"></i> PK</span> المعرف الفريد</td></tr>
+            <tr><td><code>barcode</code></td><td><span class="badge badge-type">VARCHAR(50)</span></td><td>الباركود التجاري (UNIQUE)</td></tr>
+            <tr><td><code>name</code></td><td><span class="badge badge-type">VARCHAR(150)</span></td><td>الاسم التجاري للدواء</td></tr>
+            <tr><td><code>price</code></td><td><span class="badge badge-type">DECIMAL(10,2)</span></td><td>سعر البيع للجمهور</td></tr>
+            <tr><td><code>cost_price</code></td><td><span class="badge badge-type">DECIMAL(10,2)</span></td><td>سعر الشراء (التكلفة)</td></tr>
+        </table>
+
+        <!-- Batches Table -->
+        <h3>3. جدول الدفعات (batches)</h3>
+        <p>الجدول المسؤول عن المخزون وتواريخ الصلاحية. كل دواء يمكن أن يكون له عدة دفعات بتواريخ انتهاء مختلفة.</p>
+        <table>
+            <tr><th>الحقل (Column)</th><th>النوع (Type)</th><th>الوصف والمفاتيح</th></tr>
+            <tr><td><code>id</code></td><td><span class="badge badge-type">INT</span></td><td><span class="badge badge-pk"><i class="fas fa-key"></i> PK</span> المعرف الفريد للدفعة</td></tr>
+            <tr><td><code>medicine_id</code></td><td><span class="badge badge-type">INT</span></td><td><span class="badge badge-fk"><i class="fas fa-link"></i> FK</span> مرجع إلى جدول الأدوية</td></tr>
+            <tr><td><code>batch_number</code></td><td><span class="badge badge-type">VARCHAR(50)</span></td><td>رقم الدفعة (رقم التشغيلة)</td></tr>
+            <tr><td><code>expiry_date</code></td><td><span class="badge badge-type">DATE</span></td><td>تاريخ انتهاء الصلاحية</td></tr>
+            <tr><td><code>current_quantity</code></td><td><span class="badge badge-type">INT</span></td><td>الكمية الحالية المتبقية في هذه الدفعة</td></tr>
+        </table>
+    </section>
+
+    <section class="card page-break">
+        <div class="card-header">
+            <i class="fas fa-cash-register"></i>
+            <h2>جداول المبيعات والعملاء</h2>
+        </div>
+
+        <!-- Sales Table -->
+        <h3>4. جدول المبيعات (sales)</h3>
+        <p>يمثل التذكرة أو الفاتورة العامة (Header).</p>
+        <table>
+            <tr><th>الحقل (Column)</th><th>النوع (Type)</th><th>الوصف والمفاتيح</th></tr>
+            <tr><td><code>id</code></td><td><span class="badge badge-type">BIGINT</span></td><td><span class="badge badge-pk"><i class="fas fa-key"></i> PK</span> رقم الفاتورة</td></tr>
+            <tr><td><code>user_id</code></td><td><span class="badge badge-type">INT</span></td><td><span class="badge badge-fk"><i class="fas fa-link"></i> FK</span> البائع (الصيدلي)</td></tr>
+            <tr><td><code>client_id</code></td><td><span class="badge badge-type">INT</span></td><td><span class="badge badge-fk"><i class="fas fa-link"></i> FK</span> العميل (قابل للفراغ NULL إذا كان الزبون عابراً)</td></tr>
+            <tr><td><code>total_amount</code></td><td><span class="badge badge-type">DECIMAL(12,2)</span></td><td>المبلغ الإجمالي للفاتورة</td></tr>
+            <tr><td><code>payment_method</code></td><td><span class="badge badge-type">ENUM</span></td><td>طريقة الدفع (cash, card, credit, cheque, mutuelle)</td></tr>
+        </table>
+
+        <!-- Sale Items Table -->
+        <h3>5. جدول تفاصيل المبيعات (sale_items)</h3>
+        <p>يحتوي على الأدوية المباعة داخل كل فاتورة.</p>
+        <table>
+            <tr><th>الحقل (Column)</th><th>النوع (Type)</th><th>الوصف والمفاتيح</th></tr>
+            <tr><td><code>sale_id</code></td><td><span class="badge badge-type">BIGINT</span></td><td><span class="badge badge-fk"><i class="fas fa-link"></i> FK</span> مرجع للفاتورة (مع خاصية ON DELETE CASCADE)</td></tr>
+            <tr><td><code>batch_id</code></td><td><span class="badge badge-type">INT</span></td><td><span class="badge badge-fk"><i class="fas fa-link"></i> FK</span> مرجع للدفعة المباعة</td></tr>
+            <tr><td><code>snapshot_data</code></td><td><span class="badge badge-type">LONGTEXT</span></td><td>لقطة (Snapshot) لبيانات الدواء وقت البيع بصيغة JSON. للحفاظ على الفاتورة حتى لو تم حذف الدواء من النظام.</td></tr>
+        </table>
+
+        <!-- Clients & Payments -->
+        <h3>6 و 7. العملاء ومدفوعاتهم (clients & client_payments)</h3>
+        <p>جدول <code>clients</code> يضم بيانات العملاء ورصيد ديونهم (<code>credit_balance</code>). وجدول <code>client_payments</code> يسجل المبالغ التي يسددها العملاء لتخفيض ديونهم.</p>
+    </section>
+
+    <section class="card page-break">
+        <div class="card-header">
+            <i class="fas fa-project-diagram"></i>
+            <h2>العلاقات (Relationships) وسلامة البيانات</h2>
+        </div>
+        <p>تستخدم قاعدة البيانات المفاتيح الأجنبية (Foreign Keys) لفرض قيود التكامل المرجعي (Referential Integrity):</p>
+        <ul>
+            <li>لا يمكن حذف دواء <code>medicines</code> إذا كان مرتبطاً بدفعات <code>batches</code> مسجلة (إلا عبر Soft Delete).</li>
+            <li>عند حذف مبيعة <code>sales</code>، يتم حذف جميع تفاصيلها في <code>sale_items</code> تلقائياً بفضل قيد <code>ON DELETE CASCADE</code>.</li>
+            <li>جدول <code>inventory_movements</code> يراقب كل حركات الدخول والخروج الخاصة بكل دفعة عبر ربطه بـ <code>batch_id</code>، مما يوفر نظام تدقيق (Audit Trail) دقيق جداً للصيدلية.</li>
+        </ul>
+        
+        <div class="note-box">
+            <h4><i class="fas fa-lightbulb"></i> ملاحظات هندسية حول Snapshot Data</h4>
+            <p>
+                تم استخدام حقل <code>snapshot_data</code> من نوع JSON في جدول <code>sale_items</code>. <br>
+                <strong>السبب:</strong> أسماء الأدوية وأسعارها قد تتغير بمرور الزمن. إذا قمنا بتغيير اسم دواء أو سعره، الفواتير القديمة يجب ألا تتأثر. تقنية Snapshot تحفظ نسخة صلبة من بيانات الدواء لحظة البيع لضمان دقة التقارير المالية والقانونية للفواتير السابقة.
+            </p>
+        </div>
+    </section>
+
+</div>
+
+</body>
+</html>

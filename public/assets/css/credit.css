@@ -1,34 +1,28 @@
-/* ==========================================================================
-   CLIENT CREDIT LEDGER PAGE CSS (CYBERPUNK & GLASSMORPHISM)
-   Using EXACT original HTML structure and global.css variables
-   ========================================================================== */
-
-/* 1. OVERRIDE GLOBAL COLORS (Strictly Cyan & Purple - No Green/Gold allowed) */
 .badge-success {
-    background-color: rgba(0, 114, 255, 0.15) !important; /* Force Primary Cyan instead of Green */
+    background-color: rgba(0, 114, 255, 0.15) !important; 
     color: var(--color-primary) !important;
     border: 1px solid rgba(0, 114, 255, 0.3);
 }
 
 .badge-warning {
-    background-color: rgba(106, 13, 173, 0.15) !important; /* Force Accent Purple instead of Gold/Yellow */
+    background-color: rgba(106, 13, 173, 0.15) !important; 
     color: var(--color-accent) !important;
     border: 1px solid rgba(106, 13, 173, 0.3);
 }
 
 .debt-amount.low {
-    color: var(--color-primary) !important; /* Cyan */
+    color: var(--color-primary) !important; 
 }
 
 .debt-amount.medium {
-    color: var(--color-accent) !important; /* Purple */
+    color: var(--color-accent) !important; 
 }
 
 .debt-amount.high {
-    color: var(--color-danger) !important; /* Keep Red for high debt */
+    color: var(--color-danger) !important; 
 }
 
-/* 2. SUMMARY CARDS (Glassmorphism & Neon Glow) */
+/* SUMMARY CARDS  */
 .credit-stats {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -40,7 +34,7 @@
     background-color: rgba(17, 24, 39, 0.6); /* Transparent for glass effect */
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(0, 114, 255, 0.15); /* Subtle Cyber border */
+    border: 1px solid rgba(0, 114, 255, 0.15); 
     border-radius: var(--border-radius-lg);
     padding: var(--space-4);
     display: flex;
@@ -114,7 +108,7 @@
     text-transform: uppercase;
 }
 
-/* 3. FILTER BAR */
+/*  FILTER BAR */
 .credit-filter-bar {
     display: flex;
     align-items: center;
@@ -163,7 +157,7 @@
     color: var(--color-primary);
 }
 
-/* 4. TABLE BUTTONS */
+/* TABLE BUTTONS */
 .debt-amount {
     font-weight: 700;
     font-size: 0.95rem;
@@ -216,7 +210,7 @@
     background: rgba(106, 13, 173, 0.05);
 }
 
-/* 5. MODALS (Payment & Add Client) */
+/* MODALS (Payment & Add Client) */
 .pay-modal-body {
     padding: var(--space-4);
     display: flex;
@@ -249,7 +243,7 @@
     letter-spacing: 0.5px;
 }
 
-/* 6. GLOBAL ELEMENT OVERRIDES WITHIN CREDIT PAGE */
+/* LOBAL ELEMENT OVERRIDES WITHIN CREDIT PAGE */
 .panel {
     background-color: rgba(17, 24, 39, 0.6) !important;
     backdrop-filter: blur(12px);

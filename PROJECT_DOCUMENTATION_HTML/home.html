@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>7X Pharma Core - التوثيق الشامل</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-dark: #0f172a;
+            --primary-light: #1e293b;
+            --accent-cyan: #06b6d4;
+            --accent-purple: #8b5cf6;
+            --text-main: #334155;
+            --text-light: #64748b;
+            --bg-body: #f8fafc;
+            --bg-card: #ffffff;
+            --border-color: #e2e8f0;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Cairo', sans-serif; }
+        body { background-color: var(--bg-body); color: var(--text-main); line-height: 1.6; }
+        
+        @media print {
+            body { background: #fff; color: #000; font-size: 12pt; }
+            .no-print { display: none !important; }
+            .page-break { page-break-before: always; }
+            .card { border: 1px solid #ccc; box-shadow: none; break-inside: avoid; margin-bottom: 20px;}
+            a { text-decoration: none; color: #000; }
+            @page { margin: 2cm; size: A4 portrait; }
+            header { background: #fff !important; color: #000 !important; border: 1px solid #000; }
+            header * { color: #000 !important; }
+            .stat-box { border: 1px solid #000; }
+        }
+
+        .container { max-width: 1140px; margin: 0 auto; padding: 20px; }
+        header { background: linear-gradient(135deg, var(--primary-dark), var(--primary-light)); color: white; padding: 40px; border-radius: 12px; margin-bottom: 30px; position: relative; overflow: hidden; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); text-align: center; }
+        header::after { content: ''; position: absolute; top: -50%; right: -20%; width: 50%; height: 200%; background: linear-gradient(rgba(6, 182, 212, 0.2), rgba(139, 92, 246, 0.2)); transform: rotate(30deg); }
+        header h1 { font-size: 3rem; margin-bottom: 10px; position: relative; z-index: 2; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
+        header p { color: #cbd5e1; font-size: 1.2rem; position: relative; z-index: 2; }
+        
+        .breadcrumbs { margin-bottom: 20px; padding: 15px; background: var(--bg-card); border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); font-weight: 600; }
+        .breadcrumbs a { color: var(--accent-purple); text-decoration: none; }
+        .breadcrumbs a:hover { text-decoration: underline; }
+        
+        .card { background: var(--bg-card); border-radius: 10px; padding: 25px; margin-bottom: 25px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); border: 1px solid var(--border-color); }
+        .card-header { display: flex; align-items: center; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid var(--bg-body); }
+        .card-header i { font-size: 1.8rem; color: var(--accent-cyan); margin-left: 15px; }
+        .card-header h2 { font-size: 1.6rem; color: var(--primary-dark); }
+        
+        .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-bottom: 30px; }
+        
+        .stat-box { background: linear-gradient(135deg, var(--bg-card), var(--bg-body)); border: 1px solid var(--border-color); padding: 30px 20px; border-radius: 10px; text-align: center; transition: transform 0.3s ease; }
+        .stat-box:hover { transform: translateY(-5px); box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); }
+        .stat-box i { font-size: 2.5rem; color: var(--accent-purple); margin-bottom: 15px; display: block; }
+        .stat-box h3 { font-size: 2.5rem; color: var(--primary-dark); margin-bottom: 5px; }
+        .stat-box p { color: var(--text-light); font-weight: 600; font-size: 1.1rem;}
+
+        .nav-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+        .nav-card { border: 1px solid var(--border-color); border-radius: 8px; padding: 20px; text-decoration: none; color: inherit; display: flex; align-items: flex-start; transition: all 0.3s ease; background: var(--bg-card); }
+        .nav-card:hover { border-color: var(--accent-cyan); background: #f8fafc; transform: translateY(-3px); }
+        .nav-card i { font-size: 2rem; color: var(--accent-cyan); margin-left: 15px; margin-top: 5px; }
+        .nav-card h3 { color: var(--primary-dark); margin-bottom: 5px; font-size: 1.3rem; }
+        .nav-card p { color: var(--text-light); font-size: 0.95rem; }
+
+        footer { text-align: center; padding: 30px; margin-top: 50px; color: var(--text-light); border-top: 1px solid var(--border-color); font-weight: 600; }
+        
+        .file-list { list-style: none; }
+        .file-list li { margin-bottom: 10px; padding: 10px; border-bottom: 1px dashed var(--border-color); display: flex; align-items: center; }
+        .file-list li:last-child { border-bottom: none; }
+        .file-list i { color: #f59e0b; margin-left: 10px; width: 20px; text-align: center; }
+        .file-list a { color: var(--primary-dark); text-decoration: none; font-weight: 600; flex-grow: 1; }
+        .file-list a:hover { color: var(--accent-cyan); }
+        .file-badge { background: #e2e8f0; color: #475569; padding: 3px 8px; border-radius: 4px; font-size: 0.8rem; font-family: monospace; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1><i class="fas fa-pills" style="color: var(--accent-cyan);"></i> 7X Pharma Core</h1>
+        <p>التوثيق الهندسي الشامل للنظام - Pharmacy Management System</p>
+    </header>
+
+    <div class="breadcrumbs no-print">
+        <i class="fas fa-home"></i> الرئيسية
+    </div>
+
+    <section class="card">
+        <div class="card-header">
+            <i class="fas fa-info-circle"></i>
+            <h2>نظرة عامة على المشروع</h2>
+        </div>
+        <p style="font-size: 1.1rem; text-align: justify; margin-bottom: 15px;">
+            نظام <strong>7X Pharma Core</strong> هو نظام متكامل لإدارة الصيدليات، تم بناؤه باستخدام لغة <strong>PHP</strong> بالاعتماد على البرمجة كائنية التوجه <strong>(OOP)</strong> وتقنية <strong>PDO</strong> للاتصال بقواعد البيانات. يعتمد النظام على معمارية <strong>MVC (Model-View-Controller)</strong> مخصصة لضمان فصل الطبقات وسهولة الصيانة والتطوير.
+        </p>
+        <p style="font-size: 1.1rem; text-align: justify;">
+            يوفر النظام حلولاً شاملة لإدارة المخزون، نقاط البيع (POS)، إدارة ديون العملاء، وتتبع تواريخ الصلاحية، مع واجهة مستخدم حديثة وتصميم متجاوب.
+        </p>
+    </section>
+
+    <div class="grid-3">
+        <div class="stat-box">
+            <i class="fas fa-file-code"></i>
+            <h3>30+</h3>
+            <p>إجمالي الملفات الموثقة</p>
+        </div>
+        <div class="stat-box">
+            <i class="fas fa-project-diagram"></i>
+            <h3>5</h3>
+            <p>متحكمات (Controllers)</p>
+        </div>
+        <div class="stat-box">
+            <i class="fas fa-database"></i>
+            <h3>8</h3>
+            <p>جداول قواعد البيانات</p>
+        </div>
+    </div>
+
+    <section class="card page-break">
+        <div class="card-header">
+            <i class="fas fa-book"></i>
+            <h2>المراجع الهندسية الأساسية</h2>
+        </div>
+        <div class="nav-grid">
+            <a href="architecture.html" class="nav-card">
+                <i class="fas fa-sitemap"></i>
+                <div>
+                    <h3>المعمارية (Architecture)</h3>
+                    <p>شرح معمارية MVC وتدفق الطلبات داخل النظام.</p>
+                </div>
+            </a>
+            <a href="database.html" class="nav-card">
+                <i class="fas fa-server"></i>
+                <div>
+                    <h3>قاعدة البيانات (Database)</h3>
+                    <p>هيكلة الجداول، العلاقات، ومخطط ERD التفصيلي.</p>
+                </div>
+            </a>
+            <a href="api-flow.html" class="nav-card">
+                <i class="fas fa-project-diagram"></i>
+                <div>
+                    <h3>تدفق العمليات (Workflows)</h3>
+                    <p>دورة حياة العمليات الرئيسية (البيع، المخزون، الديون).</p>
+                </div>
+            </a>
+        </div>
+    </section>
+
+    <div class="grid-2 page-break">
+        <section class="card">
+            <div class="card-header">
+                <i class="fas fa-microchip"></i>
+                <h2>ملفات النواة والإعدادات (Core)</h2>
+            </div>
+            <ul class="file-list">
+                <li><i class="fab fa-php"></i> <a href="public/index.html">index.php</a> <span class="file-badge">Entry Point</span></li>
+                <li><i class="fab fa-php"></i> <a href="core/Router.html">Router.php</a> <span class="file-badge">Core</span></li>
+                <li><i class="fab fa-php"></i> <a href="core/Controller.html">Controller.php</a> <span class="file-badge">Core</span></li>
+                <li><i class="fab fa-php"></i> <a href="core/Model.html">Model.php</a> <span class="file-badge">Core</span></li>
+                <li><i class="fab fa-php"></i> <a href="config/Database.html">Database.php</a> <span class="file-badge">Config</span></li>
+                <li><i class="fab fa-php"></i> <a href="config/Constants.html">Constants.php</a> <span class="file-badge">Config</span></li>
+                <li><i class="fas fa-cog"></i> <a href="public/.htaccess.html">.htaccess</a> <span class="file-badge">Config</span></li>
+            </ul>
+        </section>
+
+        <section class="card">
+            <div class="card-header">
+                <i class="fas fa-cogs"></i>
+                <h2>المتحكمات (Controllers)</h2>
+            </div>
+            <ul class="file-list">
+                <li><i class="fab fa-php"></i> <a href="controllers/POSController.html">POSController.php</a> <span class="file-badge">Controller</span></li>
+                <li><i class="fab fa-php"></i> <a href="controllers/InventoryController.html">InventoryController.php</a> <span class="file-badge">Controller</span></li>
+                <li><i class="fab fa-php"></i> <a href="controllers/CreditController.html">CreditController.php</a> <span class="file-badge">Controller</span></li>
+                <li><i class="fab fa-php"></i> <a href="controllers/DashboardController.html">DashboardController.php</a> <span class="file-badge">Controller</span></li>
+                <li><i class="fab fa-php"></i> <a href="controllers/AuthController.html">AuthController.php</a> <span class="file-badge">Controller</span></li>
+            </ul>
+        </section>
+    </div>
+
+    <div class="grid-2">
+        <section class="card">
+            <div class="card-header">
+                <i class="fas fa-cubes"></i>
+                <h2>نماذج البيانات (Models)</h2>
+            </div>
+            <ul class="file-list">
+                <li><i class="fab fa-php"></i> <a href="models/Medicine.html">Medicine.php</a> <span class="file-badge">Model</span></li>
+                <li><i class="fab fa-php"></i> <a href="models/Batch.html">Batch.php</a> <span class="file-badge">Model</span></li>
+                <li><i class="fab fa-php"></i> <a href="models/Sale.html">Sale.php</a> <span class="file-badge">Model</span></li>
+                <li><i class="fab fa-php"></i> <a href="models/SaleDetail.html">SaleDetail.php</a> <span class="file-badge">Model</span></li>
+                <li><i class="fab fa-php"></i> <a href="models/Client.html">Client.php</a> <span class="file-badge">Model</span></li>
+                <li><i class="fab fa-php"></i> <a href="models/User.html">User.php</a> <span class="file-badge">Model</span></li>
+            </ul>
+        </section>
+
+        <section class="card">
+            <div class="card-header">
+                <i class="fab fa-js-square"></i>
+                <h2>ملفات الجافاسكربت (JS)</h2>
+            </div>
+            <ul class="file-list">
+                <li><i class="fab fa-js"></i> <a href="assets/js/dashboard.html">dashboard.js</a> <span class="file-badge">Logic</span></li>
+                <li><i class="fab fa-js"></i> <a href="assets/js/pos.html">pos.js</a> <span class="file-badge">Logic</span></li>
+                <li><i class="fab fa-js"></i> <a href="assets/js/theme.html">theme.js</a> <span class="file-badge">UI/UX</span></li>
+                <li><i class="fab fa-js"></i> <a href="assets/js/toast.html">toast.js</a> <span class="file-badge">UI/UX</span></li>
+            </ul>
+        </section>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 تم إنشاء التوثيق الهندسي لـ 7X Pharma Core | مهندس برمجيات</p>
+    </footer>
+</div>
+
+</body>
+</html>

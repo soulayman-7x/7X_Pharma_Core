@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Database Class - 7X Pharma Core</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-dark: #0f172a; --primary-light: #1e293b; --accent-cyan: #06b6d4; --accent-purple: #8b5cf6;
+            --text-main: #334155; --text-light: #64748b; --bg-body: #f8fafc; --bg-card: #ffffff; --border-color: #e2e8f0;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Cairo', sans-serif; }
+        body { background-color: var(--bg-body); color: var(--text-main); line-height: 1.8; }
+        @media print {
+            body { background: #fff; color: #000; font-size: 11pt; }
+            .no-print { display: none !important; }
+            .page-break { page-break-before: always; }
+            .card { border: 1px solid #000; box-shadow: none; break-inside: avoid; margin-bottom: 20px;}
+            header { background: #fff !important; color: #000 !important; border: 1px solid #000; padding: 20px; }
+            header * { color: #000 !important; text-shadow: none !important;}
+        }
+        .container { max-width: 1140px; margin: 0 auto; padding: 20px; }
+        header { background: linear-gradient(135deg, var(--primary-dark), var(--primary-light)); color: white; padding: 30px; border-radius: 12px; margin-bottom: 30px; text-align: center; }
+        header h1 { font-size: 2.5rem; margin-bottom: 10px; }
+        .breadcrumbs { margin-bottom: 20px; padding: 15px; background: var(--bg-card); border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); font-weight: 600; }
+        .breadcrumbs a { color: var(--accent-purple); text-decoration: none; margin-left: 5px; margin-right: 5px;}
+        .breadcrumbs a:hover { text-decoration: underline; }
+        .card { background: var(--bg-card); border-radius: 10px; padding: 30px; margin-bottom: 30px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); border: 1px solid var(--border-color); }
+        .card-header { display: flex; align-items: center; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid var(--bg-body); }
+        .card-header i { font-size: 1.8rem; color: var(--accent-cyan); margin-left: 15px; }
+        .card-header h2 { font-size: 1.6rem; color: var(--primary-dark); }
+        h3 { color: var(--primary-dark); margin: 20px 0 10px 0; font-size: 1.3rem; }
+        p { margin-bottom: 15px; font-size: 1.1rem; text-align: justify; }
+
+        pre { background: var(--primary-dark); color: #f8fafc; padding: 15px; border-radius: 8px; overflow-x: auto; direction: ltr; text-align: left; margin: 15px 0; font-size: 0.95rem;}
+        code { font-family: Consolas, Monaco, monospace; }
+
+        .method-box { background: var(--bg-body); border-right: 4px solid var(--accent-purple); padding: 15px; margin-bottom: 15px; border-radius: 4px; }
+        .method-box h4 { margin-bottom: 5px; color: var(--primary-dark); direction: ltr; text-align: left; font-family: monospace; font-size: 1.1rem;}
+        
+        .badge { display: inline-block; padding: 3px 8px; border-radius: 4px; font-size: 0.85rem; font-weight: bold; margin-left: 5px; }
+        .badge-private { background: #fee2e2; color: #b91c1c; }
+        .badge-public { background: #dcfce7; color: #15803d; }
+
+        .note-box { background: #eff6ff; border-right: 4px solid #3b82f6; padding: 15px; margin: 20px 0; border-radius: 4px 8px 8px 4px; }
+        .error-box { background: #fef2f2; border-right: 4px solid #ef4444; padding: 15px; margin: 20px 0; border-radius: 4px 8px 8px 4px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1><i class="fas fa-server" style="color: var(--accent-cyan);"></i> Database.php</h1>
+        <p>فئة إدارة الاتصال بقواعد البيانات وتتبع الأخطاء</p>
+    </header>
+
+    <div class="breadcrumbs no-print">
+        <a href="../home.html"><i class="fas fa-home"></i> الرئيسية</a> / <span>Config</span> / <span>Database.php</span>
+    </div>
+
+    <section class="card">
+        <div class="card-header">
+            <i class="fas fa-plug"></i>
+            <h2>وصف الملف</h2>
+        </div>
+        <p>
+            ملف <code>Database.php</code> هو المسؤول الحصري عن إنشاء وإدارة الاتصال بخادم <strong>MySQL</strong> باستخدام تقنية <strong>PDO</strong>. تم تصميمه بحيث يقرأ متغيرات البيئة <code>$_ENV</code> إن وجدت، ويوفر آلية قوية للتعامل مع أخطاء الاتصال (Error Handling) وتسجيلها في ملفات (Logs) دون إظهارها للمستخدم النهائي لحماية أمان السيرفر.
+        </p>
+    </section>
+
+    <section class="card page-break">
+        <div class="card-header">
+            <i class="fas fa-cogs"></i>
+            <h2>المتغيرات والدوال (Methods)</h2>
+        </div>
+        
+        <div class="method-box">
+            <h4><span class="badge badge-private">private</span> $conn</h4>
+            <p>متغير يحمل كائن الاتصال بـ PDO. لا يمكن الوصول إليه من خارج الكلاس للحفاظ على التغليف (Encapsulation).</p>
+        </div>
+
+        <div class="method-box">
+            <h4><span class="badge badge-public">public</span> __construct()</h4>
+            <p><strong>طريقة العمل:</strong></p>
+            <ol>
+                <li>يتم استخراج الإعدادات (المضيف، المنفذ، اسم قاعدة البيانات، المستخدم، كلمة المرور) من <code>$_ENV</code> أو استخدام القيم الافتراضية.</li>
+                <li>يتم بناء سلسلة الاتصال (Data Source Name - DSN) وتحديد الترميز <code>charset=utf8mb4</code> لدعم جميع اللغات والرموز التعبيرية.</li>
+                <li><strong>ضبط الخيارات (Options):</strong>
+                    <ul>
+                        <li><code>ATTR_ERRMODE => ERRMODE_EXCEPTION</code>: إجبار PDO على إطلاق استثناءات (Exceptions) عند حدوث أي خطأ برمجي.</li>
+                        <li><code>ATTR_DEFAULT_FETCH_MODE => FETCH_ASSOC</code>: ليكون ناتج الاستعلامات مصفوفة ترابطية (مفتاح وقيمة).</li>
+                        <li><code>ATTR_EMULATE_PREPARES => false</code>: إيقاف المحاكاة ودفع MySQL للقيام بعملية Prepare حقيقية لزيادة الأمان والأداء.</li>
+                    </ul>
+                </li>
+                <li>يتم محاولة الاتصال عبر كتلة <code>try...catch</code>.</li>
+            </ol>
+        </div>
+
+        <div class="method-box">
+            <h4><span class="badge badge-public">public</span> getConnection()</h4>
+            <p><strong>الوظيفة:</strong> تُرجع كائن الاتصال المخزن في <code>$this->conn</code> ليستفيد منه كلاس <code>Model.php</code> وباقي النماذج.</p>
+        </div>
+    </section>
+
+    <section class="card page-break">
+        <div class="card-header">
+            <i class="fas fa-bug"></i>
+            <h2>نظام تتبع ومعالجة الأخطاء (Error Handling)</h2>
+        </div>
+
+        <div class="method-box">
+            <h4><span class="badge badge-private">private</span> logError($e)</h4>
+            <p>عند فشل الاتصال بقاعدة البيانات، يقوم كاتش <code>catch(PDOException $e)</code> بالتقاط الخطأ وتنفيذ الآتي عبر الدالة <code>logError</code>:</p>
+            <ul>
+                <li>التحقق من وجود مجلد <code>logs/</code> في مسار النظام الأصلي (ROOT_DIR).</li>
+                <li>إذا لم يكن موجوداً، يقوم النظام بإنشائه أوتوماتيكياً بصلاحيات <code>0755</code>.</li>
+                <li>تسجيل رسالة الخطأ التقنية، وقت الحدوث، واسم الملف ورقم السطر في ملف <code>db.errors.log</code> بشكل تتابعي (APPEND).</li>
+            </ul>
+        </div>
+
+        <div class="error-box">
+            <h4><i class="fas fa-shield-alt"></i> حماية المستخدم (User Fallback)</h4>
+            <p>
+                بدلاً من عرض خطأ <code>Fatal Error</code> القبيح والذي قد يكشف مسارات السيرفر وكلمات المرور للمتسللين، يقوم الكود باستدعاء واجهة مخصصة للأخطاء <code>views/components/db_error.php</code> لعرض رسالة ودية للمستخدم، وإرسال حالة (HTTP 500 Internal Server Error) لتعرفها محركات البحث والمتصفحات. وإذا فُقد هذا الملف، يقوم بطباعة رسالة نصية بسيطة ثم إيقاف النظام بـ <code>exit()</code>.
+            </p>
+        </div>
+    </section>
+
+</div>
+
+</body>
+</html>

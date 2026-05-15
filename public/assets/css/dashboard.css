@@ -4,7 +4,7 @@
 }
 
 /* ==========================================================================
-   SIDEBAR 
+        SIDEBAR 
    ========================================================================== */
 .sidebar {
     width: 76px;
@@ -188,7 +188,6 @@
     height: 36px;
     border-radius: 50%;
     background-color: rgba(6, 182, 212, 0.15);
-    /* Cyan instead of green */
     color: var(--color-primary);
     display: flex;
     align-items: center;
@@ -224,7 +223,7 @@
 }
 
 /* ==========================================================================
-   MAIN CONTENT AREA (shifts right to accommodate sidebar)
+    MAIN CONTENT AREA
    ========================================================================== */
 .main-content {
     margin-left: 76px;
@@ -236,7 +235,7 @@
 }
 
 /* ==========================================================================
-   TOP NAVBAR
+    TOP NAVBAR
    ========================================================================== */
 .top-navbar {
     height: 60px;
@@ -258,7 +257,7 @@
     gap: var(--space-3);
 }
 
-/* Hamburger for mobile */
+/* mobile menu*/
 .btn-sidebar-toggle {
     display: none;
     background: transparent;
@@ -329,7 +328,7 @@
 }
 
 /* ==========================================================================
-   PAGE BODY
+    PAGE BODY
    ========================================================================== */
 .page-body {
     padding: var(--space-4);
@@ -339,7 +338,7 @@
 }
 
 /* ==========================================================================
-   STATS CARDS GRID
+    STATS CARDS GRID
    ========================================================================== */
 .stats-grid {
     display: grid;
@@ -468,7 +467,7 @@
 }
 
 /* ==========================================================================
-   PANEL (generic card used for chart, tables, alerts)
+    PANEL (generic card used for chart, tables, alerts)
    ========================================================================== */
 .panel {
     background-color: var(--color-bg-secondary);

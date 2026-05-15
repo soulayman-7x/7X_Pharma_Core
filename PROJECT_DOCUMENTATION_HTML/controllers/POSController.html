@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>POS Controller - 7X Pharma Core</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { --primary-dark: #0f172a; --primary-light: #1e293b; --accent-cyan: #06b6d4; --accent-purple: #8b5cf6; --text-main: #334155; --bg-body: #f8fafc; --bg-card: #ffffff; --border-color: #e2e8f0; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Cairo', sans-serif; }
+        body { background-color: var(--bg-body); color: var(--text-main); line-height: 1.8; }
+        @media print { body { background: #fff; color: #000; font-size: 11pt; } .no-print { display: none !important; } .page-break { page-break-before: always; } .card { border: 1px solid #000; box-shadow: none; break-inside: avoid; margin-bottom: 20px;} header { background: #fff !important; color: #000 !important; border: 1px solid #000; padding: 20px; } header * { color: #000 !important; text-shadow: none !important;} }
+        .container { max-width: 1140px; margin: 0 auto; padding: 20px; }
+        header { background: linear-gradient(135deg, var(--primary-dark), var(--primary-light)); color: white; padding: 30px; border-radius: 12px; margin-bottom: 30px; text-align: center; }
+        header h1 { font-size: 2.5rem; margin-bottom: 10px; }
+        .breadcrumbs { margin-bottom: 20px; padding: 15px; background: var(--bg-card); border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); font-weight: 600; }
+        .breadcrumbs a { color: var(--accent-purple); text-decoration: none; margin-left: 5px; margin-right: 5px;}
+        .card { background: var(--bg-card); border-radius: 10px; padding: 30px; margin-bottom: 30px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); border: 1px solid var(--border-color); }
+        .card-header { display: flex; align-items: center; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid var(--bg-body); }
+        .card-header i { font-size: 1.8rem; color: var(--accent-cyan); margin-left: 15px; }
+        .card-header h2 { font-size: 1.6rem; color: var(--primary-dark); }
+        p { margin-bottom: 15px; font-size: 1.1rem; text-align: justify; }
+        .method-box { background: var(--bg-body); border-right: 4px solid var(--accent-purple); padding: 15px; margin-bottom: 15px; border-radius: 4px; }
+        .method-box h4 { margin-bottom: 5px; color: var(--primary-dark); direction: ltr; text-align: left; font-family: monospace; font-size: 1.1rem;}
+        .badge { display: inline-block; padding: 3px 8px; border-radius: 4px; font-size: 0.85rem; font-weight: bold; margin-left: 5px; }
+        .badge-public { background: #dcfce7; color: #15803d; }
+        .note-box { background: #eff6ff; border-right: 4px solid #3b82f6; padding: 15px; margin: 20px 0; border-radius: 4px 8px 8px 4px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1><i class="fas fa-cash-register" style="color: var(--accent-cyan);"></i> POS Controller</h1>
+        <p>المتحكم الخاص بنقاط البيع وإدارة العربة وإتمام الفواتير</p>
+    </header>
+
+    <div class="breadcrumbs no-print">
+        <a href="../home.html"><i class="fas fa-home"></i> الرئيسية</a> / <span>Controllers</span> / <span>POSController.php</span>
+    </div>
+
+    <section class="card">
+        <div class="card-header">
+            <i class="fas fa-info-circle"></i>
+            <h2>وصف المتحكم الأساسي</h2>
+        </div>
+        <p>
+            يُعد <code>POSController</code> أهم وأكبر متحكم في النظام. وهو المسؤول عن شاشة نقطة البيع (Point of Sale). يقوم بإدارة مصفوفة السلة (Cart) داخل جلسة المستخدم <code>$_SESSION['cart']</code> ليسمح للمستخدم بإضافة الأدوية، تغيير الكميات، أو حذفها قبل إتمام عملية البيع (Checkout).
+        </p>
+    </section>
+
+    <section class="card page-break">
+        <div class="card-header">
+            <i class="fas fa-cogs"></i>
+            <h2>الدوال الرئيسية (Methods)</h2>
+        </div>
+
+        <div class="method-box">
+            <h4><span class="badge badge-public">public</span> index()</h4>
+            <p><strong>الوظيفة:</strong> عرض الواجهة الرئيسية لنقطة البيع. تقوم بـ:</p>
+            <ul>
+                <li>استدعاء الأدوية من <code>MedicineModel</code> بناءً على البحث أو الفلتر (قيمة <code>$_GET['q']</code>).</li>
+                <li>حساب المجموع الفرعي (Subtotal) للعناصر الموجودة في <code>$_SESSION['cart']</code>.</li>
+                <li>في حال كان المتغير <code>$_GET['receipt']</code> موجوداً (أي تمت مبيعة للتو)، تقوم بطلب تفاصيل الفاتورة السابقة من الـ Model وعرض الإيصال للطباعة.</li>
+            </ul>
+        </div>
+
+        <div class="method-box">
+            <h4><span class="badge badge-public">public</span> addToCart()</h4>
+            <p><strong>الوظيفة:</strong> إضافة دواء للسلة.</p>
+            <p><strong>منطق العمل:</strong> تتأكد أولاً أن الكمية المتوفرة أكبر من 0. إذا كان الدواء موجوداً مسبقاً في السلة، تزيد الكمية بشرط ألا تتجاوز الكمية القصوى المتوفرة في المخزون (<code>max_stock</code>). وإلا تقوم بإنشاء عنصر جديد داخل مصفوفة <code>$_SESSION['cart']</code> يضم اسم الدواء والسعر والكمية الابتدائية (1).</p>
+        </div>
+
+        <div class="method-box">
+            <h4><span class="badge badge-public">public</span> updateQuantity() / removeFromCart() / clearCart()</h4>
+            <p>مجموعة من الدوال المسؤولة عن إدارة حالة الـ Session الخاصة بالعربة (زيادة/إنقاص كمية، حذف عنصر محدد عبر <code>unset()</code>، أو تصفير السلة بالكامل).</p>
+        </div>
+
+        <div class="method-box">
+            <h4><span class="badge badge-public">public</span> checkout()</h4>
+            <p><strong>أهم دالة تجارية (Checkout Process):</strong></p>
+            <ol>
+                <li>استقبال طريقة الدفع وقيمة الخصم ومعرف العميل.</li>
+                <li>إدراج فاتورة عامة (Header) في جدول <code>sales</code> باستخدام قيمة <code>insert</code>.</li>
+                <li>المرور بحلقة تكرار على عناصر السلة. لكل دواء يتم استدعاء أقدم دفعة متاحة (لتحقيق مبدأ FIFO)، أخذ Snapshot لسعر واسم الدواء وتسجيله كـ Item في <code>sale_items</code>، وخصم الكمية فعلياً من المخزون.</li>
+                <li>إذا كان الدفع بنظام الدين <code>credit</code>، تقوم بإضافة قيمة الفاتورة لحساب العميل عبر <code>addDebt()</code>.</li>
+                <li>تفريغ السلة <code>$_SESSION['cart'] = []</code> وتخزين رقم الفاتورة للطباعة ثم إعادة التوجيه إلى الواجهة لطباعة الفاتورة الوهمية (RX-0000X).</li>
+            </ol>
+        </div>
+    </section>
+
+</div>
+
+</body>
+</html>
