@@ -1,12 +1,13 @@
 <?php 
 class Router {
+    // # default controller => pos
     protected $controller = 'POSController';
     protected $method = 'index';
     protected $params = [];
 
     public function __construct() {
 
-        // 1. Retrieve the link and split it
+        // 1. Retrieve the URL array
         $url = $this->parseUrl();
 
         // 2. Searching for the "controller"
