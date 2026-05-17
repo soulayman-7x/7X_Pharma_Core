@@ -1,9 +1,7 @@
 <?php
-// استخراج الأحرف الأولى للاسم (Avatar)
 $nameParts = explode(' ', $client['name']);
 $initials = strtoupper(mb_substr($nameParts[0], 0, 1) . (isset($nameParts[1]) ? mb_substr($nameParts[1], 0, 1) : ''));
 
-// تحديد حالة العميل
 $balance = floatval($client['credit_balance']);
 $statusClass = $balance > 0 ? 'badge-danger' : 'badge-success';
 $statusText = $balance > 0 ? 'Has Debt' : 'Cleared';
@@ -65,11 +63,6 @@ $statusText = $balance > 0 ? 'Has Debt' : 'Cleared';
                 <a href="<?= BASE_URL ?>/reports/sales" class="nav-item">
                     <i class="fa-solid fa-chart-column fa-fw"></i>
                     <span class="nav-text">Sales Reports</span>
-                </a>
-
-                <a href="<?= BASE_URL ?>/reports/expiry" class="nav-item">
-                    <i class="fa-solid fa-hourglass-half fa-fw"></i>
-                    <span class="nav-text">Expiry Tracker</span>
                 </a>
 
                 <p class="nav-section-label">System</p>
