@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Check for saved theme preference, otherwise default to dark
     const currentTheme = localStorage.getItem('theme') || 'dark';
-    
+
     // Apply the saved theme on load
     if (currentTheme === 'light') {
         htmlElement.setAttribute('data-theme', 'light');
@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (themeToggleBtn) {
         themeToggleBtn.addEventListener('click', () => {
             let targetTheme = 'dark';
-            
+
             if (htmlElement.getAttribute('data-theme') === 'dark') {
                 targetTheme = 'light';
             }
@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function updateIcon(theme) {
         if (!themeIcon) return;
-        
+
         // Font Awesome icons switch based on theme
         if (theme === 'light') {
             // Moon icon for light mode (to switch to dark)
