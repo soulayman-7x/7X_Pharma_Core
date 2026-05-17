@@ -6,7 +6,7 @@ class Controller {
     public function view($view, $data = [] ) {
         // استخراج المصفوفة وتحويل مفاتيحها الى متغيرات
         if (!empty($data)) {
-            extract($data);
+            extract($data); // like : ['users' => $data] = $users
         }
 
         $viewFile = ROOT_DIR . '/views/pages/' . $view .'.php';
@@ -27,15 +27,6 @@ class Controller {
         } else {
             die("Error: Model [{$model}] does not exist.");
         }
-    }
-
-    // 3. Quick Response Function (JSON)
-    public function jsonResponse($data, $statusCode = 200) {
-        http_response_code($statusCode);
-        // hna kan9olo l browser bli data jaya ka JSON
-        header("Content-Type: application/json; charset=utf-8");
-        echo json_encode($data);
-        exit;
     }
 
     // 3. Redirect function
