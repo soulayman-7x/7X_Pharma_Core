@@ -70,10 +70,6 @@ if (!empty($clients)) {
                     <span class="nav-text">Sales Reports</span>
                 </a>
 
-                <a href="<?= BASE_URL ?>/reports/expiry" class="nav-item">
-                    <i class="fa-solid fa-hourglass-half fa-fw"></i>
-                    <span class="nav-text">Expiry Tracker</span>
-                </a>
 
                 <p class="nav-section-label">System</p>
 
