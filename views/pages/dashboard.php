@@ -14,6 +14,7 @@
 
     <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/global.css">
     <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/dashboard.css">
+    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/notifications.css">
 </head>
 
 <body>
@@ -60,10 +61,6 @@
                     <span class="nav-text">Sales Reports</span>
                 </a>
 
-                <a href="<?= BASE_URL ?>/reports/expiry" class="nav-item">
-                    <i class="fa-solid fa-hourglass-half fa-fw"></i>
-                    <span class="nav-text">Expiry Tracker</span>
-                </a>
 
                 <p class="nav-section-label">System</p>
 
@@ -102,10 +99,17 @@
                 </div>
                 <div class="navbar-right">
                     <span class="navbar-clock" id="navbar-clock"></span>
-                    <button class="btn-notification" aria-label="Notifications">
+                    <?php
+                    require_once ROOT_DIR . '/app/models/Notification.php';
+                    $globalNotifModel = new Notification();
+                    $total_nav_alerts = count($globalNotifModel->getLowStockAlerts()) + count($globalNotifModel->getExpiringAlerts());
+                    ?>
+                    <a href="<?= BASE_URL ?>/notification" class="btn-notification" aria-label="Notifications">
                         <i class="fa-regular fa-bell"></i>
-                        <span class="notification-dot"></span>
-                    </button>
+                        <?php if ($total_nav_alerts > 0): ?>
+                            <span class="notification-dot active"></span>
+                        <?php endif; ?>
+                    </a>
                     <button id="theme-toggle" class="btn-icon" aria-label="Toggle Theme">
                         <span id="theme-icon"></span>
                     </button>
