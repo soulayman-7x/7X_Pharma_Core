@@ -14,7 +14,6 @@
 
     <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/global.css">
     <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/dashboard.css">
-    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/notifications.css">
 </head>
 
 <body>
@@ -61,6 +60,10 @@
                     <span class="nav-text">Sales Reports</span>
                 </a>
 
+                <a href="<?= BASE_URL ?>/reports/expiry" class="nav-item">
+                    <i class="fa-solid fa-hourglass-half fa-fw"></i>
+                    <span class="nav-text">Expiry Tracker</span>
+                </a>
 
                 <p class="nav-section-label">System</p>
 
@@ -99,17 +102,10 @@
                 </div>
                 <div class="navbar-right">
                     <span class="navbar-clock" id="navbar-clock"></span>
-                    <?php
-                    require_once ROOT_DIR . '/app/models/Notification.php';
-                    $globalNotifModel = new Notification();
-                    $total_nav_alerts = count($globalNotifModel->getLowStockAlerts()) + count($globalNotifModel->getExpiringAlerts());
-                    ?>
-                    <a href="<?= BASE_URL ?>/notification" class="btn-notification" aria-label="Notifications">
+                    <button class="btn-notification" aria-label="Notifications">
                         <i class="fa-regular fa-bell"></i>
-                        <?php if ($total_nav_alerts > 0): ?>
-                            <span class="notification-dot active"></span>
-                        <?php endif; ?>
-                    </a>
+                        <span class="notification-dot"></span>
+                    </button>
                     <button id="theme-toggle" class="btn-icon" aria-label="Toggle Theme">
                         <span id="theme-icon"></span>
                     </button>
@@ -176,13 +172,11 @@
                                 <i class="fa-solid fa-chart-line"></i>
                                 Weekly Sales Overview
                             </h2>
-                            <div class="panel-actions">
-                                <a href="#" class="btn btn-primary btn-sm">This Week</a>
-                            </div>
                         </div>
                         <div class="panel-body">
-                            <div class="chart-wrapper">
-                                <canvas id="sales-chart" aria-label="Weekly sales bar chart"></canvas>
+                            <div class="chart-placeholder">
+                                <i class="fa-solid fa-chart-column"></i>
+                                <p>Analytics data will be displayed here</p>
                             </div>
                         </div>
                     </div>
@@ -274,7 +268,7 @@
     </div>
 
     <script src="<?= BASE_URL ?>/assets/js/theme.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
     <script src="<?= BASE_URL ?>/assets/js/dashboard.js"></script>
 
 </body>
