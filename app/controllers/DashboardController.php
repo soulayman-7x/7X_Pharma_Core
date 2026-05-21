@@ -1,9 +1,7 @@
 <?php 
 class DashboardController extends Controller {
     public function __construct() {
-        if (!isset($_SESSION['user_id'])) {
-            $this->redirect('auth');
-        }
+        $this->requireRoles(['admin']);
     }
 
     public function index() {
