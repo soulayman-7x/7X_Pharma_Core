@@ -40,10 +40,12 @@ if (!empty($clients)) {
 
             <nav class="sidebar-nav" aria-label="Sidebar navigation">
                 <p class="nav-section-label">Main</p>
-                <a href="<?= BASE_URL ?>/dashboard" class="nav-item " aria-current="page">
-                    <i class="fa-solid fa-table-cells-large fa-fw"></i>
-                    <span class="nav-text">Dashboard</span>
-                </a>
+                <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
+                    <a href="<?= BASE_URL ?>/dashboard" class="nav-item " aria-current="page">
+                        <i class="fa-solid fa-table-cells-large fa-fw"></i>
+                        <span class="nav-text">Dashboard</span>
+                    </a>
+                <?php endif; ?>
 
                 <a href="<?= BASE_URL ?>/pos" class="nav-item">
                     <i class="fa-solid fa-cash-register fa-fw"></i>
@@ -52,22 +54,17 @@ if (!empty($clients)) {
 
                 <p class="nav-section-label">Management</p>
 
-                <a href="<?= BASE_URL ?>/inventory" class="nav-item">
-                    <i class="fa-solid fa-boxes-stacked fa-fw"></i>
-                    <span class="nav-text">Inventory</span>
-                    <span class="nav-badge"><?= $low_stock_count ?? 0 ?></span>
-                </a>
+                <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
+                    <a href="<?= BASE_URL ?>/inventory" class="nav-item">
+                        <i class="fa-solid fa-boxes-stacked fa-fw"></i>
+                        <span class="nav-text">Inventory</span>
+                        <span class="nav-badge"><?= $low_stock_count ?? 0 ?></span>
+                    </a>
+                <?php endif; ?>
 
                 <a href="<?= BASE_URL ?>/credit" class="nav-item active">
                     <i class="fa-solid fa-hand-holding-dollar fa-fw"></i>
                     <span class="nav-text">Client Credit</span>
-                </a>
-
-                <p class="nav-section-label">Reports</p>
-
-                <a href="<?= BASE_URL ?>/reports/sales" class="nav-item">
-                    <i class="fa-solid fa-chart-column fa-fw"></i>
-                    <span class="nav-text">Sales Reports</span>
                 </a>
 
 
