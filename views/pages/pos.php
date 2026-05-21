@@ -33,8 +33,8 @@
                     <button id="theme-toggle" class="btn-icon" aria-label="Toggle Theme">
                         <span id="theme-icon"></span>
                     </button>
-                    <a href="<?= BASE_URL ?>/dashboard" class="btn btn-primary btn-sm">
-                        <i class="fa-solid fa-table-cells-large"></i> Dashboard
+                    <a href="<?= BASE_URL ?>/credit" class="btn btn-primary btn-sm">
+                        <i class="fa-solid fa-table-cells-large"></i> Credit
                     </a>
                 </div>
             </nav>
