@@ -152,7 +152,9 @@
                                     <th>Quantity</th>
                                     <th>Unit Price</th>
                                     <th>Status</th>
+                                    <?php if ($_SESSION['role'] === 'admin'): ?>
                                     <th>Actions</th>
+                                    <?php endif; ?>
                                 </tr>
                             </thead>
                             <tbody>
@@ -195,6 +197,7 @@
                                             </td>
                                             <td class="amount-col"><?= number_format($med['price'], 2) ?> DH</td>
                                             <td><span class="badge <?= $statusClass ?>"><?= $statusText ?></span></td>
+                                            <?php if ($_SESSION['role'] === 'admin'): ?>
                                             <td>
                                                 <button class="btn-table-action btn-edit"><i class="fa-solid fa-pen-to-square"></i> Edit</button>
                                                 <a href="<?= BASE_URL ?>/inventory/delete/<?= $med['id'] ?>"
@@ -204,6 +207,7 @@
                                                     <i class="fa-solid fa-trash-can"></i> Delete
                                                 </a>
                                             </td>
+                                            <?php endif; ?>
                                         </tr>
                                     <?php endforeach; ?>
                                 <?php else: ?>
