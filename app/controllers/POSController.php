@@ -2,9 +2,7 @@
 class POSController extends Controller {
 
     public function __construct() {
-        if (!isset($_SESSION['user_id'])) {
-            $this->redirect('auth');
-        }
+        $this->requireRoles(['admin', 'pharmacist']);
 
         if (!isset($_SESSION['cart'])) {
             $_SESSION['cart'] = [];
