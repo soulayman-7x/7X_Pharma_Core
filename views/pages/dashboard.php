@@ -30,23 +30,25 @@
 
             <nav class="sidebar-nav" aria-label="Sidebar navigation">
                 <p class="nav-section-label">Main</p>
-                <a href="<?= BASE_URL ?>/dashboard" class="nav-item active" aria-current="page">
-                    <i class="fa-solid fa-table-cells-large fa-fw"></i>
-                    <span class="nav-text">Dashboard</span>
-                </a>
-
+                <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
+                    <a href="<?= BASE_URL ?>/dashboard" class="nav-item active" aria-current="page">
+                        <i class="fa-solid fa-table-cells-large fa-fw"></i>
+                        <span class="nav-text">Dashboard</span>
+                    </a>
+                <?php endif; ?>
                 <a href="<?= BASE_URL ?>/pos" class="nav-item">
                     <i class="fa-solid fa-cash-register fa-fw"></i>
                     <span class="nav-text">Point of Sale</span>
                 </a>
 
                 <p class="nav-section-label">Management</p>
-
-                <a href="<?= BASE_URL ?>/inventory" class="nav-item">
-                    <i class="fa-solid fa-boxes-stacked fa-fw"></i>
-                    <span class="nav-text">Inventory</span>
-                    <span class="nav-badge"><?= $low_stock_count ?? 0 ?></span>
-                </a>
+                <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
+                    <a href="<?= BASE_URL ?>/inventory" class="nav-item">
+                        <i class="fa-solid fa-boxes-stacked fa-fw"></i>
+                        <span class="nav-text">Inventory</span>
+                        <span class="nav-badge"><?= $low_stock_count ?? 0 ?></span>
+                    </a>
+                <?php endif; ?>
 
                 <a href="<?= BASE_URL ?>/credit" class="nav-item">
                     <i class="fa-solid fa-hand-holding-dollar fa-fw"></i>
@@ -55,22 +57,18 @@
 
                 <p class="nav-section-label">Reports</p>
 
-                <a href="<?= BASE_URL ?>/reports/sales" class="nav-item">
-                    <i class="fa-solid fa-chart-column fa-fw"></i>
-                    <span class="nav-text">Sales Reports</span>
-                </a>
-
-                <a href="<?= BASE_URL ?>/reports/expiry" class="nav-item">
+                <!-- 
+                <a href="" class="nav-item">
                     <i class="fa-solid fa-hourglass-half fa-fw"></i>
                     <span class="nav-text">Expiry Tracker</span>
-                </a>
+                </a> -->
 
                 <p class="nav-section-label">System</p>
 
-                <a href="<?= BASE_URL ?>/settings" class="nav-item">
+                <!-- <a href="" class="nav-item">
                     <i class="fa-solid fa-gear fa-fw"></i>
                     <span class="nav-text">Settings</span>
-                </a>
+                </a> -->
 
                 <a href="<?= BASE_URL ?>/auth/logout" class="nav-item" style="color: var(--color-danger);">
                     <i class="fa-solid fa-arrow-right-from-bracket fa-fw"></i>
