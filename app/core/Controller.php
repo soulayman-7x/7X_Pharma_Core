@@ -1,6 +1,16 @@
 <?php
 
 class Controller {
+    public function requireRoles($allowedRoles = []) {
+        if (!isset($_SESSION['user_id'])) {
+            $this->redirect('auth');
+        }
+        if (!empty($allowedRoles)) {
+            if (!in_array($_SESSION['role'], $allowedRoles)){
+                $this->redirect('pos');
+            }
+        }
+    }
     // 1. Interface display function (view)
 
     public function view($view, $data = [] ) {
