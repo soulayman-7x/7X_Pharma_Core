@@ -91,8 +91,11 @@ INSERT INTO `clients` (`id`, `name`, `phone`, `credit_balance`, `created_at`) VA
 
 CREATE TABLE `client_payments` (
   `id` bigint(20) NOT NULL,
+  `type` enum('payment','debt') NOT NULL DEFAULT 'payment',
   `client_id` int(11) NOT NULL,
   `amount` decimal(12,2) NOT NULL,
+  `payment_method` enum('cash','card','cheque','transfer','credit') NOT NULL DEFAULT 'cash',
+  `note` text DEFAULT NULL,
   `user_id` int(11) NOT NULL,
   `payment_date` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
