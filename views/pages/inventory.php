@@ -51,19 +51,7 @@
                     <span class="nav-text">Client Credit</span>
                 </a>
 
-                <p class="nav-section-label">Reports</p>
-
-                <a href="<?= BASE_URL ?>/reports/sales" class="nav-item">
-                    <i class="fa-solid fa-chart-column fa-fw"></i>
-                    <span class="nav-text">Sales Reports</span>
-                </a>
-
                 <p class="nav-section-label">System</p>
-
-                <a href="<?= BASE_URL ?>/settings" class="nav-item">
-                    <i class="fa-solid fa-gear fa-fw"></i>
-                    <span class="nav-text">Settings</span>
-                </a>
 
                 <a href="<?= BASE_URL ?>/auth/logout" class="nav-item" style="color: var(--color-danger);">
                     <i class="fa-solid fa-arrow-right-from-bracket fa-fw"></i>

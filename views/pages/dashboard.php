@@ -57,19 +57,6 @@
 
                 <p class="nav-section-label">Reports</p>
 
-                <!-- 
-                <a href="" class="nav-item">
-                    <i class="fa-solid fa-hourglass-half fa-fw"></i>
-                    <span class="nav-text">Expiry Tracker</span>
-                </a> -->
-
-                <p class="nav-section-label">System</p>
-
-                <!-- <a href="" class="nav-item">
-                    <i class="fa-solid fa-gear fa-fw"></i>
-                    <span class="nav-text">Settings</span>
-                </a> -->
-
                 <a href="<?= BASE_URL ?>/auth/logout" class="nav-item" style="color: var(--color-danger);">
                     <i class="fa-solid fa-arrow-right-from-bracket fa-fw"></i>
                     <span class="nav-text">Logout</span>
@@ -100,10 +87,10 @@
                 </div>
                 <div class="navbar-right">
                     <span class="navbar-clock" id="navbar-clock"></span>
-                    <button class="btn-notification" aria-label="Notifications">
+                    <a href="<?= BASE_URL ?>/notification" class="btn-notification" aria-label="Notifications">
                         <i class="fa-regular fa-bell"></i>
-                        <span class="notification-dot"></span>
-                    </button>
+                            <span class="notification-dot active"></span>
+                    </a>
                     <button id="theme-toggle" class="btn-icon" aria-label="Toggle Theme">
                         <span id="theme-icon"></span>
                     </button>

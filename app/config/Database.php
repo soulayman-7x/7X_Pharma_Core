@@ -5,11 +5,11 @@ class Database {
     private $conn;
 
     public function __construct() {
-        $host = $_ENV['DB_HOST'] ?? '127.0.0.1';
-        $port = $_ENV['DB_PORT'] ?? '3306';
-        $db_name = $_ENV['DB_NAME'] ?? 'pharma_core';
-        $username = $_ENV['DB_USER'] ?? 'root';
-        $password = $_ENV['DB_PASS'] ?? '';
+        $host = '127.0.0.1';
+        $port = '3306'; 
+        $db_name = 'pharma_core';
+        $username = 'root';
+        $password = '';
 
         try {
             $dsn = "mysql:host={$host};port={$port};dbname={$db_name};charset=utf8mb4";
