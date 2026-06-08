@@ -167,18 +167,31 @@ $statusText = $balance > 0 ? 'Has Debt' : 'Cleared';
                                     </tr>
                                 <?php else: ?>
                                     <?php foreach ($transactions as $index => $tx): ?>
-                                        <tr class="row-payment">
+                                        <?php $isDebt = ($tx['type'] ?? 'payment') === 'debt'; ?>
+                                        <tr class="<?= $isDebt ? 'row-debt' : 'row-payment' ?>">
                                             <td style="color:var(--color-text-secondary);"><?= $index + 1 ?></td>
                                             <td>
                                                 <div class="tx-date"><?= date('d M Y', strtotime($tx['payment_date'])) ?></div>
                                                 <div class="tx-time"><?= date('H:i', strtotime($tx['payment_date'])) ?></div>
                                             </td>
                                             <td>
-                                                <span class="tx-type-badge payment">
-                                                    <i class="fa-solid fa-arrow-down"></i> Payment
-                                                </span>
+                                                <?php if ($isDebt): ?>
+                                                    <span class="tx-type-badge debt">
+                                                        <i class="fa-solid fa-arrow-up"></i> Credit
+                                                    </span>
+                                                <?php else: ?>
+                                                    <span class="tx-type-badge payment">
+                                                        <i class="fa-solid fa-arrow-down"></i> Payment
+                                                    </span>
+                                                <?php endif; ?>
                                             </td>
-                                            <td><span class="tx-amount credit">- <?= number_format($tx['amount'], 2) ?></span></td>
+                                            <td>
+                                                <?php if ($isDebt): ?>
+                                                    <span class="tx-amount debit">+ <?= number_format($tx['amount'], 2) ?></span>
+                                                <?php else: ?>
+                                                    <span class="tx-amount credit">- <?= number_format($tx['amount'], 2) ?></span>
+                                                <?php endif; ?>
+                                            </td>
                                             <td>
                                                 <?php
                                                 // 🌟 موزع الأيقونات (Icon Dispatcher)
@@ -193,6 +206,8 @@ $statusText = $balance > 0 ? 'Has Debt' : 'Cleared';
                                                     $icon = 'fa-money-check-dollar';
                                                 } elseif ($method === 'transfer') {
                                                     $icon = 'fa-building-columns';
+                                                } elseif ($method === 'credit') {
+                                                    $icon = 'fa-file-invoice-dollar';
                                                 }
                                                 ?>
                                                 <span class="ch-method <?= $method ?>">
