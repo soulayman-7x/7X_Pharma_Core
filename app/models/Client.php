@@ -7,7 +7,7 @@ class Client extends Model {
         $stmt1 = $this->query($sql1, [$amount, $clientId]);
 
         if ($stmt1->rowCount() > 0) {
-            $sql2 = "INSERT INTO client_payments (client_id, amount, payment_method, note, user_id, payment_date) VALUES (?, ?, ?, ?, ?, NOW())";
+            $sql2 = "INSERT INTO client_payments (type, client_id, amount, payment_method, note, user_id, payment_date) VALUES ('payment', ?, ?, ?, ?, ?, NOW())";
             $this->query($sql2, [$clientId, $amount, $method, $note, $userId]);
             return true;
         }
@@ -25,11 +25,19 @@ class Client extends Model {
         return $result['total_unpaid'];
     }
 
-    public function addDebt($clientId, $amount) {
+    public function addDebt($clientId, $amount, $userId = null, $note = null) {
         $sql = "UPDATE {$this->table} SET credit_balance = credit_balance + ? WHERE id = ?";
         $stmt = $this->query($sql, [$amount, $clientId]);
         
-        return $stmt->rowCount() > 0;
+        if ($stmt->rowCount() > 0) {
+            // Record the debt entry in transaction history
+            $uid = $userId ?? ($_SESSION['user_id'] ?? null);
+            $sql2 = "INSERT INTO client_payments (type, client_id, amount, payment_method, note, user_id, payment_date) VALUES ('debt', ?, ?, 'credit', ?, ?, NOW())";
+            $this->query($sql2, [$clientId, $amount, $note, $uid]);
+            return true;
+        }
+        
+        return false;
     }
 
     public function getAll() {
