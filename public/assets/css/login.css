@@ -1,13 +1,13 @@
-/* login.css — 7X Brand Colors */
-.login-container {
+﻿.login-container {
     min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
     padding: var(--space-3);
     background-image:
-        radial-gradient(circle at top right, rgba(0, 114, 255, 0.06), transparent 40%),
-        radial-gradient(circle at bottom left, rgba(106, 13, 173, 0.06), transparent 40%);
+        radial-gradient(ellipse at top right, rgba(108, 63, 214, 0.12), transparent 40%),
+        radial-gradient(ellipse at bottom left, rgba(129, 140, 248, 0.08), transparent 40%);
+    background-color: var(--color-bg-primary);
 }
 
 .login-card {
@@ -31,11 +31,11 @@
     justify-content: center;
     width: 68px;
     height: 68px;
-    background: linear-gradient(135deg, rgba(0, 114, 255, 0.15), rgba(106, 13, 173, 0.15));
+    background: linear-gradient(135deg, rgba(108, 63, 214, 0.15), rgba(129, 140, 248, 0.15));
     border-radius: 50%;
     margin-bottom: var(--space-3);
     color: var(--color-primary);
-    border: 1px solid rgba(0, 114, 255, 0.2);
+    border: 1px solid rgba(108, 63, 214, 0.2);
 }
 
 .logo-wrapper img {

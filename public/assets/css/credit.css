@@ -1,28 +1,27 @@
-.badge-success {
-    background-color: rgba(0, 114, 255, 0.15) !important; 
+﻿.badge-success {
+    background-color: rgba(108, 63, 214, 0.15) !important;
     color: var(--color-primary) !important;
-    border: 1px solid rgba(0, 114, 255, 0.3);
+    border: 1px solid rgba(108, 63, 214, 0.3);
 }
 
 .badge-warning {
-    background-color: rgba(106, 13, 173, 0.15) !important; 
+    background-color: rgba(129, 140, 248, 0.15) !important;
     color: var(--color-accent) !important;
-    border: 1px solid rgba(106, 13, 173, 0.3);
+    border: 1px solid rgba(129, 140, 248, 0.3);
 }
 
 .debt-amount.low {
-    color: var(--color-primary) !important; 
+    color: var(--color-primary) !important;
 }
 
 .debt-amount.medium {
-    color: var(--color-accent) !important; 
+    color: var(--color-accent) !important;
 }
 
 .debt-amount.high {
-    color: var(--color-danger) !important; 
+    color: var(--color-danger) !important;
 }
 
-/* SUMMARY CARDS  */
 .credit-stats {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -31,10 +30,10 @@
 }
 
 .credit-stat-card {
-    background-color: rgba(17, 24, 39, 0.6); /* Transparent for glass effect */
+    background-color: var(--color-bg-secondary);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(0, 114, 255, 0.15); 
+    border: 1px solid rgba(108, 63, 214, 0.15);
     border-radius: var(--border-radius-lg);
     padding: var(--space-4);
     display: flex;
@@ -45,13 +44,12 @@
     overflow: hidden;
 }
 
-/* Glowing side line */
 .credit-stat-card::before {
     content: '';
     position: absolute;
-    top: 0; 
-    left: 0; 
-    width: 3px; 
+    top: 0;
+    left: 0;
+    width: 3px;
     height: 100%;
     background: linear-gradient(180deg, var(--color-primary), var(--color-accent));
 }
@@ -59,7 +57,7 @@
 .credit-stat-card:hover {
     transform: translateY(-4px);
     border-color: var(--color-primary);
-    box-shadow: 0 8px 25px -5px rgba(0, 114, 255, 0.2);
+    box-shadow: 0 8px 25px -5px rgba(108, 63, 214, 0.2);
 }
 
 .credit-stat-icon {
@@ -75,15 +73,15 @@
 }
 
 .credit-stat-icon.blue {
-    background-color: rgba(0, 114, 255, 0.12);
+    background-color: rgba(108, 63, 214, 0.12);
     color: var(--color-primary);
-    box-shadow: 0 0 15px rgba(0, 114, 255, 0.2);
+    box-shadow: 0 0 15px rgba(108, 63, 214, 0.2);
 }
 
 .credit-stat-icon.purple {
-    background-color: rgba(106, 13, 173, 0.12);
+    background-color: rgba(129, 140, 248, 0.12);
     color: var(--color-accent);
-    box-shadow: 0 0 15px rgba(106, 13, 173, 0.2);
+    box-shadow: 0 0 15px rgba(129, 140, 248, 0.2);
 }
 
 .credit-stat-icon.red {
@@ -108,7 +106,6 @@
     text-transform: uppercase;
 }
 
-/*  FILTER BAR */
 .credit-filter-bar {
     display: flex;
     align-items: center;
@@ -136,7 +133,7 @@
 .credit-filter-bar input[type="search"] {
     width: 100%;
     padding: 0.625rem 1rem 0.625rem 2.75rem;
-    background-color: rgba(11, 15, 25, 0.6);
+    background-color: var(--color-bg-primary);
     border: 1px solid var(--color-border);
     border-radius: var(--border-radius-md);
     color: var(--color-text-primary);
@@ -148,8 +145,8 @@
 .credit-filter-bar input[type="search"]:focus {
     outline: none;
     border-color: var(--color-primary);
-    box-shadow: 0 0 0 3px rgba(0, 114, 255, 0.15);
-    background-color: rgba(11, 15, 25, 0.9);
+    box-shadow: 0 0 0 3px rgba(108, 63, 214, 0.15);
+    background-color: var(--color-bg-secondary);
 }
 
 .credit-filter-bar input[type="search"]:focus + i,
@@ -157,7 +154,6 @@
     color: var(--color-primary);
 }
 
-/* TABLE BUTTONS */
 .debt-amount {
     font-weight: 700;
     font-size: 0.95rem;
@@ -168,7 +164,7 @@
     font-size: 0.75rem;
     font-weight: 600;
     border-radius: var(--border-radius-sm);
-    background: linear-gradient(135deg, rgba(0, 114, 255, 0.1), rgba(106, 13, 173, 0.1));
+    background: linear-gradient(135deg, rgba(108, 63, 214, 0.1), rgba(129, 140, 248, 0.1));
     color: var(--color-primary);
     border: 1px solid var(--color-primary);
     cursor: pointer;
@@ -185,7 +181,7 @@
     background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
     color: #fff;
     border-color: transparent;
-    box-shadow: 0 4px 15px rgba(0, 114, 255, 0.3);
+    box-shadow: 0 4px 15px rgba(108, 63, 214, 0.3);
     transform: translateY(-1px);
 }
 
@@ -194,7 +190,7 @@
     font-size: 0.75rem;
     border-radius: var(--border-radius-sm);
     border: 1px solid var(--color-border);
-    background: rgba(255, 255, 255, 0.02);
+    background: transparent;
     color: var(--color-text-secondary);
     cursor: pointer;
     font-family: var(--font-family);
@@ -207,10 +203,9 @@
 .btn-table-action:hover {
     border-color: var(--color-accent);
     color: var(--color-accent);
-    background: rgba(106, 13, 173, 0.05);
+    background: rgba(129, 140, 248, 0.05);
 }
 
-/* MODALS (Payment & Add Client) */
 .pay-modal-body {
     padding: var(--space-4);
     display: flex;
@@ -219,15 +214,15 @@
 }
 
 .pay-modal-client-info {
-    background: linear-gradient(145deg, rgba(11, 15, 25, 0.8), rgba(17, 24, 39, 0.8));
-    border: 1px solid rgba(0, 114, 255, 0.2);
+    background: var(--color-bg-primary);
+    border: 1px solid rgba(108, 63, 214, 0.2);
     border-left: 3px solid var(--color-primary);
     border-radius: var(--border-radius-md);
     padding: var(--space-3);
     display: flex;
     flex-direction: column;
     gap: 4px;
-    box-shadow: inset 0 0 20px rgba(0, 114, 255, 0.02);
+    box-shadow: inset 0 0 20px rgba(108, 63, 214, 0.02);
 }
 
 .pay-modal-client-info .client-name-lg {
@@ -243,23 +238,43 @@
     letter-spacing: 0.5px;
 }
 
-/* LOBAL ELEMENT OVERRIDES WITHIN CREDIT PAGE */
 .panel {
-    background-color: rgba(17, 24, 39, 0.6) !important;
+    background-color: var(--color-bg-secondary) !important;
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(0, 114, 255, 0.15) !important;
+    border: 1px solid rgba(108, 63, 214, 0.15) !important;
+}
+
+[data-theme="light"] .panel {
+    background-color: #FFFFFF !important;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    border-color: var(--color-border) !important;
 }
 
 .modal-box {
-    background-color: rgba(17, 24, 39, 0.85) !important;
+    background-color: var(--color-bg-secondary) !important;
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(0, 114, 255, 0.2) !important;
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(0, 114, 255, 0.1) !important;
+    border: 1px solid rgba(108, 63, 214, 0.2) !important;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(108, 63, 214, 0.1) !important;
 }
 
-/* 7. RESPONSIVE */
+[data-theme="light"] .modal-box {
+    background-color: #FFFFFF !important;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    box-shadow: 0 10px 40px rgba(108, 63, 214, 0.12), 0 2px 8px rgba(0, 0, 0, 0.08) !important;
+    border-color: rgba(108, 63, 214, 0.15) !important;
+}
+
+[data-theme="light"] .credit-stat-card {
+    background-color: #FFFFFF;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    box-shadow: 0 2px 8px rgba(108, 63, 214, 0.08);
+}
+
 @media (max-width: 768px) {
     .credit-stats {
         grid-template-columns: 1fr;
