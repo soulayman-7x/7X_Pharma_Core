@@ -154,7 +154,7 @@ CREATE TABLE `medicines` (
   `category` varchar(100) DEFAULT 'General',
   `price` decimal(10,2) NOT NULL,
   `cost_price` decimal(10,2) NOT NULL,
-  `is_tableau_b` tinyint(1) DEFAULT 0,
+
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -163,22 +163,22 @@ CREATE TABLE `medicines` (
 -- Dumping data for table `medicines`
 --
 
-INSERT INTO `medicines` (`id`, `barcode`, `name`, `dci`, `category`, `price`, `cost_price`, `is_tableau_b`, `created_at`, `deleted_at`) VALUES
-(1, '6111234567001', 'Doliprane 1000mg', 'Paracetamol', 'analgesic', 15.00, 9.80, 0, '2026-05-06 15:45:17', NULL),
-(2, '6111234567002', 'Augmentin 1g/125mg', 'Amoxicilline + Acide Clavulanique', 'antibiotic', 79.00, 52.50, 0, '2026-05-06 15:45:17', NULL),
-(3, '6111234567003', 'Lexomil 6mg', 'Bromazepam', 'General', 38.50, 25.00, 1, '2026-05-06 15:45:17', NULL),
-(4, '6111234567004', 'Spasfon 80mg', 'Phloroglucinol', 'general', 24.00, 16.00, 0, '2026-05-06 15:45:17', NULL),
-(5, '6111234567005', 'Smecta 3g', 'Diosmectite', 'general', 35.00, 23.50, 0, '2026-05-06 15:45:17', NULL),
-(6, '6111234567006', 'Levothyrox 50µg', 'Levothyroxine', 'Viramins', 18.00, 11.50, 0, '2026-05-06 15:45:17', '2026-05-09 09:33:40'),
-(7, '6111234567007', 'Voltaren 50mg', 'Diclofenac', 'analgesic', 42.00, 28.00, 0, '2026-05-06 15:45:17', NULL),
-(8, '6111234567008', 'Aspegic 1000mg', 'Acide Acetylsalicylique', 'analgesic', 22.00, 14.50, 0, '2026-05-06 15:45:17', NULL),
-(9, '6111234567009', 'Rhinocort 64µg', 'Budesonide', 'General', 65.00, 43.00, 0, '2026-05-06 15:45:17', NULL),
-(10, '6111234567010', 'Zyrtec 10mg', 'Cetirizine', 'General', 45.00, 30.00, 0, '2026-05-06 15:45:17', NULL),
-(11, '45678906', 'new', '500', 'vitamin', 100.00, 0.00, 0, '2026-05-09 08:45:13', NULL),
-(12, '4567890644', 'جديد', '500', 'cardiac', 200.00, 0.00, 0, '2026-05-09 08:59:41', NULL),
-(14, '45678906443', 'بميمم', '89', 'vitamin', 200.00, 0.00, 0, '2026-05-09 09:04:07', NULL),
-(15, 'يسبسش', 'يسب', '500', 'analgesic', 77.00, 0.00, 0, '2026-05-09 09:09:52', '2026-05-09 09:18:17'),
-(16, 'يسشبسش', 'سيبسيشب', '333', 'derma', 333.00, 0.00, 0, '2026-05-09 09:34:06', '2026-05-09 09:34:16');
+INSERT INTO `medicines` (`id`, `barcode`, `name`, `dci`, `category`, `price`, `cost_price`, `created_at`, `deleted_at`) VALUES
+(1, '6111234567001', 'Doliprane 1000mg', 'Paracetamol', 'analgesic', 15.00, 9.80, '2026-05-06 15:45:17', NULL),
+(2, '6111234567002', 'Augmentin 1g/125mg', 'Amoxicilline + Acide Clavulanique', 'antibiotic', 79.00, 52.50, '2026-05-06 15:45:17', NULL),
+(3, '6111234567003', 'Lexomil 6mg', 'Bromazepam', 'General', 38.50, 25.00, '2026-05-06 15:45:17', NULL),
+(4, '6111234567004', 'Spasfon 80mg', 'Phloroglucinol', 'general', 24.00, 16.00, '2026-05-06 15:45:17', NULL),
+(5, '6111234567005', 'Smecta 3g', 'Diosmectite', 'general', 35.00, 23.50, '2026-05-06 15:45:17', NULL),
+(6, '6111234567006', 'Levothyrox 50µg', 'Levothyroxine', 'Viramins', 18.00, 11.50, '2026-05-06 15:45:17', '2026-05-09 09:33:40'),
+(7, '6111234567007', 'Voltaren 50mg', 'Diclofenac', 'analgesic', 42.00, 28.00, '2026-05-06 15:45:17', NULL),
+(8, '6111234567008', 'Aspegic 1000mg', 'Acide Acetylsalicylique', 'analgesic', 22.00, 14.50, '2026-05-06 15:45:17', NULL),
+(9, '6111234567009', 'Rhinocort 64µg', 'Budesonide', 'General', 65.00, 43.00, '2026-05-06 15:45:17', NULL),
+(10, '6111234567010', 'Zyrtec 10mg', 'Cetirizine', 'General', 45.00, 30.00, '2026-05-06 15:45:17', NULL),
+(11, '45678906', 'new', '500', 'vitamin', 100.00, 0.00, '2026-05-09 08:45:13', NULL),
+(12, '4567890644', 'جديد', '500', 'cardiac', 200.00, 0.00, '2026-05-09 08:59:41', NULL),
+(14, '45678906443', 'بميمم', '89', 'vitamin', 200.00, 0.00, '2026-05-09 09:04:07', NULL),
+(15, 'يسبسش', 'يسب', '500', 'analgesic', 77.00, 0.00, '2026-05-09 09:09:52', '2026-05-09 09:18:17'),
+(16, 'يسشبسش', 'سيبسيشب', '333', 'derma', 333.00, 0.00, '2026-05-09 09:34:06', '2026-05-09 09:34:16');
 
 -- --------------------------------------------------------
 
