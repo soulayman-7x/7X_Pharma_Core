@@ -1,57 +1,220 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>index.php - 7X Pharma Core</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        :root { --primary-dark: #0f172a; --primary-light: #1e293b; --accent-cyan: #06b6d4; --accent-purple: #8b5cf6; --text-main: #334155; --bg-body: #f8fafc; --bg-card: #ffffff; --border-color: #e2e8f0; }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Cairo', sans-serif; }
-        body { background-color: var(--bg-body); color: var(--text-main); line-height: 1.8; }
-        @media print { body { background: #fff; color: #000; font-size: 11pt; } .no-print { display: none !important; } .card { border: 1px solid #000; box-shadow: none; break-inside: avoid; margin-bottom: 20px;} header { background: #fff !important; color: #000 !important; border: 1px solid #000; padding: 20px; } header * { color: #000 !important; text-shadow: none !important;} }
-        .container { max-width: 1140px; margin: 0 auto; padding: 20px; }
-        header { background: linear-gradient(135deg, var(--primary-dark), var(--primary-light)); color: white; padding: 30px; border-radius: 12px; margin-bottom: 30px; text-align: center; }
-        header h1 { font-size: 2.5rem; margin-bottom: 10px; }
-        .breadcrumbs { margin-bottom: 20px; padding: 15px; background: var(--bg-card); border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); font-weight: 600; }
-        .breadcrumbs a { color: var(--accent-purple); text-decoration: none; margin-left: 5px; margin-right: 5px;}
-        .card { background: var(--bg-card); border-radius: 10px; padding: 30px; margin-bottom: 30px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); border: 1px solid var(--border-color); }
-        .card-header { display: flex; align-items: center; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid var(--bg-body); }
-        .card-header i { font-size: 1.8rem; color: var(--accent-cyan); margin-left: 15px; }
-        .card-header h2 { font-size: 1.6rem; color: var(--primary-dark); }
-        p { margin-bottom: 15px; font-size: 1.1rem; text-align: justify; }
-        .method-box { background: var(--bg-body); border-right: 4px solid var(--accent-purple); padding: 15px; margin-bottom: 15px; border-radius: 4px; }
-        .method-box h4 { margin-bottom: 5px; color: var(--primary-dark); direction: ltr; text-align: left; font-family: monospace; font-size: 1.1rem;}
-        .badge { display: inline-block; padding: 3px 8px; border-radius: 4px; font-size: 0.85rem; font-weight: bold; margin-left: 5px; }
-        .badge-core { background: #fef3c7; color: #b45309; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>index.php + .htaccess — توثيق 7X Pharma Core</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Fira+Code:wght@400;500&display=swap');
+  :root { --bg:#0d1117;--surface:#161b22;--surface2:#1f2937;--border:#30363d;--accent:#f87171;--text:#e6edf3;--text2:#8b949e;--text3:#c9d1d9;--green:#3fb950;--yellow:#f0c842;--blue:#58a6ff;--purple:#d2a8ff; }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Cairo',sans-serif;background:var(--bg);color:var(--text);line-height:1.7}
+  .topbar{background:var(--surface);border-bottom:1px solid var(--border);padding:1rem 2rem;display:flex;align-items:center;gap:1rem}
+  .back-btn{text-decoration:none;color:var(--accent);font-weight:600;display:flex;align-items:center;gap:0.4rem;padding:0.4rem 1rem;border:1px solid var(--accent);border-radius:8px;transition:all 0.2s;font-size:0.9rem}
+  .back-btn:hover{background:rgba(248,113,113,0.1)}
+  .breadcrumb{color:var(--text2);font-size:0.9rem}
+  .hero{background:linear-gradient(135deg,#1a1520,#0d1117);border-bottom:1px solid var(--border);padding:2.5rem 2rem}
+  .hero-content{max-width:900px;margin:0 auto}
+  .file-badge{display:inline-flex;align-items:center;gap:0.5rem;background:rgba(248,113,113,0.1);border:1px solid rgba(248,113,113,0.3);color:var(--accent);padding:0.4rem 1rem;border-radius:100px;font-size:0.85rem;margin-bottom:1rem}
+  h1{font-size:2.2rem;font-weight:900;margin-bottom:0.5rem}
+  .hero-desc{color:var(--text3);font-size:1.05rem;max-width:700px}
+  .meta-row{display:flex;flex-wrap:wrap;gap:1rem;margin-top:1.5rem}
+  .meta-item{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:0.5rem 1rem;font-size:0.85rem;color:var(--text2)}
+  .meta-item strong{color:var(--text3)}
+  .container{max-width:900px;margin:2rem auto;padding:0 2rem}
+  .section{background:var(--surface);border:1px solid var(--border);border-radius:14px;margin-bottom:1.5rem;overflow:hidden}
+  .section-head{padding:1rem 1.5rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:0.8rem;background:var(--surface2)}
+  .section-head h2{font-size:1.1rem;font-weight:700}
+  .section-body{padding:1.5rem}
+  .code-block{background:#010409;border:1px solid var(--border);border-radius:10px;padding:1.2rem 1.5rem;font-family:'Fira Code',monospace;font-size:0.85rem;overflow-x:auto;margin:0.8rem 0;line-height:1.8}
+  .line{display:flex;gap:1rem}
+  .ln{color:#3d4451;min-width:28px;user-select:none;text-align:right}
+  .kw{color:#ff7b72}
+  .fn{color:#d2a8ff}
+  .str{color:#a5d6ff}
+  .cm{color:#8b949e;font-style:italic}
+  .var{color:#ffa657}
+  .num{color:#79c0ff}
+  .op{color:#ff7b72}
+  .plain{color:#e6edf3}
+  .explain-box{background:rgba(88,166,255,0.05);border:1px solid rgba(88,166,255,0.2);border-radius:10px;padding:1.2rem 1.5rem;margin:0.8rem 0}
+  .explain-box h4{color:var(--blue);margin-bottom:0.5rem;font-size:0.95rem}
+  .explain-box p,.explain-box li{color:var(--text3);font-size:0.9rem;margin-bottom:0.3rem}
+  .explain-box ul{padding-right:1.2rem}
+  .warn-box{background:rgba(240,200,66,0.07);border:1px solid rgba(240,200,66,0.25);border-radius:10px;padding:1rem 1.5rem;margin:0.8rem 0}
+  .warn-box h4{color:var(--yellow);margin-bottom:0.4rem}
+  .warn-box p{color:var(--text3);font-size:0.9rem}
+  .success-box{background:rgba(63,185,80,0.07);border:1px solid rgba(63,185,80,0.25);border-radius:10px;padding:1rem 1.5rem;margin:0.8rem 0}
+  .success-box h4{color:var(--green);margin-bottom:0.4rem}
+  .success-box p,.success-box li{color:var(--text3);font-size:0.9rem}
+  .success-box ul{padding-right:1.2rem}
+  .flow{display:flex;flex-direction:column;gap:0.5rem;margin:1rem 0}
+  .flow-step{display:flex;align-items:flex-start;gap:1rem;padding:0.8rem 1rem;background:var(--surface2);border-radius:8px;border-right:3px solid var(--accent)}
+  .flow-num{background:var(--accent);color:white;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.8rem;font-weight:700;flex-shrink:0}
+  .flow-text{font-size:0.9rem;color:var(--text3)}
+  .flow-text strong{color:var(--text)}
+  table{width:100%;border-collapse:collapse;font-size:0.9rem}
+  th{background:var(--surface2);padding:0.7rem 1rem;text-align:right;color:var(--text2);font-weight:600;border:1px solid var(--border)}
+  td{padding:0.7rem 1rem;border:1px solid var(--border);color:var(--text3)}
+  tr:hover td{background:rgba(255,255,255,0.02)}
+  .tag{display:inline-block;padding:0.2rem 0.6rem;border-radius:100px;font-size:0.75rem;font-weight:600}
+  .tag-red{background:rgba(248,113,113,0.15);color:#f87171;border:1px solid rgba(248,113,113,0.3)}
+  .tag-blue{background:rgba(88,166,255,0.15);color:#58a6ff;border:1px solid rgba(88,166,255,0.3)}
+</style>
 </head>
 <body>
-<div class="container">
-    <header>
-        <h1><i class="fab fa-php" style="color: var(--accent-cyan);"></i> index.php</h1>
-        <p>نقطة الدخول الرئيسية للنظام (Entry Point)</p>
-    </header>
-    <div class="breadcrumbs no-print">
-        <a href="../home.html"><i class="fas fa-home"></i> الرئيسية</a> / <span>Public</span> / <span>index.php</span>
+<div class="topbar">
+  <a href="../index.html" class="back-btn">← الفهرس الرئيسي</a>
+  <span class="breadcrumb">📁 public / <strong>index.php + .htaccess</strong></span>
+</div>
+
+<div class="hero">
+  <div class="hero-content">
+    <div class="file-badge">🚪 Entry Point</div>
+    <h1>index.php &amp; .htaccess</h1>
+    <div class="hero-desc">نقطة الدخول الوحيدة للتطبيق. كل طلب HTTP يمر عبر هذين الملفين — .htaccess يعترض الطلبات ويُعيد توجيهها، وindex.php يُشغّل التطبيق.</div>
+    <div class="meta-row">
+      <div class="meta-item"><strong>المسار:</strong> public/index.php</div>
+      <div class="meta-item"><strong>الحجم:</strong> 371 bytes</div>
+      <div class="meta-item"><strong>النوع:</strong> PHP Bootstrap</div>
+      <div class="meta-item"><strong>أول ملف يُنفَّذ:</strong> نعم ✅</div>
     </div>
-    <section class="card">
-        <div class="card-header"><i class="fas fa-door-open"></i><h2>وصف الملف</h2></div>
-        <p>هذا الملف هو الباب الوحيد الذي تمر منه جميع طلبات المستخدمين (Requests). يعمل كموجه رئيسي ولا يحتوي على أي HTML.</p>
-        <div class="method-box">
-            <h4><span class="badge badge-core">session_start()</span></h4>
-            <p>يتم تفعيل الجلسات هنا قبل طباعة أي مخرجات لضمان عمل نظام تسجيل الدخول والسلة (Cart) في كل صفحات النظام.</p>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- .htaccess -->
+  <div class="section">
+    <div class="section-head">
+      <span>⚙️</span><h2>ملف .htaccess — Apache Rewrite Rules</h2>
+    </div>
+    <div class="section-body">
+      <div class="code-block">
+        <div class="line"><span class="ln">1</span><span class="cm">Options -Indexes</span></div>
+        <div class="line"><span class="ln">2</span><span class="kw">RewriteEngine</span> <span class="plain">On</span></div>
+        <div class="line"><span class="ln">3</span><span></span></div>
+        <div class="line"><span class="ln">4</span><span class="kw">RewriteBase</span> <span class="str">/7X_PHARMA_CORE/public/</span></div>
+        <div class="line"><span class="ln">5</span><span></span></div>
+        <div class="line"><span class="ln">6</span><span class="kw">RewriteCond</span> <span class="var">%{REQUEST_FILENAME}</span> <span class="plain">!-d</span></div>
+        <div class="line"><span class="ln">7</span><span class="kw">RewriteCond</span> <span class="var">%{REQUEST_FILENAME}</span> <span class="plain">!-f</span></div>
+        <div class="line"><span class="ln">8</span><span></span></div>
+        <div class="line"><span class="ln">9</span><span class="kw">RewriteRule</span> <span class="str">^(.*)$</span> <span class="fn">index.php?url=$1</span> <span class="num">[QSA,L]</span></div>
+      </div>
+
+      <div class="explain-box">
+        <h4>🔍 شرح كل سطر:</h4>
+        <ul>
+          <li><strong>Options -Indexes</strong> — يمنع عرض محتويات المجلدات عند الوصول لمجلد بدون index.html</li>
+          <li><strong>RewriteEngine On</strong> — تفعيل محرك إعادة الكتابة في Apache</li>
+          <li><strong>RewriteBase</strong> — يحدد المسار الأساسي للمشروع على السيرفر المحلي</li>
+          <li><strong>RewriteCond !-d</strong> — الشرط: الطلب ليس مجلداً فعلياً موجوداً</li>
+          <li><strong>RewriteCond !-f</strong> — الشرط: الطلب ليس ملفاً فعلياً موجوداً</li>
+          <li><strong>RewriteRule ^(.*)$</strong> — إذا تحقق الشرطان، أعِد توجيه كل شيء لـ index.php مع الرابط كمتغير url</li>
+          <li><strong>[QSA,L]</strong> — QSA = دمج Query String الأصلي، L = آخر قاعدة (توقف البحث)</li>
+        </ul>
+      </div>
+
+      <div class="warn-box">
+        <h4>⚡ ماذا يعني هذا عملياً؟</h4>
+        <p>عندما يكتب المستخدم <code style="color:#fbbf24">/pos</code> في المتصفح، يُحوّله .htaccess إلى <code style="color:#fbbf24">index.php?url=pos</code> تلقائياً — هذا ما يجعل الروابط نظيفة وجميلة.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- index.php -->
+  <div class="section">
+    <div class="section-head">
+      <span>🏠</span><h2>ملف index.php — Bootstrap التطبيق</h2>
+    </div>
+    <div class="section-body">
+      <div class="code-block">
+        <div class="line"><span class="ln">1</span><span class="kw">&lt;?php</span></div>
+        <div class="line"><span class="ln">2</span><span class="fn">session_start</span><span class="plain">();</span></div>
+        <div class="line"><span class="ln">3</span><span></span></div>
+        <div class="line"><span class="ln">5</span><span class="kw">require_once</span> <span class="str">'../app/config/Constants.php'</span><span class="plain">;</span></div>
+        <div class="line"><span class="ln">6</span><span class="kw">require_once</span> <span class="var">ROOT_DIR</span> <span class="op">.</span> <span class="str">'/app/config/Database.php'</span><span class="plain">;</span></div>
+        <div class="line"><span class="ln">7</span><span class="kw">require_once</span> <span class="var">ROOT_DIR</span> <span class="op">.</span> <span class="str">'/app/core/Model.php'</span><span class="plain">;</span></div>
+        <div class="line"><span class="ln">8</span><span class="kw">require_once</span> <span class="var">ROOT_DIR</span> <span class="op">.</span> <span class="str">'/app/core/Controller.php'</span><span class="plain">;</span></div>
+        <div class="line"><span class="ln">9</span><span class="kw">require_once</span> <span class="var">ROOT_DIR</span> <span class="op">.</span> <span class="str">'/app/core/Router.php'</span><span class="plain">;</span></div>
+        <div class="line"><span class="ln">10</span><span></span></div>
+        <div class="line"><span class="ln">11</span><span class="cm">// Activate the router, which will read the link and guide us.</span></div>
+        <div class="line"><span class="ln">12</span><span class="var">$router</span> <span class="op">=</span> <span class="kw">new</span> <span class="fn">Router</span><span class="plain">();</span></div>
+      </div>
+
+      <h3 style="margin:1.2rem 0 0.8rem;font-size:1rem">📋 ترتيب تحميل الملفات وسبب الترتيب:</h3>
+      <div class="flow">
+        <div class="flow-step">
+          <div class="flow-num">1</div>
+          <div class="flow-text"><strong>session_start()</strong> — أول شيء دائماً. يُشغّل الجلسة ليتمكن النظام من حفظ بيانات المستخدم وعناصر السلة.</div>
         </div>
-        <div class="method-box">
-            <h4><span class="badge badge-core">require_once</span></h4>
-            <p>يقوم باستدعاء جميع ملفات النواة بترتيب منطقي: <code>Constants.php</code> أولاً للحصول على المسارات، ثم <code>Database.php</code>، <code>Model.php</code>، <code>Controller.php</code>، وأخيراً <code>Router.php</code>.</p>
+        <div class="flow-step">
+          <div class="flow-num">2</div>
+          <div class="flow-text"><strong>Constants.php</strong> — يُعرّف ROOT_DIR الذي يُستخدم في جميع require_once التالية. يجب أن يكون أولاً بمسار نسبي لأنه لا يوجد ROOT_DIR بعد.</div>
         </div>
-        <div class="method-box">
-            <h4><span class="badge badge-core">new Router()</span></h4>
-            <p>يشغل الموجه (Router) الذي بدوره سيقرأ الرابط ويوجه المستخدم للصفحة المطلوبة.</p>
+        <div class="flow-step">
+          <div class="flow-num">3</div>
+          <div class="flow-text"><strong>Database.php</strong> — تعريف كلاس الاتصال بالقاعدة. يُحمَّل قبل Model لأن Model يحتاجه.</div>
         </div>
-    </section>
+        <div class="flow-step">
+          <div class="flow-num">4</div>
+          <div class="flow-text"><strong>Model.php</strong> — الكلاس الأب للـ Models. يُحمَّل قبل Controller لأن Controller يستدعي Models.</div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-num">5</div>
+          <div class="flow-text"><strong>Controller.php</strong> — الكلاس الأب للـ Controllers. يُحمَّل قبل Router لأن Router يُنشئ Controller.</div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-num">6</div>
+          <div class="flow-text"><strong>new Router()</strong> — يُشغّل الراوتر الذي يحلل الرابط وينفذ الـ Controller المناسب.</div>
+        </div>
+      </div>
+
+      <div class="success-box">
+        <h4>✅ نمط تصميم مهم: Single Entry Point</h4>
+        <p>كل طلب يمر عبر index.php واحد فقط — هذا النمط يُسمى "Front Controller Pattern" ويُتيح:</p>
+        <ul>
+          <li>التحكم المركزي في الجلسة والتحميل</li>
+          <li>تطبيق الحماية والـ middleware في مكان واحد</li>
+          <li>هيكل نظيف ومنظم للمشروع</li>
+        </ul>
+      </div>
+
+      <h3 style="margin:1.2rem 0 0.8rem;font-size:1rem">📊 الملفات المُحمَّلة وتسلسلها:</h3>
+      <table>
+        <tr><th>الترتيب</th><th>الملف</th><th>السبب</th></tr>
+        <tr><td>1</td><td><span class="tag tag-blue">session_start()</span></td><td>تفعيل الجلسة قبل أي شيء</td></tr>
+        <tr><td>2</td><td>Constants.php</td><td>تعريف ROOT_DIR بمسار نسبي مباشر</td></tr>
+        <tr><td>3</td><td>Database.php</td><td>تعريف كلاس Database للاتصال</td></tr>
+        <tr><td>4</td><td>Model.php</td><td>الكلاس الأب — يعتمد على Database</td></tr>
+        <tr><td>5</td><td>Controller.php</td><td>الكلاس الأب — يعتمد على Model</td></tr>
+        <tr><td>6</td><td>Router.php</td><td>المحرك الأخير — يعتمد على الكل</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- Flow Diagram -->
+  <div class="section">
+    <div class="section-head">
+      <span>🔄</span><h2>تدفق الطلب الكامل (Request Flow)</h2>
+    </div>
+    <div class="section-body">
+      <div style="background:#010409;border-radius:10px;padding:1.5rem;font-family:'Fira Code',monospace;font-size:0.85rem;line-height:2;text-align:center">
+        <div style="color:#fbbf24">المتصفح: http://localhost/.../pos/addToCart</div>
+        <div style="color:#8b949e">↓</div>
+        <div style="color:#f87171">.htaccess يعترض → index.php?url=pos/addToCart</div>
+        <div style="color:#8b949e">↓</div>
+        <div style="color:#58a6ff">index.php يُحمّل الملفات ويُشغّل new Router()</div>
+        <div style="color:#8b949e">↓</div>
+        <div style="color:#a78bfa">Router يُحلّل URL → Controller=POS, Method=addToCart</div>
+        <div style="color:#8b949e">↓</div>
+        <div style="color:#34d399">POSController::addToCart() يُنفَّذ</div>
+        <div style="color:#8b949e">↓</div>
+        <div style="color:#fbbf24">الاستجابة تُرسَل للمتصفح</div>
+      </div>
+    </div>
+  </div>
+
 </div>
 </body>
 </html>

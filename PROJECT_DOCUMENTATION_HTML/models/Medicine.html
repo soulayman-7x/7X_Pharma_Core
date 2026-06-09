@@ -1,104 +1,185 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Medicine Model - 7X Pharma Core</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        :root {
-            --primary-dark: #0f172a; --primary-light: #1e293b; --accent-cyan: #06b6d4; --accent-purple: #8b5cf6;
-            --text-main: #334155; --text-light: #64748b; --bg-body: #f8fafc; --bg-card: #ffffff; --border-color: #e2e8f0;
-        }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Cairo', sans-serif; }
-        body { background-color: var(--bg-body); color: var(--text-main); line-height: 1.8; }
-        @media print {
-            body { background: #fff; color: #000; font-size: 11pt; }
-            .no-print { display: none !important; }
-            .page-break { page-break-before: always; }
-            .card { border: 1px solid #000; box-shadow: none; break-inside: avoid; margin-bottom: 20px;}
-            header { background: #fff !important; color: #000 !important; border: 1px solid #000; padding: 20px; }
-            header * { color: #000 !important; text-shadow: none !important;}
-        }
-        .container { max-width: 1140px; margin: 0 auto; padding: 20px; }
-        header { background: linear-gradient(135deg, var(--primary-dark), var(--primary-light)); color: white; padding: 30px; border-radius: 12px; margin-bottom: 30px; text-align: center; }
-        header h1 { font-size: 2.5rem; margin-bottom: 10px; }
-        .breadcrumbs { margin-bottom: 20px; padding: 15px; background: var(--bg-card); border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); font-weight: 600; }
-        .breadcrumbs a { color: var(--accent-purple); text-decoration: none; margin-left: 5px; margin-right: 5px;}
-        .breadcrumbs a:hover { text-decoration: underline; }
-        .card { background: var(--bg-card); border-radius: 10px; padding: 30px; margin-bottom: 30px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); border: 1px solid var(--border-color); }
-        .card-header { display: flex; align-items: center; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid var(--bg-body); }
-        .card-header i { font-size: 1.8rem; color: var(--accent-cyan); margin-left: 15px; }
-        .card-header h2 { font-size: 1.6rem; color: var(--primary-dark); }
-        p { margin-bottom: 15px; font-size: 1.1rem; text-align: justify; }
-
-        .method-box { background: var(--bg-body); border-right: 4px solid var(--accent-purple); padding: 15px; margin-bottom: 15px; border-radius: 4px; }
-        .method-box h4 { margin-bottom: 5px; color: var(--primary-dark); direction: ltr; text-align: left; font-family: monospace; font-size: 1.1rem;}
-        
-        .badge { display: inline-block; padding: 3px 8px; border-radius: 4px; font-size: 0.85rem; font-weight: bold; margin-left: 5px; }
-        .badge-public { background: #dcfce7; color: #15803d; }
-
-        .note-box { background: #eff6ff; border-right: 4px solid #3b82f6; padding: 15px; margin: 20px 0; border-radius: 4px 8px 8px 4px; }
-    </style>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Medicine.php — توثيق 7X Pharma Core</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Fira+Code:wght@400;500&display=swap');
+  :root{--bg:#0d1117;--surface:#161b22;--surface2:#1f2937;--border:#30363d;--accent:#34d399;--text:#e6edf3;--text2:#8b949e;--text3:#c9d1d9;--green:#3fb950;--yellow:#f0c842;--blue:#58a6ff;--red:#f87171;--purple:#a78bfa}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Cairo',sans-serif;background:var(--bg);color:var(--text);line-height:1.7}
+  .topbar{background:var(--surface);border-bottom:1px solid var(--border);padding:1rem 2rem;display:flex;align-items:center;gap:1rem}
+  .back-btn{text-decoration:none;color:var(--accent);font-weight:600;padding:0.4rem 1rem;border:1px solid var(--accent);border-radius:8px;font-size:0.9rem}
+  .back-btn:hover{background:rgba(52,211,153,0.1)}
+  .breadcrumb{color:var(--text2);font-size:0.9rem}
+  .hero{background:linear-gradient(135deg,#071a12,#0d1117);border-bottom:1px solid var(--border);padding:2.5rem 2rem}
+  .hero-content{max-width:900px;margin:0 auto}
+  .file-badge{display:inline-flex;align-items:center;gap:0.5rem;background:rgba(52,211,153,0.1);border:1px solid rgba(52,211,153,0.3);color:var(--accent);padding:0.4rem 1rem;border-radius:100px;font-size:0.85rem;margin-bottom:1rem}
+  h1{font-size:2.2rem;font-weight:900;margin-bottom:0.5rem}
+  .hero-desc{color:var(--text3);font-size:1.05rem}
+  .meta-row{display:flex;flex-wrap:wrap;gap:1rem;margin-top:1.5rem}
+  .meta-item{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:0.5rem 1rem;font-size:0.85rem;color:var(--text2)}
+  .meta-item strong{color:var(--text3)}
+  .container{max-width:900px;margin:2rem auto;padding:0 2rem}
+  .section{background:var(--surface);border:1px solid var(--border);border-radius:14px;margin-bottom:1.5rem;overflow:hidden}
+  .section-head{padding:1rem 1.5rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:0.8rem;background:var(--surface2)}
+  .section-head h2{font-size:1.1rem;font-weight:700}
+  .section-body{padding:1.5rem}
+  .code-block{background:#010409;border:1px solid var(--border);border-radius:10px;padding:1.2rem 1.5rem;font-family:'Fira Code',monospace;font-size:0.84rem;overflow-x:auto;margin:0.8rem 0;line-height:1.9}
+  .line{display:flex;gap:1rem}
+  .ln{color:#3d4451;min-width:28px;user-select:none;text-align:right}
+  .kw{color:#ff7b72}.fn{color:#d2a8ff}.str{color:#a5d6ff}.cm{color:#8b949e;font-style:italic}.var{color:#ffa657}.num{color:#79c0ff}.op{color:#ff7b72}.plain{color:#e6edf3}
+  .explain-box{background:rgba(88,166,255,0.05);border:1px solid rgba(88,166,255,0.2);border-radius:10px;padding:1.2rem 1.5rem;margin:0.8rem 0}
+  .explain-box h4{color:var(--blue);margin-bottom:0.5rem;font-size:0.95rem}
+  .explain-box p,.explain-box li{color:var(--text3);font-size:0.9rem;margin-bottom:0.4rem}
+  .explain-box ul{padding-right:1.2rem}
+  .warn-box{background:rgba(240,200,66,0.07);border:1px solid rgba(240,200,66,0.25);border-radius:10px;padding:1rem 1.5rem;margin:0.8rem 0}
+  .warn-box h4{color:var(--yellow);margin-bottom:0.4rem}.warn-box p{color:var(--text3);font-size:0.9rem}
+  .success-box{background:rgba(63,185,80,0.07);border:1px solid rgba(63,185,80,0.25);border-radius:10px;padding:1rem 1.5rem;margin:0.8rem 0}
+  .success-box h4{color:var(--green);margin-bottom:0.4rem}.success-box p,.success-box li{color:var(--text3);font-size:0.9rem}.success-box ul{padding-right:1.2rem}
+  .algo-box{background:rgba(167,139,250,0.06);border:1px solid rgba(167,139,250,0.25);border-radius:10px;padding:1.2rem 1.5rem;margin:0.8rem 0}
+  .algo-box h4{color:var(--purple);margin-bottom:0.5rem}
+  .algo-box p,.algo-box li{color:var(--text3);font-size:0.9rem;margin-bottom:0.3rem}
+  .algo-box ul{padding-right:1.2rem}
+  table{width:100%;border-collapse:collapse;font-size:0.9rem}
+  th{background:var(--surface2);padding:0.7rem 1rem;text-align:right;color:var(--text2);font-weight:600;border:1px solid var(--border)}
+  td{padding:0.7rem 1rem;border:1px solid var(--border);color:var(--text3)}
+</style>
 </head>
 <body>
-
-<div class="container">
-    <header>
-        <h1><i class="fas fa-pills" style="color: var(--accent-cyan);"></i> Medicine Model</h1>
-        <p>نموذج الأدوية والتعامل مع الخصومات من المخزون (FIFO)</p>
-    </header>
-
-    <div class="breadcrumbs no-print">
-        <a href="../home.html"><i class="fas fa-home"></i> الرئيسية</a> / <span>Models</span> / <span>Medicine.php</span>
+<div class="topbar">
+  <a href="../index.html" class="back-btn">← الفهرس الرئيسي</a>
+  <span class="breadcrumb">📁 app/models / <strong>Medicine.php</strong></span>
+</div>
+<div class="hero">
+  <div class="hero-content">
+    <div class="file-badge">🗃️ Model</div>
+    <h1>💊 Medicine.php</h1>
+    <div class="hero-desc">أكبر وأهم Model في المشروع. يتضمن بحثاً وفلترة متقدمة، خوارزمية FIFO لخصم المخزون، Soft Delete، وتنبيهات المخزون المنخفض.</div>
+    <div class="meta-row">
+      <div class="meta-item"><strong>المسار:</strong> app/models/Medicine.php</div>
+      <div class="meta-item"><strong>الحجم:</strong> 5,287 bytes</div>
+      <div class="meta-item"><strong>الجدول:</strong> medicines</div>
+      <div class="meta-item"><strong>الدوال:</strong> 6</div>
+      <div class="meta-item"><strong>يرث من:</strong> Model</div>
     </div>
-
-    <section class="card">
-        <div class="card-header">
-            <i class="fas fa-info-circle"></i>
-            <h2>وصف النموذج</h2>
-        </div>
-        <p>
-            يرث من الكلاس الأساسي <code>Model</code> ويتعامل مع جدول <code>medicines</code>. يتولى مسؤولية معالجة الاستعلامات المعقدة الخاصة بالأدوية مثل البحث، التصفية، وخصم المخزون الذكي الذي يعتمد على الدفعات.
-        </p>
-    </section>
-
-    <section class="card page-break">
-        <div class="card-header">
-            <i class="fas fa-cogs"></i>
-            <h2>الاستعلامات والدوال الأساسية</h2>
-        </div>
-
-        <div class="method-box">
-            <h4><span class="badge badge-public">public</span> searchAndFilter($searchQuery, $category)</h4>
-            <p><strong>استعلام معقد (JOIN & SUM):</strong> تقوم هذه الدالة بدمج جدول <code>medicines</code> مع <code>batches</code> باستخدام <code>LEFT JOIN</code> لجلب اسم الدواء وإجمالي كميته المتوفرة عبر دالة التجميع <code>SUM(batches.current_quantity)</code>. كما تستخدم <code>COALESCE</code> لإرجاع 0 في حال لم تكن هناك دفعات للدواء.</p>
-            <p>تدعم التصفية بواسطة الاسم أو الباركود (باستخدام <code>LIKE</code>) والتصفية بالتصنيف.</p>
-        </div>
-
-        <div class="method-box">
-            <h4><span class="badge badge-public">public</span> deductStock($id, $qtyToDeduct)</h4>
-            <p><strong>منطق خصم المخزون (FIFO Workflow):</strong> هذه هي أهم دالة تجارية (Business Logic) في النظام.</p>
-            <ul>
-                <li>تستخدم مبدأ <strong>FIFO (First In, First Out)</strong> بناءً على تاريخ الصلاحية <code>ORDER BY expiry_date ASC</code>.</li>
-                <li>يتم استدعاء كل الدفعات المتاحة التي تحتوي على كمية أكبر من صفر <code>current_quantity > 0</code>.</li>
-                <li>تدخل في حلقة <code>foreach</code> لخصم الكمية المطلوبة من أقدم دفعة (التي تنتهي صلاحيتها أولاً).</li>
-                <li>إذا كانت الدفعة القديمة لا تكفي لتغطية الكمية المباعة، يتم تفريغ الدفعة (تصبح 0)، والانتقال للدفعة التي تليها وخصم المتبقي منها.</li>
-            </ul>
-        </div>
-
-        <div class="method-box">
-            <h4><span class="badge badge-public">public</span> getLowStockAlerts($threshold = 10)</h4>
-            <p><strong>استعلام (HAVING):</strong> لجلب الأدوية التي شارفت على النفاذ. تستخدم <code>GROUP BY</code> مع <code>HAVING current_quantity <= ?</code> لفلترة النتائج بعد تجميع كميات الدفعات.</p>
-        </div>
-
-        <div class="method-box">
-            <h4><span class="badge badge-public">public</span> delete($id)</h4>
-            <p><strong>منطق Soft Delete:</strong> تقوم بتعديل دالة <code>delete</code> الموروثة من الأب. بدلاً من الحذف الفيزيائي الفعلي (<code>DELETE FROM</code>) الذي قد يسبب أخطاء في الفواتير القديمة المرتبطة، تقوم بعمل <code>UPDATE</code> لحقل <code>deleted_at = NOW()</code>. هكذا يختفي الدواء من الواجهة ولكنه يبقى في قاعدة البيانات كمرجع تاريخي.</p>
-        </div>
-    </section>
-
+  </div>
 </div>
 
+<div class="container">
+
+  <!-- searchAndFilter -->
+  <div class="section">
+    <div class="section-head"><span>🔍</span><h2>searchAndFilter() — البحث والفلترة المتقدمة</h2></div>
+    <div class="section-body">
+      <div class="code-block">
+        <div class="line"><span class="ln">8</span><span class="var">$sql</span> <span class="op">=</span> <span class="str">"SELECT medicines.*, </span></div>
+        <div class="line"><span class="ln">9</span><span class="str">        COALESCE(SUM(batches.current_quantity), 0) as current_quantity</span></div>
+        <div class="line"><span class="ln">10</span><span class="str">        FROM medicines</span></div>
+        <div class="line"><span class="ln">11</span><span class="str">        LEFT JOIN batches ON medicines.id = batches.medicine_id</span></div>
+        <div class="line"><span class="ln">12</span><span class="str">        WHERE medicines.deleted_at IS NULL"</span><span class="plain">;</span></div>
+        <div class="line"><span class="ln">17</span><span class="plain">        </span><span class="var">$sql</span> <span class="op">.=</span> <span class="str">" AND (medicines.name LIKE ? OR medicines.barcode LIKE ?)"</span><span class="plain">;</span></div>
+        <div class="line"><span class="ln">23</span><span class="plain">        </span><span class="var">$sql</span> <span class="op">.=</span> <span class="str">" AND LOWER(medicines.category) = LOWER(?)"</span><span class="plain">;</span></div>
+        <div class="line"><span class="ln">28</span><span class="plain">        </span><span class="var">$sql</span> <span class="op">.=</span> <span class="str">" GROUP BY medicines.id"</span><span class="plain">;</span></div>
+      </div>
+      <div class="explain-box">
+        <h4>💡 شرح مكونات الـ SQL:</h4>
+        <ul>
+          <li><strong>LEFT JOIN batches</strong> — يربط الأدوية بدفعاتها. LEFT JOIN يضمن إظهار الدواء حتى لو لم يكن له دفعات</li>
+          <li><strong>COALESCE(SUM(...), 0)</strong> — يجمع كل كميات الدفعات. إذا لم توجد دفعات يعيد 0 بدلاً من NULL</li>
+          <li><strong>deleted_at IS NULL</strong> — لا يُظهر الأدوية المحذوفة حذفاً ناعماً (Soft Delete)</li>
+          <li><strong>LIKE ?</strong> — بحث جزئي: %paracetamol% يجد أي كلمة تحتوي "paracetamol"</li>
+          <li><strong>LOWER(...) = LOWER(?)</strong> — مقارنة غير حساسة لحالة الأحرف</li>
+          <li><strong>GROUP BY medicines.id</strong> — ضروري مع SUM() لتجميع كل دفعات الدواء الواحد</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- deductStock FIFO -->
+  <div class="section">
+    <div class="section-head"><span>⚡</span><h2>deductStock() — خوارزمية FIFO (الأهم في المشروع)</h2></div>
+    <div class="section-body">
+      <div class="code-block">
+        <div class="line"><span class="ln">35</span><span class="kw">public function</span> <span class="fn">deductStock</span><span class="plain">(</span><span class="var">$id</span><span class="plain">, </span><span class="var">$qtyToDeduct</span><span class="plain">) {</span></div>
+        <div class="line"><span class="ln">36</span><span class="plain">    </span><span class="var">$sql</span> <span class="op">=</span> <span class="str">"SELECT id, current_quantity FROM batches </span></div>
+        <div class="line"><span class="ln">37</span><span class="str">            WHERE medicine_id = ? AND current_quantity > 0 </span></div>
+        <div class="line"><span class="ln">38</span><span class="str">            ORDER BY expiry_date ASC"</span><span class="plain">;</span></div>
+        <div class="line"><span class="ln">43</span><span class="plain">    </span><span class="var">$remainingToDeduct</span> <span class="op">=</span> <span class="var">$qtyToDeduct</span><span class="plain">;</span></div>
+        <div class="line"><span class="ln">45</span><span class="plain">    </span><span class="kw">foreach</span> <span class="plain">(</span><span class="var">$availableBatches</span> <span class="kw">as</span> <span class="var">$batch</span><span class="plain">) {</span></div>
+        <div class="line"><span class="ln">46</span><span class="plain">        </span><span class="kw">if</span> <span class="plain">(</span><span class="var">$remainingToDeduct</span> <span class="op"><=</span> <span class="num">0</span><span class="plain">) </span><span class="kw">break</span><span class="plain">;</span></div>
+        <div class="line"><span class="ln">48</span><span class="plain">        </span><span class="kw">if</span> <span class="plain">(</span><span class="var">$batch</span><span class="plain">[</span><span class="str">'current_quantity'</span><span class="plain">] </span><span class="op">>=</span> <span class="var">$remainingToDeduct</span><span class="plain">) {</span></div>
+        <div class="line"><span class="ln">49</span><span class="plain">            </span><span class="cm">// هذه الدفعة تكفي — اخصم منها فقط</span></div>
+        <div class="line"><span class="ln">50</span><span class="plain">            </span><span class="var">$updateSql</span> <span class="op">=</span> <span class="str">"UPDATE batches SET current_quantity = current_quantity - ? WHERE id = ?"</span><span class="plain">;</span></div>
+        <div class="line"><span class="ln">51</span><span class="plain">            </span><span class="var">$remainingToDeduct</span> <span class="op">=</span> <span class="num">0</span><span class="plain">;</span></div>
+        <div class="line"><span class="ln">52</span><span class="plain">        } </span><span class="kw">else</span> <span class="plain">{</span></div>
+        <div class="line"><span class="ln">53</span><span class="plain">            </span><span class="cm">// هذه الدفعة لا تكفي — فرّغها وانتقل للتالية</span></div>
+        <div class="line"><span class="ln">54</span><span class="plain">            </span><span class="var">$updateSql</span> <span class="op">=</span> <span class="str">"UPDATE batches SET current_quantity = 0 WHERE id = ?"</span><span class="plain">;</span></div>
+        <div class="line"><span class="ln">55</span><span class="plain">            </span><span class="var">$remainingToDeduct</span> <span class="op">-=</span> <span class="var">$batch</span><span class="plain">[</span><span class="str">'current_quantity'</span><span class="plain">];</span></div>
+        <div class="line"><span class="ln">56</span><span class="plain">        }</span></div>
+        <div class="line"><span class="ln">57</span><span class="plain">    }</span></div>
+        <div class="line"><span class="ln">59</span><span class="plain">    </span><span class="kw">return</span> <span class="var">$remainingToDeduct</span> <span class="op">==</span> <span class="num">0</span><span class="plain">;</span></div>
+        <div class="line"><span class="ln">60</span><span class="plain">}</span></div>
+      </div>
+
+      <div class="algo-box">
+        <h4>🧮 مثال عملي على خوارزمية FIFO:</h4>
+        <p>طلب: بيع 15 حبة من دواء ID=3</p>
+        <ul>
+          <li>الدفعات المتوفرة (مرتبة بتاريخ الانتهاء الأقدم أولاً):</li>
+          <li>→ دفعة A: 10 حبات (تنتهي يناير)</li>
+          <li>→ دفعة B: 20 حبة (تنتهي مارس)</li>
+          <li>التنفيذ: remaining = 15</li>
+          <li>دفعة A: 10 &lt; 15 → فرّغها (0) → remaining = 5</li>
+          <li>دفعة B: 20 ≥ 5 → اخصم منها 5 → remaining = 0 ✅</li>
+          <li>النتيجة: دفعة A = 0، دفعة B = 15</li>
+        </ul>
+      </div>
+
+      <div class="success-box">
+        <h4>✅ لماذا FIFO في الصيدليات؟</h4>
+        <p>يضمن بيع الأدوية الأقرب لتاريخ الانتهاء أولاً، مما يمنع انتهاء صلاحية المخزون ويحمي المرضى.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Soft Delete -->
+  <div class="section">
+    <div class="section-head"><span>🗑️</span><h2>delete() — الحذف الناعم (Soft Delete)</h2></div>
+    <div class="section-body">
+      <div class="code-block">
+        <div class="line"><span class="ln">121</span><span class="kw">public function</span> <span class="fn">delete</span><span class="plain">(</span><span class="var">$id</span><span class="plain">) {</span></div>
+        <div class="line"><span class="ln">122</span><span class="plain">    </span><span class="var">$sql</span> <span class="op">=</span> <span class="str">"UPDATE {$this->table} SET deleted_at = NOW() WHERE id = ?"</span><span class="plain">;</span></div>
+        <div class="line"><span class="ln">123</span><span class="plain">    </span><span class="var">$stmt</span> <span class="op">=</span> <span class="var">$this</span><span class="op">-></span><span class="fn">query</span><span class="plain">(</span><span class="var">$sql</span><span class="plain">, [</span><span class="var">$id</span><span class="plain">]);</span></div>
+        <div class="line"><span class="ln">125</span><span class="plain">    </span><span class="kw">return</span> <span class="var">$stmt</span><span class="op">-></span><span class="fn">rowCount</span><span class="plain">() </span><span class="op">></span> <span class="num">0</span><span class="plain">;</span></div>
+        <div class="line"><span class="ln">126</span><span class="plain">}</span></div>
+      </div>
+      <div class="explain-box">
+        <h4>💡 Soft Delete vs Hard Delete:</h4>
+        <ul>
+          <li><strong>Hard Delete</strong>: DELETE FROM medicines — يحذف السجل نهائياً ← خطر: لا يمكن استعادة الفواتير التاريخية</li>
+          <li><strong>Soft Delete</strong>: يضع تاريخ في عمود deleted_at — السجل موجود لكن مخفي في الاستعلامات العادية</li>
+          <li>جميع استعلامات Medicine تُضيف <code>WHERE deleted_at IS NULL</code> لإخفائه</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head"><span>📊</span><h2>ملخص جميع الدوال</h2></div>
+    <div class="section-body">
+      <table>
+        <tr><th>الدالة</th><th>الغرض</th><th>ما يُرجعه</th></tr>
+        <tr><td>searchAndFilter()</td><td>بحث وفلترة مع حساب الكمية الكلية</td><td>مصفوفة أدوية</td></tr>
+        <tr><td>deductStock()</td><td>خصم المخزون بـ FIFO</td><td>true (نجح) / false (نقص)</td></tr>
+        <tr><td>getById()</td><td>دواء واحد مع كميته الكلية</td><td>صف واحد</td></tr>
+        <tr><td>getLowStockAlerts()</td><td>أدوية أقل من الحد (10 افتراضياً)</td><td>مصفوفة أدوية</td></tr>
+        <tr><td>getOldestBatchId()</td><td>أقدم دفعة متوفرة (للفاتورة)</td><td>ID الدفعة</td></tr>
+        <tr><td>barcodeExists()</td><td>التحقق من تكرار الباركود</td><td>true / false</td></tr>
+        <tr><td>delete()</td><td>حذف ناعم (Soft Delete)</td><td>true / false</td></tr>
+      </table>
+    </div>
+  </div>
+</div>
 </body>
 </html>

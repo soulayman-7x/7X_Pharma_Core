@@ -1,134 +1,175 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Database Class - 7X Pharma Core</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        :root {
-            --primary-dark: #0f172a; --primary-light: #1e293b; --accent-cyan: #06b6d4; --accent-purple: #8b5cf6;
-            --text-main: #334155; --text-light: #64748b; --bg-body: #f8fafc; --bg-card: #ffffff; --border-color: #e2e8f0;
-        }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Cairo', sans-serif; }
-        body { background-color: var(--bg-body); color: var(--text-main); line-height: 1.8; }
-        @media print {
-            body { background: #fff; color: #000; font-size: 11pt; }
-            .no-print { display: none !important; }
-            .page-break { page-break-before: always; }
-            .card { border: 1px solid #000; box-shadow: none; break-inside: avoid; margin-bottom: 20px;}
-            header { background: #fff !important; color: #000 !important; border: 1px solid #000; padding: 20px; }
-            header * { color: #000 !important; text-shadow: none !important;}
-        }
-        .container { max-width: 1140px; margin: 0 auto; padding: 20px; }
-        header { background: linear-gradient(135deg, var(--primary-dark), var(--primary-light)); color: white; padding: 30px; border-radius: 12px; margin-bottom: 30px; text-align: center; }
-        header h1 { font-size: 2.5rem; margin-bottom: 10px; }
-        .breadcrumbs { margin-bottom: 20px; padding: 15px; background: var(--bg-card); border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); font-weight: 600; }
-        .breadcrumbs a { color: var(--accent-purple); text-decoration: none; margin-left: 5px; margin-right: 5px;}
-        .breadcrumbs a:hover { text-decoration: underline; }
-        .card { background: var(--bg-card); border-radius: 10px; padding: 30px; margin-bottom: 30px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); border: 1px solid var(--border-color); }
-        .card-header { display: flex; align-items: center; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid var(--bg-body); }
-        .card-header i { font-size: 1.8rem; color: var(--accent-cyan); margin-left: 15px; }
-        .card-header h2 { font-size: 1.6rem; color: var(--primary-dark); }
-        h3 { color: var(--primary-dark); margin: 20px 0 10px 0; font-size: 1.3rem; }
-        p { margin-bottom: 15px; font-size: 1.1rem; text-align: justify; }
-
-        pre { background: var(--primary-dark); color: #f8fafc; padding: 15px; border-radius: 8px; overflow-x: auto; direction: ltr; text-align: left; margin: 15px 0; font-size: 0.95rem;}
-        code { font-family: Consolas, Monaco, monospace; }
-
-        .method-box { background: var(--bg-body); border-right: 4px solid var(--accent-purple); padding: 15px; margin-bottom: 15px; border-radius: 4px; }
-        .method-box h4 { margin-bottom: 5px; color: var(--primary-dark); direction: ltr; text-align: left; font-family: monospace; font-size: 1.1rem;}
-        
-        .badge { display: inline-block; padding: 3px 8px; border-radius: 4px; font-size: 0.85rem; font-weight: bold; margin-left: 5px; }
-        .badge-private { background: #fee2e2; color: #b91c1c; }
-        .badge-public { background: #dcfce7; color: #15803d; }
-
-        .note-box { background: #eff6ff; border-right: 4px solid #3b82f6; padding: 15px; margin: 20px 0; border-radius: 4px 8px 8px 4px; }
-        .error-box { background: #fef2f2; border-right: 4px solid #ef4444; padding: 15px; margin: 20px 0; border-radius: 4px 8px 8px 4px; }
-    </style>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Database.php — توثيق 7X Pharma Core</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Fira+Code:wght@400;500&display=swap');
+  :root{--bg:#0d1117;--surface:#161b22;--surface2:#1f2937;--border:#30363d;--accent:#22d3ee;--text:#e6edf3;--text2:#8b949e;--text3:#c9d1d9;--green:#3fb950;--yellow:#f0c842;--blue:#58a6ff;--red:#f87171}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Cairo',sans-serif;background:var(--bg);color:var(--text);line-height:1.7}
+  .topbar{background:var(--surface);border-bottom:1px solid var(--border);padding:1rem 2rem;display:flex;align-items:center;gap:1rem}
+  .back-btn{text-decoration:none;color:var(--accent);font-weight:600;padding:0.4rem 1rem;border:1px solid var(--accent);border-radius:8px;font-size:0.9rem}
+  .back-btn:hover{background:rgba(34,211,238,0.1)}
+  .breadcrumb{color:var(--text2);font-size:0.9rem}
+  .hero{background:linear-gradient(135deg,#071f2e,#0d1117);border-bottom:1px solid var(--border);padding:2.5rem 2rem}
+  .hero-content{max-width:900px;margin:0 auto}
+  .file-badge{display:inline-flex;align-items:center;gap:0.5rem;background:rgba(34,211,238,0.1);border:1px solid rgba(34,211,238,0.3);color:var(--accent);padding:0.4rem 1rem;border-radius:100px;font-size:0.85rem;margin-bottom:1rem}
+  h1{font-size:2.2rem;font-weight:900;margin-bottom:0.5rem}
+  .hero-desc{color:var(--text3);font-size:1.05rem}
+  .meta-row{display:flex;flex-wrap:wrap;gap:1rem;margin-top:1.5rem}
+  .meta-item{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:0.5rem 1rem;font-size:0.85rem;color:var(--text2)}
+  .meta-item strong{color:var(--text3)}
+  .container{max-width:900px;margin:2rem auto;padding:0 2rem}
+  .section{background:var(--surface);border:1px solid var(--border);border-radius:14px;margin-bottom:1.5rem;overflow:hidden}
+  .section-head{padding:1rem 1.5rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:0.8rem;background:var(--surface2)}
+  .section-head h2{font-size:1.1rem;font-weight:700}
+  .section-body{padding:1.5rem}
+  .code-block{background:#010409;border:1px solid var(--border);border-radius:10px;padding:1.2rem 1.5rem;font-family:'Fira Code',monospace;font-size:0.84rem;overflow-x:auto;margin:0.8rem 0;line-height:1.9}
+  .line{display:flex;gap:1rem}
+  .ln{color:#3d4451;min-width:28px;user-select:none;text-align:right}
+  .kw{color:#ff7b72}.fn{color:#d2a8ff}.str{color:#a5d6ff}.cm{color:#8b949e;font-style:italic}.var{color:#ffa657}.num{color:#79c0ff}.op{color:#ff7b72}.plain{color:#e6edf3}
+  .explain-box{background:rgba(88,166,255,0.05);border:1px solid rgba(88,166,255,0.2);border-radius:10px;padding:1.2rem 1.5rem;margin:0.8rem 0}
+  .explain-box h4{color:var(--blue);margin-bottom:0.5rem;font-size:0.95rem}
+  .explain-box p,.explain-box li{color:var(--text3);font-size:0.9rem;margin-bottom:0.4rem}
+  .explain-box ul{padding-right:1.2rem}
+  .warn-box{background:rgba(240,200,66,0.07);border:1px solid rgba(240,200,66,0.25);border-radius:10px;padding:1rem 1.5rem;margin:0.8rem 0}
+  .warn-box h4{color:var(--yellow);margin-bottom:0.4rem}.warn-box p{color:var(--text3);font-size:0.9rem}
+  .success-box{background:rgba(63,185,80,0.07);border:1px solid rgba(63,185,80,0.25);border-radius:10px;padding:1rem 1.5rem;margin:0.8rem 0}
+  .success-box h4{color:var(--green);margin-bottom:0.4rem}.success-box p,.success-box li{color:var(--text3);font-size:0.9rem}.success-box ul{padding-right:1.2rem}
+  table{width:100%;border-collapse:collapse;font-size:0.9rem}
+  th{background:var(--surface2);padding:0.7rem 1rem;text-align:right;color:var(--text2);font-weight:600;border:1px solid var(--border)}
+  td{padding:0.7rem 1rem;border:1px solid var(--border);color:var(--text3)}
+</style>
 </head>
 <body>
-
-<div class="container">
-    <header>
-        <h1><i class="fas fa-server" style="color: var(--accent-cyan);"></i> Database.php</h1>
-        <p>فئة إدارة الاتصال بقواعد البيانات وتتبع الأخطاء</p>
-    </header>
-
-    <div class="breadcrumbs no-print">
-        <a href="../home.html"><i class="fas fa-home"></i> الرئيسية</a> / <span>Config</span> / <span>Database.php</span>
+<div class="topbar">
+  <a href="../index.html" class="back-btn">← الفهرس الرئيسي</a>
+  <span class="breadcrumb">📁 app/config / <strong>Database.php</strong></span>
+</div>
+<div class="hero">
+  <div class="hero-content">
+    <div class="file-badge">🔧 Config</div>
+    <h1>🔌 Database.php</h1>
+    <div class="hero-desc">مدير الاتصال بقاعدة البيانات. يُنشئ اتصال PDO مُعدَّل بأفضل الإعدادات، ويُعالج الأخطاء بكتابتها في ملف log وعرض صفحة خطأ للمستخدم.</div>
+    <div class="meta-row">
+      <div class="meta-item"><strong>المسار:</strong> app/config/Database.php</div>
+      <div class="meta-item"><strong>الحجم:</strong> 1,962 bytes</div>
+      <div class="meta-item"><strong>الكلاسات:</strong> Database</div>
+      <div class="meta-item"><strong>الدوال:</strong> 3</div>
+      <div class="meta-item"><strong>الاتصال:</strong> PDO / MySQL</div>
     </div>
-
-    <section class="card">
-        <div class="card-header">
-            <i class="fas fa-plug"></i>
-            <h2>وصف الملف</h2>
-        </div>
-        <p>
-            ملف <code>Database.php</code> هو المسؤول الحصري عن إنشاء وإدارة الاتصال بخادم <strong>MySQL</strong> باستخدام تقنية <strong>PDO</strong>. تم تصميمه بحيث يقرأ متغيرات البيئة <code>$_ENV</code> إن وجدت، ويوفر آلية قوية للتعامل مع أخطاء الاتصال (Error Handling) وتسجيلها في ملفات (Logs) دون إظهارها للمستخدم النهائي لحماية أمان السيرفر.
-        </p>
-    </section>
-
-    <section class="card page-break">
-        <div class="card-header">
-            <i class="fas fa-cogs"></i>
-            <h2>المتغيرات والدوال (Methods)</h2>
-        </div>
-        
-        <div class="method-box">
-            <h4><span class="badge badge-private">private</span> $conn</h4>
-            <p>متغير يحمل كائن الاتصال بـ PDO. لا يمكن الوصول إليه من خارج الكلاس للحفاظ على التغليف (Encapsulation).</p>
-        </div>
-
-        <div class="method-box">
-            <h4><span class="badge badge-public">public</span> __construct()</h4>
-            <p><strong>طريقة العمل:</strong></p>
-            <ol>
-                <li>يتم استخراج الإعدادات (المضيف، المنفذ، اسم قاعدة البيانات، المستخدم، كلمة المرور) من <code>$_ENV</code> أو استخدام القيم الافتراضية.</li>
-                <li>يتم بناء سلسلة الاتصال (Data Source Name - DSN) وتحديد الترميز <code>charset=utf8mb4</code> لدعم جميع اللغات والرموز التعبيرية.</li>
-                <li><strong>ضبط الخيارات (Options):</strong>
-                    <ul>
-                        <li><code>ATTR_ERRMODE => ERRMODE_EXCEPTION</code>: إجبار PDO على إطلاق استثناءات (Exceptions) عند حدوث أي خطأ برمجي.</li>
-                        <li><code>ATTR_DEFAULT_FETCH_MODE => FETCH_ASSOC</code>: ليكون ناتج الاستعلامات مصفوفة ترابطية (مفتاح وقيمة).</li>
-                        <li><code>ATTR_EMULATE_PREPARES => false</code>: إيقاف المحاكاة ودفع MySQL للقيام بعملية Prepare حقيقية لزيادة الأمان والأداء.</li>
-                    </ul>
-                </li>
-                <li>يتم محاولة الاتصال عبر كتلة <code>try...catch</code>.</li>
-            </ol>
-        </div>
-
-        <div class="method-box">
-            <h4><span class="badge badge-public">public</span> getConnection()</h4>
-            <p><strong>الوظيفة:</strong> تُرجع كائن الاتصال المخزن في <code>$this->conn</code> ليستفيد منه كلاس <code>Model.php</code> وباقي النماذج.</p>
-        </div>
-    </section>
-
-    <section class="card page-break">
-        <div class="card-header">
-            <i class="fas fa-bug"></i>
-            <h2>نظام تتبع ومعالجة الأخطاء (Error Handling)</h2>
-        </div>
-
-        <div class="method-box">
-            <h4><span class="badge badge-private">private</span> logError($e)</h4>
-            <p>عند فشل الاتصال بقاعدة البيانات، يقوم كاتش <code>catch(PDOException $e)</code> بالتقاط الخطأ وتنفيذ الآتي عبر الدالة <code>logError</code>:</p>
-            <ul>
-                <li>التحقق من وجود مجلد <code>logs/</code> في مسار النظام الأصلي (ROOT_DIR).</li>
-                <li>إذا لم يكن موجوداً، يقوم النظام بإنشائه أوتوماتيكياً بصلاحيات <code>0755</code>.</li>
-                <li>تسجيل رسالة الخطأ التقنية، وقت الحدوث، واسم الملف ورقم السطر في ملف <code>db.errors.log</code> بشكل تتابعي (APPEND).</li>
-            </ul>
-        </div>
-
-        <div class="error-box">
-            <h4><i class="fas fa-shield-alt"></i> حماية المستخدم (User Fallback)</h4>
-            <p>
-                بدلاً من عرض خطأ <code>Fatal Error</code> القبيح والذي قد يكشف مسارات السيرفر وكلمات المرور للمتسللين، يقوم الكود باستدعاء واجهة مخصصة للأخطاء <code>views/components/db_error.php</code> لعرض رسالة ودية للمستخدم، وإرسال حالة (HTTP 500 Internal Server Error) لتعرفها محركات البحث والمتصفحات. وإذا فُقد هذا الملف، يقوم بطباعة رسالة نصية بسيطة ثم إيقاف النظام بـ <code>exit()</code>.
-            </p>
-        </div>
-    </section>
-
+  </div>
 </div>
 
+<div class="container">
+
+  <!-- Constructor -->
+  <div class="section">
+    <div class="section-head"><span>🔌</span><h2>__construct() — إنشاء اتصال PDO</h2></div>
+    <div class="section-body">
+      <div class="code-block">
+        <div class="line"><span class="ln">7</span><span class="kw">public function</span> <span class="fn">__construct</span><span class="plain">() {</span></div>
+        <div class="line"><span class="ln">8</span><span class="plain">    </span><span class="var">$host</span> <span class="op">=</span> <span class="str">'127.0.0.1'</span><span class="plain">;</span></div>
+        <div class="line"><span class="ln">9</span><span class="plain">    </span><span class="var">$port</span> <span class="op">=</span> <span class="str">'3306'</span><span class="plain">;</span></div>
+        <div class="line"><span class="ln">10</span><span class="plain">    </span><span class="var">$db_name</span> <span class="op">=</span> <span class="str">'pharma_core'</span><span class="plain">;</span></div>
+        <div class="line"><span class="ln">11</span><span class="plain">    </span><span class="var">$username</span> <span class="op">=</span> <span class="str">'root'</span><span class="plain">;</span></div>
+        <div class="line"><span class="ln">12</span><span class="plain">    </span><span class="var">$password</span> <span class="op">=</span> <span class="str">''</span><span class="plain">;</span></div>
+        <div class="line"><span class="ln">14</span><span class="plain">    </span><span class="kw">try</span> <span class="plain">{</span></div>
+        <div class="line"><span class="ln">15</span><span class="plain">        </span><span class="var">$dsn</span> <span class="op">=</span> <span class="str">"mysql:host={$host};port={$port};dbname={$db_name};charset=utf8mb4"</span><span class="plain">;</span></div>
+        <div class="line"><span class="ln">17</span><span class="plain">        </span><span class="var">$options</span> <span class="op">=</span> <span class="plain">[</span></div>
+        <div class="line"><span class="ln">18</span><span class="plain">            </span><span class="num">PDO::ATTR_ERRMODE</span> <span class="op">=></span> <span class="num">PDO::ERRMODE_EXCEPTION</span><span class="plain">,</span></div>
+        <div class="line"><span class="ln">19</span><span class="plain">            </span><span class="num">PDO::ATTR_DEFAULT_FETCH_MODE</span> <span class="op">=></span> <span class="num">PDO::FETCH_ASSOC</span><span class="plain">,</span></div>
+        <div class="line"><span class="ln">20</span><span class="plain">            </span><span class="num">PDO::ATTR_EMULATE_PREPARES</span> <span class="op">=></span> <span class="kw">false</span><span class="plain">,</span></div>
+        <div class="line"><span class="ln">21</span><span class="plain">        ];</span></div>
+        <div class="line"><span class="ln">23</span><span class="plain">        </span><span class="var">$this</span><span class="op">-></span><span class="var">conn</span> <span class="op">=</span> <span class="kw">new</span> <span class="fn">PDO</span><span class="plain">(</span><span class="var">$dsn</span><span class="plain">, </span><span class="var">$username</span><span class="plain">, </span><span class="var">$password</span><span class="plain">, </span><span class="var">$options</span><span class="plain">);</span></div>
+        <div class="line"><span class="ln">25</span><span class="plain">    } </span><span class="kw">catch</span><span class="plain">(</span><span class="fn">PDOException</span> <span class="var">$e</span><span class="plain">) {</span></div>
+        <div class="line"><span class="ln">26</span><span class="plain">        </span><span class="var">$this</span><span class="op">-></span><span class="fn">logError</span><span class="plain">(</span><span class="var">$e</span><span class="plain">);</span></div>
+        <div class="line"><span class="ln">28</span><span class="plain">        </span><span class="var">$error_view</span> <span class="op">=</span> <span class="var">ROOT_DIR</span> <span class="op">.</span> <span class="str">'/views/components/db_error.php'</span><span class="plain">;</span></div>
+        <div class="line"><span class="ln">30</span><span class="plain">        </span><span class="kw">if</span> <span class="plain">(</span><span class="fn">file_exists</span><span class="plain">(</span><span class="var">$error_view</span><span class="plain">)) {</span></div>
+        <div class="line"><span class="ln">31</span><span class="plain">            </span><span class="kw">include</span> <span class="var">$error_view</span><span class="plain">;</span></div>
+        <div class="line"><span class="ln">33</span><span class="plain">        } </span><span class="kw">else</span> <span class="plain">{</span></div>
+        <div class="line"><span class="ln">34</span><span class="plain">            </span><span class="fn">header</span><span class="plain">(</span><span class="str">'HTTP/1.1 500 Internal Server Error'</span><span class="plain">);</span></div>
+        <div class="line"><span class="ln">35</span><span class="plain">            </span><span class="kw">echo</span> <span class="str">"Database Connection Error."</span><span class="plain">;</span></div>
+        <div class="line"><span class="ln">36</span><span class="plain">        }</span></div>
+        <div class="line"><span class="ln">37</span><span class="plain">        </span><span class="fn">exit</span><span class="plain">();</span></div>
+        <div class="line"><span class="ln">38</span><span class="plain">    }</span></div>
+        <div class="line"><span class="ln">39</span><span class="plain">}</span></div>
+      </div>
+
+      <div class="explain-box">
+        <h4>🔍 شرح DSN (Data Source Name):</h4>
+        <p><code>mysql:host=127.0.0.1;port=3306;dbname=pharma_core;charset=utf8mb4</code></p>
+        <ul>
+          <li><strong>mysql:</strong> — بروتوكول قاعدة البيانات</li>
+          <li><strong>host=127.0.0.1</strong> — عنوان الخادم (127.0.0.1 أفضل من localhost لتجنب تأخير DNS)</li>
+          <li><strong>port=3306</strong> — المنفذ الافتراضي لـ MySQL</li>
+          <li><strong>charset=utf8mb4</strong> — يدعم كل Unicode بما في ذلك الإيموجي</li>
+        </ul>
+      </div>
+
+      <div class="explain-box">
+        <h4>💡 شرح خيارات PDO الثلاثة:</h4>
+        <ul>
+          <li><strong>ERRMODE_EXCEPTION</strong> — يُلقي استثناء (Exception) عند أي خطأ SQL بدلاً من الصمت</li>
+          <li><strong>FETCH_ASSOC</strong> — يُرجع البيانات كمصفوفة مفاتيح نصية فقط (بدون أرقام مكررة)</li>
+          <li><strong>EMULATE_PREPARES = false</strong> — يستخدم Prepared Statements الحقيقية بدلاً من المحاكاة، أكثر أماناً</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- logError -->
+  <div class="section">
+    <div class="section-head"><span>📝</span><h2>دالة logError() — تسجيل الأخطاء</h2></div>
+    <div class="section-body">
+      <div class="code-block">
+        <div class="line"><span class="ln">40</span><span class="kw">private function</span> <span class="fn">logError</span><span class="plain">(</span><span class="var">$e</span><span class="plain">) {</span></div>
+        <div class="line"><span class="ln">41</span><span class="plain">    </span><span class="var">$logDir</span> <span class="op">=</span> <span class="var">ROOT_DIR</span> <span class="op">.</span> <span class="str">'/logs/'</span><span class="plain">;</span></div>
+        <div class="line"><span class="ln">43</span><span class="plain">    </span><span class="kw">if</span> <span class="plain">(!</span><span class="fn">is_dir</span><span class="plain">(</span><span class="var">$logDir</span><span class="plain">)) {</span></div>
+        <div class="line"><span class="ln">44</span><span class="plain">        </span><span class="fn">mkdir</span><span class="plain">(</span><span class="var">$logDir</span><span class="plain">, </span><span class="num">0755</span><span class="plain">, </span><span class="kw">true</span><span class="plain">);</span></div>
+        <div class="line"><span class="ln">47</span><span class="plain">    </span><span class="var">$logFile</span> <span class="op">=</span> <span class="var">$logDir</span> <span class="op">.</span> <span class="str">'db.errors.log'</span><span class="plain">;</span></div>
+        <div class="line"><span class="ln">50</span><span class="plain">    </span><span class="var">$timestamp</span> <span class="op">=</span> <span class="fn">date</span><span class="plain">(</span><span class="str">"Y-m-d H:i"</span><span class="plain">);</span></div>
+        <div class="line"><span class="ln">51</span><span class="plain">    </span><span class="var">$logMessage</span> <span class="op">=</span> <span class="str">"--------------------------------------------------\n"</span><span class="plain">;</span></div>
+        <div class="line"><span class="ln">52</span><span class="plain">    </span><span class="var">$logMessage</span> <span class="op">.=</span> <span class="str">"[{$timestamp}] 7X PHARMA CORE ERROR\n"</span><span class="plain">;</span></div>
+        <div class="line"><span class="ln">53</span><span class="plain">    </span><span class="var">$logMessage</span> <span class="op">.=</span> <span class="str">"Message : "</span> <span class="op">.</span> <span class="var">$e</span><span class="op">-></span><span class="fn">getMessage</span><span class="plain">() . </span><span class="str">"\n"</span><span class="plain">;</span></div>
+        <div class="line"><span class="ln">54</span><span class="plain">    </span><span class="var">$logMessage</span> <span class="op">.=</span> <span class="str">"File    : "</span> <span class="op">.</span> <span class="var">$e</span><span class="op">-></span><span class="fn">getFile</span><span class="plain">() . </span><span class="str">"(Line : "</span> <span class="op">.</span> <span class="var">$e</span><span class="op">-></span><span class="fn">getLine</span><span class="plain">() . </span><span class="str">")\n"</span><span class="plain">;</span></div>
+        <div class="line"><span class="ln">57</span><span class="plain">    </span><span class="fn">file_put_contents</span><span class="plain">(</span><span class="var">$logFile</span><span class="plain">, </span><span class="var">$logMessage</span><span class="plain">, </span><span class="num">FILE_APPEND</span><span class="plain">);</span></div>
+        <div class="line"><span class="ln">58</span><span class="plain">}</span></div>
+      </div>
+      <div class="success-box">
+        <h4>✅ مكونات رسالة الخطأ المُسجَّلة:</h4>
+        <ul>
+          <li>التاريخ والوقت بتنسيق Y-m-d H:i</li>
+          <li>رسالة الخطأ: <code>$e->getMessage()</code></li>
+          <li>مسار الملف الذي حدث فيه الخطأ: <code>$e->getFile()</code></li>
+          <li>رقم السطر: <code>$e->getLine()</code></li>
+          <li><strong>FILE_APPEND</strong>: يُضيف للملف بدلاً من الكتابة فوقه</li>
+        </ul>
+      </div>
+      <div class="warn-box">
+        <h4>⚠️ mkdir($logDir, 0755, true):</h4>
+        <p>0755 = صلاحيات Unix (المالك: قراءة+كتابة+تنفيذ، الآخرون: قراءة+تنفيذ). true = يُنشئ المجلدات الوسيطة إذا لم تكن موجودة.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head"><span>📊</span><h2>ملف Log النموذجي</h2></div>
+    <div class="section-body">
+      <div class="code-block">
+        <div class="line"><span class="ln">—</span><span class="cm">--------------------------------------------------</span></div>
+        <div class="line"><span class="ln">—</span><span class="plain">[2026-06-09 14:30] 7X PHARMA CORE ERROR</span></div>
+        <div class="line"><span class="ln">—</span><span class="plain">Message : SQLSTATE[HY000]: Connection refused</span></div>
+        <div class="line"><span class="ln">—</span><span class="plain">File    : C:\xampp\htdocs\7X_Pharma_Core\app\config\Database.php(Line : 23)</span></div>
+        <div class="line"><span class="ln">—</span><span class="cm">--------------------------------------------------</span></div>
+      </div>
+      <div class="explain-box">
+        <h4>📍 مسار ملف الـ Log:</h4>
+        <p><code>c:\xampp\htdocs\7X_Pharma_Core\logs\db.errors.log</code></p>
+      </div>
+    </div>
+  </div>
+</div>
 </body>
 </html>

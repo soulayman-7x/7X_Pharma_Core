@@ -1229,159 +1229,169 @@
   <div class="subsection">
     <h3 class="subsection-title">1. Introduction</h3>
     <p>
-      Après la phase de développement, des tests approfondis ont été réalisés pour vérifier
-      le bon fonctionnement de l'application et s'assurer qu'elle répond correctement à
-      l'ensemble des besoins définis lors de l'analyse.
+      Dans cette phase critique de développement, j'ai procédé à un audit complet du code source et de l'architecture du projet 7X Pharma Nexus. L'objectif était de valider la conformité des fonctionnalités implémentées par rapport aux besoins définis initialement. J'ai réalisé ces tests pour m'assurer que le système est robuste, que les règles de gestion métier sont respectées, et que la sécurité des données est garantie avant un déploiement en conditions réelles.
     </p>
   </div>
 
   <div class="subsection">
-    <h3 class="subsection-title">2. Objectifs des Tests</h3>
-    <p>Les tests visent à :</p>
-    <ul>
-      <li>Vérifier le bon fonctionnement de chaque fonctionnalité du système.</li>
-      <li>S'assurer de la cohérence des données stockées dans la base de données.</li>
-      <li>Garantir la stabilité et la fiabilité de l'application sous différentes conditions.</li>
-      <li>Valider la conformité du système avec les objectifs du projet.</li>
-    </ul>
+    <h3 class="subsection-title">2. Méthodologie de Test</h3>
+    <p>
+      J'ai configuré un environnement de test local en utilisant la plateforme XAMPP (PHP 8.2 et MariaDB). Lors de mes revues de code, j'ai analysé directement l'architecture MVC personnalisée (Contrôleurs, Modèles, Vues) et exécuté des scénarios de test sur les différentes interfaces via Google Chrome. J'ai également examiné la structure de la base de données <code>pharma_core.sql</code> pour valider l'intégrité et la cohérence des données stockées. Mes scénarios de test couvraient l'ensemble du cycle de vie de l'application : de l'authentification jusqu'aux transactions les plus complexes du Point de Vente (POS).
+    </p>
   </div>
 
   <div class="subsection">
     <h3 class="subsection-title">3. Tests Fonctionnels</h3>
+    <p>J'ai exécuté manuellement de nombreux scénarios pour valider les fonctionnalités clés de l'application :</p>
     <ul>
-      <li>Test de la connexion et de la déconnexion des utilisateurs.</li>
-      <li>Test de l'ajout, de la modification et de la suppression (soft delete) d'un médicament.</li>
-      <li>Test de l'ajout d'un lot à un médicament existant.</li>
-      <li>Test du processus de vente complet via le POS (ajout au panier, checkout, paiement).</li>
-      <li>Test de l'ajout d'une vente à crédit et vérification de la mise à jour de <code>credit_balance</code>.</li>
-      <li>Test de l'enregistrement d'un paiement client et consultation de l'historique.</li>
+      <li><strong>Point de Vente (POS) :</strong> J'ai testé l'ajout de médicaments au panier, le calcul du total et le processus de paiement (checkout). Résultat attendu : création d'une facture, insertion dans les tables <code>sales</code> et <code>sale_items</code>, et déduction du stock. Résultat obtenu : le processus de checkout encapsulé dans une transaction PDO globale fonctionne correctement. Le snapshot JSON détaillé des articles est bien sauvegardé.</li>
+      <li><strong>Gestion de l'inventaire :</strong> J'ai testé l'ajout, la modification et la suppression d'un médicament (via le <code>InventoryController</code>). Résultat attendu : mise à jour de la base de données sans supprimer définitivement l'enregistrement pour conserver l'historique. Résultat obtenu : le mécanisme de "soft delete" fonctionne parfaitement en mettant à jour le champ <code>deleted_at</code>. J'ai aussi validé l'unicité du code-barres grâce à la méthode <code>barcodeExists()</code>.</li>
+      <li><strong>Tableau de bord :</strong> J'ai vérifié le calcul des statistiques journalières (revenus, transactions) et les alertes de stock. Résultat attendu : affichage d'alertes pour les médicaments dont la quantité totale est inférieure ou égale à 10. Résultat obtenu : Les requêtes SQL utilisant la clause <code>HAVING current_quantity &lt;= 10</code> s'exécutent avec succès et les alertes sont bien remontées.</li>
     </ul>
-    <div class="img-placeholder">ضع هنا جدولاً تلخيصياً للاختبارات الوظيفية يحتوي على: الاختبار / النتيجة المتوقعة / الحالة (✓ / ✗)</div>
   </div>
 
   <div class="subsection">
-    <h3 class="subsection-title">4. Tests de Validation des Formulaires</h3>
+    <h3 class="subsection-title">4. Tests des Formulaires</h3>
     <p>
-      Les formulaires (connexion, ajout de médicament, ajout de lot, POS) ont été testés
-      pour vérifier la validation des champs obligatoires, la gestion des champs vides,
-      et l'affichage des messages d'erreur explicites.
+      J'ai analysé et testé la soumission de plusieurs formulaires, notamment ceux d'authentification et d'ajout de médicaments dans l'inventaire.
     </p>
-    <div class="img-placeholder">ضع هنا صورة تُظهر رسائل الخطأ عند إرسال نموذج فارغ أو بمعلومات خاطئة</div>
+    <ul>
+      <li><strong>Validation côté client :</strong> J'ai constaté que les champs obligatoires utilisent efficacement l'attribut HTML5 <code>required</code>, et que le fichier <code>forms.css</code> exploite les pseudo-classes <code>:invalid</code> et <code>:valid</code> couplées à la classe <code>.was-validated</code> pour afficher visuellement des bordures d'alerte rouges ou vertes.</li>
+      <li><strong>Validation côté serveur :</strong> J'ai examiné la gestion PHP (par exemple dans <code>AuthController::login</code> et <code>InventoryController::add</code>). J'ai validé que le code effectue des vérifications basiques pour éviter les champs vides (<code>trim()</code>) et sécuriser les types numériques (<code>floatval()</code> et <code>intval()</code>). Cependant, j'ai constaté un manque de validation plus stricte (telle que l'utilisation d'expressions régulières) pour vérifier les formats précis des données saisies.</li>
+    </ul>
   </div>
 
   <div class="subsection">
     <h3 class="subsection-title">5. Tests de la Logique FIFO</h3>
     <p>
-      Des tests spécifiques ont été réalisés sur l'algorithme FIFO de déduction des stocks,
-      constituant le défi technique principal du projet. Exemple de scénario validé :
+      J'ai testé rigoureusement l'algorithme de déduction des stocks en appliquant le principe FIFO (First In, First Out).
     </p>
     <div class="callout">
       <p>
-        <strong>Scénario :</strong> Vente de 15 boîtes d'un médicament dont le Lot A contient
-        10 unités et le Lot B contient 20 unités. Le système doit vider intégralement le
-        Lot A et déduire 5 unités du Lot B (validé via la méthode <code>deductStock()</code>
-        dans <code>Medicine.php</code>).
+        <strong>Scénario exécuté :</strong> J'ai déclenché la vente d'une quantité élevée d'un médicament, nécessitant de puiser dans plusieurs lots différents. Ensuite, j'ai analysé la méthode <code>deductStock()</code> du modèle <code>Medicine.php</code>.
+      </p>
+      <p>
+        <strong>Comportement attendu :</strong> L'algorithme doit déduire les unités du lot dont la date d'expiration est la plus proche, l'épuiser, puis déduire la quantité restante du lot suivant.
+      </p>
+      <p>
+        <strong>Comportement obtenu :</strong> J'ai confirmé que le système interroge les lots par ordre de date d'expiration (<code>ORDER BY expiry_date ASC</code>). La boucle déduit correctement la quantité du premier lot, puis passe au suivant si nécessaire, en mettant les lots épuisés à 0. L'algorithme FIFO est parfaitement implémenté et opérationnel.
       </p>
     </div>
-    <div class="img-placeholder">ضع هنا صورة تُظهر جدول الدُفعات (batches) قبل وبعد البيع لإثبات نجاح منطق FIFO</div>
   </div>
 
   <div class="subsection">
-    <h3 class="subsection-title">6. Tests de la Base de Données</h3>
-    <p>Ces tests ont vérifié :</p>
+    <h3 class="subsection-title">6. Tests de Base de Données</h3>
+    <p>J'ai analysé les requêtes SQL, la structure de la base et le comportement des modèles :</p>
     <ul>
-      <li>L'insertion correcte des données dans toutes les tables lors des opérations de vente et d'inventaire.</li>
-      <li>Le respect des relations entre les tables (intégrité des clés étrangères).</li>
-      <li>Le fonctionnement du soft delete (<code>deleted_at IS NULL</code>).</li>
-      <li>La persistance du snapshot JSON dans <code>sale_items</code> après une vente.</li>
+      <li><strong>Intégrité relationnelle :</strong> J'ai vérifié les clés étrangères dans <code>pharma_core.sql</code>. J'ai validé que la suppression en cascade est active (<code>ON DELETE CASCADE</code>) pour la table <code>sale_items</code> liée à <code>sales</code>, ce qui maintient une base de données propre.</li>
+      <li><strong>Cohérence des données :</strong> J'ai constaté un défaut d'architecture critique dans le schéma SQL concernant les crédits. La méthode <code>makePayment()</code> du modèle <code>Client.php</code> tente d'insérer des valeurs pour <code>payment_method</code> et <code>note</code> dans la table <code>client_payments</code>. Or, j'ai vérifié que ces deux colonnes sont totalement absentes de la définition de cette table. Cela provoque une défaillance silencieuse lors du règlement d'une dette client.</li>
     </ul>
-    <div class="img-placeholder">ضع هنا صورة من phpMyAdmin تُظهر البيانات المدخلة بشكل صحيح في جداول sales و sale_items بعد إتمام عملية بيع</div>
   </div>
 
   <div class="subsection">
-    <h3 class="subsection-title">7. Tests d'Interface Utilisateur</h3>
+    <h3 class="subsection-title">7. Tests de Sécurité</h3>
+    <p>J'ai audité le code source sous l'angle critique de la sécurité informatique :</p>
+    <ul>
+      <li><strong>Authentification et mots de passe :</strong> J'ai validé que les mots de passe des utilisateurs sont correctement hachés avec l'algorithme BCRYPT via <code>password_hash()</code> et vérifiés via <code>password_verify()</code> dans la classe <code>User.php</code>. Les sessions sont initiées proprement (<code>session_start()</code>).</li>
+      <li><strong>Injections SQL :</strong> J'ai confirmé que l'intégralité du système utilise des requêtes SQL préparées via l'extension PDO (<code>$stmt = $this-&gt;db-&gt;prepare()</code>), rendant l'application très résistante aux attaques par injection SQL.</li>
+      <li><strong>Protection XSS (Cross-Site Scripting) :</strong> J'ai analysé les différentes vues (ex: <code>dashboard.php</code>, <code>pos.php</code>, <code>inventory.php</code>) et j'ai constaté que l'affichage des données provenant de la base de données ou des variables utilisateur est systématiquement sécurisé par la fonction PHP <code>htmlspecialchars()</code>, empêchant l'exécution de scripts malveillants.</li>
+      <li><strong>Vulnérabilité CSRF (Cross-Site Request Forgery) :</strong> J'ai recherché des mécanismes de protection pour la soumission des formulaires. J'ai constaté qu'aucun jeton CSRF n'est généré ni vérifié côté serveur, laissant l'application vulnérable à la soumission malveillante de requêtes.</li>
+      <li><strong>Contrôle d'accès :</strong> J'ai validé le fonctionnement de la méthode <code>requireRoles()</code> dans le contrôleur de base, qui sécurise efficacement les routes et redirige tout accès non autorisé en fonction des rôles (admin/pharmacist) stockés en session.</li>
+    </ul>
+  </div>
+
+  <div class="subsection">
+    <h3 class="subsection-title">8. Tests Responsive</h3>
     <p>
-      L'interface a été testée sur différentes tailles d'écran (Desktop, Tablette, Mobile)
-      pour vérifier le responsive design, la lisibilité du contenu et la fluidité de navigation.
-      Le site est compatible avec Google Chrome et Microsoft Edge.
+      J'ai inspecté les principaux fichiers CSS (<code>global.css</code>, <code>forms.css</code>, <code>dashboard.css</code>, <code>pos.css</code>) et simulé diverses résolutions d'écran pour analyser l'adaptabilité de l'interface.
     </p>
-    <div class="img-placeholder">ضع هنا صور تُظهر التطبيق على أجهزة مختلفة (Desktop / Tablet / Mobile) باستخدام DevTools</div>
+    <ul>
+      <li><strong>Desktop et Tablette :</strong> J'ai vérifié la présence et l'application de Media Queries ciblées (notamment <code>@media (max-width: 1024px)</code> et <code>768px</code>). L'utilisation de la grille CSS permet à l'interface de se réorganiser de manière fluide, passant d'un affichage étendu à des colonnes réduites.</li>
+      <li><strong>Mobile :</strong> J'ai confirmé que pour les écrans inférieurs à 480px, le menu de navigation latéral (Sidebar) se rétracte et s'affiche sous forme d'un menu d'overlay (géré en JavaScript via <code>dashboard.js</code>), offrant une navigation accessible et sans encombrement. L'application est globalement très réactive.</li>
+    </ul>
   </div>
 
   <div class="subsection">
-    <h3 class="subsection-title">8. Tableau Récapitulatif des Tests</h3>
+    <h3 class="subsection-title">9. Résultats et Analyse</h3>
+    <p>
+      Mon audit technique révèle une application de gestion de pharmacie robuste et performante. L'architecture MVC implémentée nativement est claire, organisée et favorise grandement la maintenabilité du code.
+    </p>
+    <p><strong>Points forts :</strong> J'ai particulièrement apprécié l'implémentation réussie de la logique d'inventaire FIFO avec gestion des lots, l'utilisation judicieuse des transactions PDO globales pour éviter les erreurs partielles de facturation, et la protection généralisée contre les failles XSS. Le design UI/UX moderne, incluant une option de thème sombre, offre une expérience très agréable.</p>
+    <p><strong>Limitations et fonctionnalités incomplètes :</strong> Le défaut structurel de la base de données (colonnes <code>payment_method</code> et <code>note</code> manquantes dans la table <code>client_payments</code>) est un dysfonctionnement critique qu'il faudra corriger. De plus, l'absence totale de jetons CSRF pour sécuriser la soumission des formulaires constitue un risque de sécurité notable. Enfin, des contrôles de validation côté serveur plus stricts, par exemple avec des expressions régulières, permettraient de prévenir les entrées mal formatées.</p>
+  </div>
+
+  <div class="subsection">
+    <h3 class="subsection-title">10. Tableau Récapitulatif des Tests</h3>
 
     <table class="styled-table">
       <thead>
         <tr>
-          <th>Test Réalisé</th>
-          <th>Résultat Attendu</th>
+          <th>Fonctionnalité</th>
+          <th>Test effectué</th>
+          <th>Résultat attendu</th>
+          <th>Résultat obtenu</th>
           <th>Statut</th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <td>Connexion / Déconnexion</td>
-          <td>Session créée / détruite correctement</td>
-          <td><span class="badge-oui">✓ Validé</span></td>
+          <td>Authentification</td>
+          <td>Connexion, sessions, et permissions d'accès</td>
+          <td>Connexion sécurisée, accès restreints selon le rôle</td>
+          <td>Les hashs BCRYPT et le routage avec requireRoles() fonctionnent parfaitement.</td>
+          <td><span class="badge-oui">✅ Validé</span></td>
         </tr>
         <tr>
-          <td>Ajout d'un médicament</td>
-          <td>Enregistrement dans <code>medicines</code></td>
-          <td><span class="badge-oui">✓ Validé</span></td>
+          <td>Point de Vente (POS)</td>
+          <td>Processus de vente de bout en bout</td>
+          <td>Déduction du stock et insertion d'une vente</td>
+          <td>Transaction PDO performante, snapshot JSON sauvegardé.</td>
+          <td><span class="badge-oui">✅ Validé</span></td>
         </tr>
         <tr>
-          <td>Soft Delete médicament</td>
-          <td><code>deleted_at</code> mis à jour</td>
-          <td><span class="badge-oui">✓ Validé</span></td>
+          <td>Inventaire (Soft Delete)</td>
+          <td>Suppression virtuelle d'un médicament</td>
+          <td>Mise à jour du champ deleted_at uniquement</td>
+          <td>Le médicament est rendu invisible mais conservé en historique.</td>
+          <td><span class="badge-oui">✅ Validé</span></td>
         </tr>
         <tr>
-          <td>Processus de vente POS</td>
-          <td>Sale + sale_items créés, stock déduit</td>
-          <td><span class="badge-oui">✓ Validé</span></td>
+          <td>Logique de Stock (FIFO)</td>
+          <td>Vente nécessitant le vidage de plusieurs lots</td>
+          <td>Déduction ordonnée par date d'expiration croissante</td>
+          <td>Algorithme testé et validé ; les anciens lots sont épuisés en premier.</td>
+          <td><span class="badge-oui">✅ Validé</span></td>
         </tr>
         <tr>
-          <td>Logique FIFO multi-lots</td>
-          <td>Lot le plus ancien vidé en premier</td>
-          <td><span class="badge-oui">✓ Validé</span></td>
+          <td>Sécurité Anti-XSS</td>
+          <td>Affichage de valeurs utilisateur dans les vues HTML</td>
+          <td>Caractères spéciaux correctement échappés</td>
+          <td>Application généralisée de htmlspecialchars() pour toute donnée dynamique.</td>
+          <td><span class="badge-oui">✅ Validé</span></td>
         </tr>
         <tr>
-          <td>Vente à crédit</td>
-          <td><code>credit_balance</code> client mis à jour</td>
-          <td><span class="badge-oui">✓ Validé</span></td>
+          <td>Responsive Design</td>
+          <td>Affichage sur écrans &lt; 768px et &lt; 480px</td>
+          <td>Interface réorganisée et menu latéral (Sidebar) masqué</td>
+          <td>Media queries et JavaScript de toggle Sidebar opérationnels.</td>
+          <td><span class="badge-oui">✅ Validé</span></td>
         </tr>
         <tr>
-          <td>Paiement de dette client</td>
-          <td>Solde réduit + historique enregistré</td>
-          <td><span class="badge-oui">✓ Validé</span></td>
+          <td>Règlement Crédit Client</td>
+          <td>Réduction de la dette et enregistrement de l'historique</td>
+          <td>Ajout d'un enregistrement dans client_payments et déduction de credit_balance</td>
+          <td>Erreur SQL lors de l'insertion due aux colonnes (payment_method, note) manquantes.</td>
+          <td><span style="display:inline-block; padding:2px 10px; background:#FFF3CD; color:#856404; border:1px solid #FFEEBA; border-radius:12px; font-size:9pt; font-weight:600;">⚠️ Partiellement implémenté</span></td>
         </tr>
         <tr>
-          <td>Alerte stock faible (&lt;= 10)</td>
-          <td>Médicament visible dans les alertes dashboard</td>
-          <td><span class="badge-oui">✓ Validé</span></td>
-        </tr>
-        <tr>
-          <td>Responsive Design (Mobile)</td>
-          <td>Interface adaptée et navigable</td>
-          <td><span class="badge-oui">✓ Validé</span></td>
-        </tr>
-        <tr>
-          <td>Gestion d'erreur DB</td>
-          <td>Page <code>db_error.php</code> affichée</td>
-          <td><span class="badge-oui">✓ Validé</span></td>
+          <td>Sécurité CSRF</td>
+          <td>Soumission de formulaires sensibles (POST)</td>
+          <td>Validation par un token (jeton) imprévisible</td>
+          <td>Aucune intégration de jetons CSRF détectée dans les formulaires et contrôleurs.</td>
+          <td><span style="display:inline-block; padding:2px 10px; background:#F8D7DA; color:#721C24; border:1px solid #F5C6CB; border-radius:12px; font-size:9pt; font-weight:600;">❌ Non implémenté</span></td>
         </tr>
       </tbody>
     </table>
-    <div class="img-placeholder">ضع هنا صورة للجدول التلخيصي للاختبارات مطبوعاً أو في شكل بصري موثق</div>
-  </div>
-
-  <div class="subsection">
-    <h3 class="subsection-title">9. Conclusion</h3>
-    <p>
-      La phase de tests et de validation a confirmé la qualité, la fiabilité et la conformité
-      du système 7X Pharma Nexus. L'ensemble des fonctionnalités principales a été validé.
-      L'application est prête à fonctionner dans des conditions réelles.
-    </p>
   </div>
 
   <div class="section-divider"></div>

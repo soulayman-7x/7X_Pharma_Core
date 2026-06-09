@@ -1,96 +1,198 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>POS Controller - 7X Pharma Core</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        :root { --primary-dark: #0f172a; --primary-light: #1e293b; --accent-cyan: #06b6d4; --accent-purple: #8b5cf6; --text-main: #334155; --bg-body: #f8fafc; --bg-card: #ffffff; --border-color: #e2e8f0; }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Cairo', sans-serif; }
-        body { background-color: var(--bg-body); color: var(--text-main); line-height: 1.8; }
-        @media print { body { background: #fff; color: #000; font-size: 11pt; } .no-print { display: none !important; } .page-break { page-break-before: always; } .card { border: 1px solid #000; box-shadow: none; break-inside: avoid; margin-bottom: 20px;} header { background: #fff !important; color: #000 !important; border: 1px solid #000; padding: 20px; } header * { color: #000 !important; text-shadow: none !important;} }
-        .container { max-width: 1140px; margin: 0 auto; padding: 20px; }
-        header { background: linear-gradient(135deg, var(--primary-dark), var(--primary-light)); color: white; padding: 30px; border-radius: 12px; margin-bottom: 30px; text-align: center; }
-        header h1 { font-size: 2.5rem; margin-bottom: 10px; }
-        .breadcrumbs { margin-bottom: 20px; padding: 15px; background: var(--bg-card); border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); font-weight: 600; }
-        .breadcrumbs a { color: var(--accent-purple); text-decoration: none; margin-left: 5px; margin-right: 5px;}
-        .card { background: var(--bg-card); border-radius: 10px; padding: 30px; margin-bottom: 30px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); border: 1px solid var(--border-color); }
-        .card-header { display: flex; align-items: center; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid var(--bg-body); }
-        .card-header i { font-size: 1.8rem; color: var(--accent-cyan); margin-left: 15px; }
-        .card-header h2 { font-size: 1.6rem; color: var(--primary-dark); }
-        p { margin-bottom: 15px; font-size: 1.1rem; text-align: justify; }
-        .method-box { background: var(--bg-body); border-right: 4px solid var(--accent-purple); padding: 15px; margin-bottom: 15px; border-radius: 4px; }
-        .method-box h4 { margin-bottom: 5px; color: var(--primary-dark); direction: ltr; text-align: left; font-family: monospace; font-size: 1.1rem;}
-        .badge { display: inline-block; padding: 3px 8px; border-radius: 4px; font-size: 0.85rem; font-weight: bold; margin-left: 5px; }
-        .badge-public { background: #dcfce7; color: #15803d; }
-        .note-box { background: #eff6ff; border-right: 4px solid #3b82f6; padding: 15px; margin: 20px 0; border-radius: 4px 8px 8px 4px; }
-    </style>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>POSController.php — توثيق 7X Pharma Core</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Fira+Code:wght@400;500&display=swap');
+  :root{--bg:#0d1117;--surface:#161b22;--surface2:#1f2937;--border:#30363d;--accent:#fb923c;--text:#e6edf3;--text2:#8b949e;--text3:#c9d1d9;--green:#3fb950;--yellow:#f0c842;--blue:#58a6ff;--red:#f87171;--purple:#a78bfa}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Cairo',sans-serif;background:var(--bg);color:var(--text);line-height:1.7}
+  .topbar{background:var(--surface);border-bottom:1px solid var(--border);padding:1rem 2rem;display:flex;align-items:center;gap:1rem}
+  .back-btn{text-decoration:none;color:var(--accent);font-weight:600;padding:0.4rem 1rem;border:1px solid var(--accent);border-radius:8px;font-size:0.9rem}
+  .back-btn:hover{background:rgba(251,146,60,0.1)}
+  .breadcrumb{color:var(--text2);font-size:0.9rem}
+  .hero{background:linear-gradient(135deg,#1f1207,#0d1117);border-bottom:1px solid var(--border);padding:2.5rem 2rem}
+  .hero-content{max-width:900px;margin:0 auto}
+  .file-badge{display:inline-flex;align-items:center;gap:0.5rem;background:rgba(251,146,60,0.1);border:1px solid rgba(251,146,60,0.3);color:var(--accent);padding:0.4rem 1rem;border-radius:100px;font-size:0.85rem;margin-bottom:1rem}
+  h1{font-size:2.2rem;font-weight:900;margin-bottom:0.5rem}
+  .hero-desc{color:var(--text3);font-size:1.05rem}
+  .meta-row{display:flex;flex-wrap:wrap;gap:1rem;margin-top:1.5rem}
+  .meta-item{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:0.5rem 1rem;font-size:0.85rem;color:var(--text2)}
+  .meta-item strong{color:var(--text3)}
+  .container{max-width:950px;margin:2rem auto;padding:0 2rem}
+  .section{background:var(--surface);border:1px solid var(--border);border-radius:14px;margin-bottom:1.5rem;overflow:hidden}
+  .section-head{padding:1rem 1.5rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:0.8rem;background:var(--surface2)}
+  .section-head h2{font-size:1.1rem;font-weight:700}
+  .section-body{padding:1.5rem}
+  .code-block{background:#010409;border:1px solid var(--border);border-radius:10px;padding:1.2rem 1.5rem;font-family:'Fira Code',monospace;font-size:0.82rem;overflow-x:auto;margin:0.8rem 0;line-height:1.9}
+  .line{display:flex;gap:1rem}
+  .ln{color:#3d4451;min-width:32px;user-select:none;text-align:right}
+  .kw{color:#ff7b72}.fn{color:#d2a8ff}.str{color:#a5d6ff}.cm{color:#8b949e;font-style:italic}.var{color:#ffa657}.num{color:#79c0ff}.op{color:#ff7b72}.plain{color:#e6edf3}
+  .explain-box{background:rgba(88,166,255,0.05);border:1px solid rgba(88,166,255,0.2);border-radius:10px;padding:1.2rem 1.5rem;margin:0.8rem 0}
+  .explain-box h4{color:var(--blue);margin-bottom:0.5rem;font-size:0.95rem}
+  .explain-box p,.explain-box li{color:var(--text3);font-size:0.9rem;margin-bottom:0.4rem}
+  .explain-box ul{padding-right:1.2rem}
+  .warn-box{background:rgba(240,200,66,0.07);border:1px solid rgba(240,200,66,0.25);border-radius:10px;padding:1rem 1.5rem;margin:0.8rem 0}
+  .warn-box h4{color:var(--yellow);margin-bottom:0.4rem}.warn-box p{color:var(--text3);font-size:0.9rem}
+  .success-box{background:rgba(63,185,80,0.07);border:1px solid rgba(63,185,80,0.25);border-radius:10px;padding:1rem 1.5rem;margin:0.8rem 0}
+  .success-box h4{color:var(--green);margin-bottom:0.4rem}.success-box p,.success-box li{color:var(--text3);font-size:0.9rem}.success-box ul{padding-right:1.2rem}
+  .danger-box{background:rgba(248,113,113,0.06);border:1px solid rgba(248,113,113,0.25);border-radius:10px;padding:1rem 1.5rem;margin:0.8rem 0}
+  .danger-box h4{color:var(--red);margin-bottom:0.4rem}.danger-box p,.danger-box li{color:var(--text3);font-size:0.9rem}.danger-box ul{padding-right:1.2rem}
+  .step{display:flex;align-items:flex-start;gap:1rem;padding:0.8rem;background:var(--surface2);border-radius:8px;margin-bottom:0.5rem;border-right:3px solid var(--accent)}
+  .step-num{background:var(--accent);color:#fff;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.8rem;font-weight:700;flex-shrink:0}
+  .step-text{font-size:0.88rem;color:var(--text3)}
+  .step-text strong{color:var(--text)}
+  table{width:100%;border-collapse:collapse;font-size:0.9rem}
+  th{background:var(--surface2);padding:0.7rem 1rem;text-align:right;color:var(--text2);font-weight:600;border:1px solid var(--border)}
+  td{padding:0.7rem 1rem;border:1px solid var(--border);color:var(--text3)}
+</style>
 </head>
 <body>
-
-<div class="container">
-    <header>
-        <h1><i class="fas fa-cash-register" style="color: var(--accent-cyan);"></i> POS Controller</h1>
-        <p>المتحكم الخاص بنقاط البيع وإدارة العربة وإتمام الفواتير</p>
-    </header>
-
-    <div class="breadcrumbs no-print">
-        <a href="../home.html"><i class="fas fa-home"></i> الرئيسية</a> / <span>Controllers</span> / <span>POSController.php</span>
+<div class="topbar">
+  <a href="../index.html" class="back-btn">← الفهرس الرئيسي</a>
+  <span class="breadcrumb">📁 app/controllers / <strong>POSController.php</strong></span>
+</div>
+<div class="hero">
+  <div class="hero-content">
+    <div class="file-badge">🎯 Controller</div>
+    <h1>🛒 POSController.php</h1>
+    <div class="hero-desc">أكبر وأعقد Controller في المشروع (241 سطر). يدير شاشة نقطة البيع بالكامل: السلة، البحث، والأهم — عملية الدفع (Checkout) بـ Database Transaction كاملة محمية بـ try-catch.</div>
+    <div class="meta-row">
+      <div class="meta-item"><strong>المسار:</strong> app/controllers/POSController.php</div>
+      <div class="meta-item"><strong>الحجم:</strong> 9,598 bytes</div>
+      <div class="meta-item"><strong>السطور:</strong> 241</div>
+      <div class="meta-item"><strong>الدوال:</strong> 7</div>
+      <div class="meta-item"><strong>الصلاحيات:</strong> admin + pharmacist</div>
     </div>
-
-    <section class="card">
-        <div class="card-header">
-            <i class="fas fa-info-circle"></i>
-            <h2>وصف المتحكم الأساسي</h2>
-        </div>
-        <p>
-            يُعد <code>POSController</code> أهم وأكبر متحكم في النظام. وهو المسؤول عن شاشة نقطة البيع (Point of Sale). يقوم بإدارة مصفوفة السلة (Cart) داخل جلسة المستخدم <code>$_SESSION['cart']</code> ليسمح للمستخدم بإضافة الأدوية، تغيير الكميات، أو حذفها قبل إتمام عملية البيع (Checkout).
-        </p>
-    </section>
-
-    <section class="card page-break">
-        <div class="card-header">
-            <i class="fas fa-cogs"></i>
-            <h2>الدوال الرئيسية (Methods)</h2>
-        </div>
-
-        <div class="method-box">
-            <h4><span class="badge badge-public">public</span> index()</h4>
-            <p><strong>الوظيفة:</strong> عرض الواجهة الرئيسية لنقطة البيع. تقوم بـ:</p>
-            <ul>
-                <li>استدعاء الأدوية من <code>MedicineModel</code> بناءً على البحث أو الفلتر (قيمة <code>$_GET['q']</code>).</li>
-                <li>حساب المجموع الفرعي (Subtotal) للعناصر الموجودة في <code>$_SESSION['cart']</code>.</li>
-                <li>في حال كان المتغير <code>$_GET['receipt']</code> موجوداً (أي تمت مبيعة للتو)، تقوم بطلب تفاصيل الفاتورة السابقة من الـ Model وعرض الإيصال للطباعة.</li>
-            </ul>
-        </div>
-
-        <div class="method-box">
-            <h4><span class="badge badge-public">public</span> addToCart()</h4>
-            <p><strong>الوظيفة:</strong> إضافة دواء للسلة.</p>
-            <p><strong>منطق العمل:</strong> تتأكد أولاً أن الكمية المتوفرة أكبر من 0. إذا كان الدواء موجوداً مسبقاً في السلة، تزيد الكمية بشرط ألا تتجاوز الكمية القصوى المتوفرة في المخزون (<code>max_stock</code>). وإلا تقوم بإنشاء عنصر جديد داخل مصفوفة <code>$_SESSION['cart']</code> يضم اسم الدواء والسعر والكمية الابتدائية (1).</p>
-        </div>
-
-        <div class="method-box">
-            <h4><span class="badge badge-public">public</span> updateQuantity() / removeFromCart() / clearCart()</h4>
-            <p>مجموعة من الدوال المسؤولة عن إدارة حالة الـ Session الخاصة بالعربة (زيادة/إنقاص كمية، حذف عنصر محدد عبر <code>unset()</code>، أو تصفير السلة بالكامل).</p>
-        </div>
-
-        <div class="method-box">
-            <h4><span class="badge badge-public">public</span> checkout()</h4>
-            <p><strong>أهم دالة تجارية (Checkout Process):</strong></p>
-            <ol>
-                <li>استقبال طريقة الدفع وقيمة الخصم ومعرف العميل.</li>
-                <li>إدراج فاتورة عامة (Header) في جدول <code>sales</code> باستخدام قيمة <code>insert</code>.</li>
-                <li>المرور بحلقة تكرار على عناصر السلة. لكل دواء يتم استدعاء أقدم دفعة متاحة (لتحقيق مبدأ FIFO)، أخذ Snapshot لسعر واسم الدواء وتسجيله كـ Item في <code>sale_items</code>، وخصم الكمية فعلياً من المخزون.</li>
-                <li>إذا كان الدفع بنظام الدين <code>credit</code>، تقوم بإضافة قيمة الفاتورة لحساب العميل عبر <code>addDebt()</code>.</li>
-                <li>تفريغ السلة <code>$_SESSION['cart'] = []</code> وتخزين رقم الفاتورة للطباعة ثم إعادة التوجيه إلى الواجهة لطباعة الفاتورة الوهمية (RX-0000X).</li>
-            </ol>
-        </div>
-    </section>
-
+  </div>
 </div>
 
+<div class="container">
+
+  <!-- Constructor -->
+  <div class="section">
+    <div class="section-head"><span>🔐</span><h2>__construct() — الحماية وتهيئة السلة</h2></div>
+    <div class="section-body">
+      <div class="code-block">
+        <div class="line"><span class="ln">4</span><span class="kw">public function</span> <span class="fn">__construct</span><span class="plain">() {</span></div>
+        <div class="line"><span class="ln">5</span><span class="plain">    </span><span class="var">$this</span><span class="op">-></span><span class="fn">requireRoles</span><span class="plain">([</span><span class="str">'admin'</span><span class="plain">, </span><span class="str">'pharmacist'</span><span class="plain">]);</span></div>
+        <div class="line"><span class="ln">7</span><span class="plain">    </span><span class="kw">if</span> <span class="plain">(!</span><span class="fn">isset</span><span class="plain">(</span><span class="var">$_SESSION</span><span class="plain">[</span><span class="str">'cart'</span><span class="plain">])) {</span></div>
+        <div class="line"><span class="ln">8</span><span class="plain">        </span><span class="var">$_SESSION</span><span class="plain">[</span><span class="str">'cart'</span><span class="plain">] = [];</span></div>
+        <div class="line"><span class="ln">9</span><span class="plain">    }</span></div>
+        <div class="line"><span class="ln">10</span><span class="plain">}</span></div>
+      </div>
+      <div class="explain-box">
+        <h4>💡 السلة في SESSION:</h4>
+        <p>السلة تُحفظ في $_SESSION['cart'] وليس في قاعدة البيانات — هذا يجعلها مؤقتة بين الطلبات ويتجنب كتابات غير ضرورية لـ DB. عند الـ checkout فقط تُكتب بيانات الفاتورة في DB.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cart Operations -->
+  <div class="section">
+    <div class="section-head"><span>🛒</span><h2>عمليات السلة (add, update, remove, clear)</h2></div>
+    <div class="section-body">
+      <div class="code-block">
+        <div class="line"><span class="ln">54</span><span class="kw">if</span> <span class="plain">(</span><span class="fn">isset</span><span class="plain">(</span><span class="var">$_SESSION</span><span class="plain">[</span><span class="str">'cart'</span><span class="plain">][</span><span class="var">$med_id</span><span class="plain">])) {</span></div>
+        <div class="line"><span class="ln">55</span><span class="plain">    </span><span class="cm">// الدواء موجود في السلة</span></div>
+        <div class="line"><span class="ln">56</span><span class="plain">    </span><span class="kw">if</span> <span class="plain">(</span><span class="var">$_SESSION</span><span class="plain">[</span><span class="str">'cart'</span><span class="plain">][</span><span class="var">$med_id</span><span class="plain">][</span><span class="str">'quantity'</span><span class="plain">] </span><span class="op">&lt;</span> <span class="var">$med</span><span class="plain">[</span><span class="str">'current_quantity'</span><span class="plain">]) {</span></div>
+        <div class="line"><span class="ln">57</span><span class="plain">        </span><span class="var">$_SESSION</span><span class="plain">[</span><span class="str">'cart'</span><span class="plain">][</span><span class="var">$med_id</span><span class="plain">][</span><span class="str">'quantity'</span><span class="plain">]++;</span></div>
+        <div class="line"><span class="ln">58</span><span class="plain">    } </span><span class="kw">else</span> <span class="plain">{</span></div>
+        <div class="line"><span class="ln">59</span><span class="plain">        </span><span class="var">$this</span><span class="op">-></span><span class="fn">setFlash</span><span class="plain">(</span><span class="str">'error'</span><span class="plain">, </span><span class="str">'Not enough stock available!'</span><span class="plain">);</span></div>
+        <div class="line"><span class="ln">60</span><span class="plain">    }</span></div>
+        <div class="line"><span class="ln">61</span><span class="plain">} </span><span class="kw">else</span> <span class="plain">{</span></div>
+        <div class="line"><span class="ln">62</span><span class="plain">    </span><span class="var">$_SESSION</span><span class="plain">[</span><span class="str">'cart'</span><span class="plain">][</span><span class="var">$med_id</span><span class="plain">] = [</span></div>
+        <div class="line"><span class="ln">63</span><span class="plain">        </span><span class="str">'name'</span> <span class="op">=></span> <span class="var">$med</span><span class="plain">[</span><span class="str">'name'</span><span class="plain">],</span></div>
+        <div class="line"><span class="ln">64</span><span class="plain">        </span><span class="str">'price'</span> <span class="op">=></span> <span class="var">$med</span><span class="plain">[</span><span class="str">'price'</span><span class="plain">],</span></div>
+        <div class="line"><span class="ln">65</span><span class="plain">        </span><span class="str">'quantity'</span> <span class="op">=></span> <span class="num">1</span><span class="plain">,</span></div>
+        <div class="line"><span class="ln">66</span><span class="plain">        </span><span class="str">'max_stock'</span> <span class="op">=></span> <span class="var">$med</span><span class="plain">[</span><span class="str">'current_quantity'</span><span class="plain">]</span></div>
+        <div class="line"><span class="ln">67</span><span class="plain">    ];</span></div>
+        <div class="line"><span class="ln">68</span><span class="plain">}</span></div>
+      </div>
+      <div class="explain-box">
+        <h4>🔍 مفتاح السلة هو med_id:</h4>
+        <p><code>$_SESSION['cart'][$med_id]</code> — استخدام ID الدواء كمفتاح يمنع تكرار نفس الدواء ويسهّل التعديل والحذف مباشرةً.</p>
+      </div>
+      <div class="warn-box">
+        <h4>⚡ max_stock — حماية الكمية في السلة:</h4>
+        <p>عند الإضافة يُحفظ الحد الأقصى للمخزون. عند محاولة زيادة الكمية فوق المتاح → تظهر رسالة خطأ بدلاً من السماح بكمية مستحيلة.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Checkout - أهم جزء -->
+  <div class="section">
+    <div class="section-head"><span>💳</span><h2>checkout() — عملية الدفع بـ Database Transaction (الأهم)</h2></div>
+    <div class="section-body">
+      <div class="code-block">
+        <div class="line"><span class="ln">143</span><span class="var">$db</span><span class="op">-></span><span class="fn">beginTransaction</span><span class="plain">();</span></div>
+        <div class="line"><span class="ln">145</span><span class="kw">try</span> <span class="plain">{</span></div>
+        <div class="line"><span class="ln">147</span><span class="plain">    </span><span class="cm">// 1. إدراج رأس الفاتورة في جدول sales</span></div>
+        <div class="line"><span class="ln">155</span><span class="plain">    </span><span class="var">$sale_id</span> <span class="op">=</span> <span class="var">$db</span><span class="op">-></span><span class="fn">lastInsertId</span><span class="plain">();</span></div>
+        <div class="line"><span class="ln">161</span><span class="plain">    </span><span class="kw">foreach</span> <span class="plain">(</span><span class="var">$_SESSION</span><span class="plain">[</span><span class="str">'cart'</span><span class="plain">] </span><span class="kw">as</span> <span class="var">$med_id</span> <span class="op">=></span> <span class="var">$item</span><span class="plain">) {</span></div>
+        <div class="line"><span class="ln">163</span><span class="plain">        </span><span class="cm">// 2. جلب بيانات الدواء والدفعة الأقدم</span></div>
+        <div class="line"><span class="ln">171</span><span class="plain">        </span><span class="cm">// 3. إنشاء snapshot بـ JSON</span></div>
+        <div class="line"><span class="ln">178</span><span class="plain">        </span><span class="cm">// 4. إدراج بند الفاتورة في sale_items</span></div>
+        <div class="line"><span class="ln">189</span><span class="plain">        </span><span class="cm">// 5. خصم المخزون بـ FIFO</span></div>
+        <div class="line"><span class="ln">196</span><span class="plain">        </span><span class="cm">// 6. تسجيل حركة المخزون</span></div>
+        <div class="line"><span class="ln">205</span><span class="plain">    }</span></div>
+        <div class="line"><span class="ln">208</span><span class="plain">    </span><span class="cm">// 7. إذا دفع آجل → أضف للدين</span></div>
+        <div class="line"><span class="ln">214</span><span class="plain">    </span><span class="var">$db</span><span class="op">-></span><span class="fn">commit</span><span class="plain">();</span></div>
+        <div class="line"><span class="ln">223</span><span class="plain">} </span><span class="kw">catch</span> <span class="plain">(</span><span class="fn">Exception</span> <span class="var">$e</span><span class="plain">) {</span></div>
+        <div class="line"><span class="ln">224</span><span class="plain">    </span><span class="kw">if</span> <span class="plain">(</span><span class="var">$db</span><span class="op">-></span><span class="fn">inTransaction</span><span class="plain">()) {</span></div>
+        <div class="line"><span class="ln">225</span><span class="plain">        </span><span class="var">$db</span><span class="op">-></span><span class="fn">rollBack</span><span class="plain">();</span></div>
+        <div class="line"><span class="ln">226</span><span class="plain">    }</span></div>
+        <div class="line"><span class="ln">231</span><span class="plain">    </span><span class="var">$this</span><span class="op">-></span><span class="fn">setFlash</span><span class="plain">(</span><span class="str">'error'</span><span class="plain">, </span><span class="str">'Sale failed: '</span> <span class="op">.</span> <span class="var">$e</span><span class="op">-></span><span class="fn">getMessage</span><span class="plain">());</span></div>
+        <div class="line"><span class="ln">232</span><span class="plain">}</span></div>
+      </div>
+
+      <h3 style="margin:1.2rem 0 0.8rem;color:var(--accent);font-size:1rem">📋 الخطوات السبع داخل الـ Transaction:</h3>
+      <div class="step"><div class="step-num">1</div><div class="step-text"><strong>INSERT sales</strong> — إنشاء رأس الفاتورة (user_id, client_id, total_amount, payment_method) وجلب sale_id الجديد</div></div>
+      <div class="step"><div class="step-num">2</div><div class="step-text"><strong>جلب بيانات الدواء</strong> — getById() و getOldestBatchId() للحصول على بيانات الـ snapshot والدفعة الأقدم</div></div>
+      <div class="step"><div class="step-num">3</div><div class="step-text"><strong>إنشاء JSON Snapshot</strong> — حفظ اسم الدواء وسعره وبياناته وقت البيع. يضمن بقاء الفاتورة صحيحة حتى لو تغيّرت بيانات الدواء لاحقاً</div></div>
+      <div class="step"><div class="step-num">4</div><div class="step-text"><strong>INSERT sale_items</strong> — إدراج كل بند من الفاتورة (sale_id, batch_id, quantity, unit_price, snapshot_data)</div></div>
+      <div class="step"><div class="step-num">5</div><div class="step-text"><strong>deductStock()</strong> — خصم المخزون بخوارزمية FIFO. إذا فشل → Exception تُوقف كل شيء</div></div>
+      <div class="step"><div class="step-num">6</div><div class="step-text"><strong>INSERT inventory_movements</strong> — تسجيل حركة المخزون لتتبع التاريخ (من أي دفعة، كم كمية، من قبل من)</div></div>
+      <div class="step"><div class="step-num">7</div><div class="step-text"><strong>تحديث الدين (اختياري)</strong> — إذا كانت طريقة الدفع "credit" → UPDATE clients SET credit_balance = credit_balance + total_amount</div></div>
+
+      <div class="success-box">
+        <h4>✅ لماذا beginTransaction/commit/rollBack؟</h4>
+        <ul>
+          <li>Transaction = إما كل العمليات تنجح معاً أو تفشل معاً</li>
+          <li>إذا فشل خصم المخزون في منتصف الفواتير → rollBack() يُلغي كل ما تم</li>
+          <li>يمنع حالات التناقض: فاتورة موجودة بدون خصم مخزون مثلاً</li>
+        </ul>
+      </div>
+
+      <div class="explain-box">
+        <h4>💡 اتصال PDO واحد مشترك — لماذا؟</h4>
+        <p><code>$db = $medicineModel->getDb()</code> — جميع العمليات تستخدم نفس اتصال PDO. هذا ضروري لأن Transaction تعمل على اتصال واحد فقط. اتصالات متعددة = Transactions منفصلة = لا حماية.</p>
+      </div>
+
+      <div class="warn-box">
+        <h4>⚡ Snapshot JSON — الحفاظ على سجل الأسعار التاريخية:</h4>
+        <p><code>json_encode(['name', 'price', 'barcode', 'dci'])</code> — لو تغيّر سعر الدواء بعد الشراء، الفاتورة القديمة تبقى بالسعر القديم لأنه محفوظ في snapshot_data.</p>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head"><span>📊</span><h2>ملخص جميع دوال الـ Controller</h2></div>
+    <div class="section-body">
+      <table>
+        <tr><th>الدالة</th><th>الـ Route</th><th>الغرض</th></tr>
+        <tr><td>index()</td><td>GET /pos</td><td>عرض شاشة POS مع الأدوية والسلة</td></tr>
+        <tr><td>addToCart()</td><td>POST /pos/addToCart</td><td>إضافة دواء للسلة</td></tr>
+        <tr><td>updateQuantity()</td><td>POST /pos/updateQuantity</td><td>زيادة أو نقص كمية في السلة</td></tr>
+        <tr><td>removeFromCart()</td><td>POST /pos/removeFromCart</td><td>حذف دواء من السلة</td></tr>
+        <tr><td>clearCart()</td><td>POST /pos/clearCart</td><td>إفراغ السلة كاملاً</td></tr>
+        <tr><td>checkout()</td><td>POST /pos/checkout</td><td>إتمام البيع بـ DB Transaction</td></tr>
+      </table>
+    </div>
+  </div>
+
+</div>
 </body>
 </html>

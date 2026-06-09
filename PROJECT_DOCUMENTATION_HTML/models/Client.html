@@ -1,61 +1,332 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Client Model - 7X Pharma Core</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        :root { --primary-dark: #0f172a; --primary-light: #1e293b; --accent-cyan: #06b6d4; --accent-purple: #8b5cf6; --text-main: #334155; --bg-body: #f8fafc; --bg-card: #ffffff; --border-color: #e2e8f0; }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Cairo', sans-serif; }
-        body { background-color: var(--bg-body); color: var(--text-main); line-height: 1.8; }
-        @media print { body { background: #fff; color: #000; font-size: 11pt; } .no-print { display: none !important; } header { background: #fff !important; color: #000 !important; border: 1px solid #000; padding: 20px; } header * { color: #000 !important; text-shadow: none !important;} }
-        .container { max-width: 1140px; margin: 0 auto; padding: 20px; }
-        header { background: linear-gradient(135deg, var(--primary-dark), var(--primary-light)); color: white; padding: 30px; border-radius: 12px; margin-bottom: 30px; text-align: center; }
-        header h1 { font-size: 2.5rem; margin-bottom: 10px; }
-        .breadcrumbs { margin-bottom: 20px; padding: 15px; background: var(--bg-card); border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); font-weight: 600; }
-        .breadcrumbs a { color: var(--accent-purple); text-decoration: none; margin-left: 5px; margin-right: 5px;}
-        .card { background: var(--bg-card); border-radius: 10px; padding: 30px; margin-bottom: 30px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); border: 1px solid var(--border-color); }
-        .card-header { display: flex; align-items: center; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid var(--bg-body); }
-        .card-header i { font-size: 1.8rem; color: var(--accent-cyan); margin-left: 15px; }
-        .card-header h2 { font-size: 1.6rem; color: var(--primary-dark); }
-        p { margin-bottom: 15px; font-size: 1.1rem; text-align: justify; }
-        .method-box { background: var(--bg-body); border-right: 4px solid var(--accent-purple); padding: 15px; margin-bottom: 15px; border-radius: 4px; }
-        .method-box h4 { margin-bottom: 5px; color: var(--primary-dark); direction: ltr; text-align: left; font-family: monospace; font-size: 1.1rem;}
-        .badge { display: inline-block; padding: 3px 8px; border-radius: 4px; font-size: 0.85rem; font-weight: bold; margin-left: 5px; }
-        .badge-public { background: #dcfce7; color: #15803d; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Client Model - توثيق 7X Pharma Core</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Fira+Code:wght@400;500&display=swap');
+:root{--bg:#0d1117;--surface:#161b22;--surface2:#1f2937;--border:#30363d;--accent:#34d399;--text:#e6edf3;--text2:#8b949e;--text3:#c9d1d9;--green:#3fb950;--yellow:#f0c842;--blue:#58a6ff;--red:#f87171}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:'Cairo',sans-serif;line-height:1.8;direction:rtl}
+a{color:var(--accent);text-decoration:none}
+.topbar{background:var(--surface);border-bottom:1px solid var(--border);padding:14px 32px;display:flex;align-items:center;gap:16px;position:sticky;top:0;z-index:100;backdrop-filter:blur(10px)}
+.back-btn{display:flex;align-items:center;gap:8px;background:var(--surface2);border:1px solid var(--border);color:var(--text3);padding:8px 16px;border-radius:8px;font-family:'Cairo',sans-serif;font-size:14px;cursor:pointer;transition:all .3s}
+.back-btn:hover{border-color:var(--accent);color:var(--accent)}
+.back-btn svg{width:16px;height:16px}
+.topbar-title{font-size:15px;color:var(--text2)}
+.topbar-title span{color:var(--accent);font-weight:600}
+.hero{background:linear-gradient(135deg,#0d2818 0%,#0d1117 40%,#112240 100%);border-bottom:1px solid var(--border);padding:56px 48px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-80px;left:-80px;width:320px;height:320px;background:radial-gradient(circle,rgba(52,211,153,.15) 0%,transparent 70%);pointer-events:none}
+.hero::after{content:'';position:absolute;bottom:-60px;right:60px;width:200px;height:200px;background:radial-gradient(circle,rgba(248,113,113,.08) 0%,transparent 70%);pointer-events:none}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(52,211,153,.1);border:1px solid rgba(52,211,153,.3);color:var(--accent);padding:6px 16px;border-radius:20px;font-size:13px;margin-bottom:20px}
+.hero-badge::before{content:'●';font-size:8px}
+.hero h1{font-size:42px;font-weight:900;margin-bottom:12px}
+.hero h1 .class-name{color:var(--accent)}
+.hero h1 .extends{color:var(--text2);font-size:24px;font-weight:400}
+.hero p{color:var(--text2);font-size:16px;max-width:720px;line-height:1.9}
+.hero-meta{display:flex;gap:24px;margin-top:28px;flex-wrap:wrap}
+.meta-chip{background:var(--surface);border:1px solid var(--border);padding:8px 18px;border-radius:8px;font-size:13px;color:var(--text3)}
+.meta-chip strong{color:var(--accent)}
+.container{max-width:1100px;margin:0 auto;padding:40px 32px}
+.section{margin-bottom:48px}
+.section-title{font-size:22px;font-weight:700;color:var(--text);margin-bottom:20px;display:flex;align-items:center;gap:10px;padding-bottom:12px;border-bottom:1px solid var(--border)}
+.section-title .icon{width:28px;height:28px;background:rgba(52,211,153,.15);border:1px solid rgba(52,211,153,.3);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px}
+.code-block{background:#010409;border:1px solid var(--border);border-radius:12px;overflow:hidden;margin:20px 0}
+.code-header{background:var(--surface);padding:12px 20px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border)}
+.code-header .filename{font-family:'Fira Code',monospace;font-size:13px;color:var(--text2)}
+.code-header .lang-badge{background:rgba(52,211,153,.1);color:var(--accent);padding:3px 10px;border-radius:5px;font-size:12px;font-family:'Fira Code',monospace}
+.code-content{padding:24px;overflow-x:auto;direction:ltr}
+.code-content pre{font-family:'Fira Code',monospace;font-size:13.5px;line-height:1.9;color:#c9d1d9}
+.kw{color:#ff7b72}.cls{color:#ffa657}.fn{color:#d2a8ff}.str{color:#a5d6ff}.cmt{color:#8b949e;font-style:italic}.var{color:#79c0ff}.num{color:#f2cc60}.op{color:#ff7b72}.prop{color:#79c0ff}
+.explain-box{background:var(--surface);border:1px solid var(--border);border-right:4px solid var(--accent);border-radius:10px;padding:24px 28px;margin:20px 0}
+.explain-box h3{color:var(--accent);font-size:17px;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.explain-box p{color:var(--text3);font-size:15px;margin-bottom:10px}
+.explain-box ul{color:var(--text3);font-size:15px;padding-right:20px}
+.explain-box ul li{margin-bottom:8px}
+.explain-box code{background:rgba(52,211,153,.1);color:var(--accent);padding:2px 8px;border-radius:4px;font-family:'Fira Code',monospace;font-size:13px}
+.warn-box{background:rgba(240,200,66,.05);border:1px solid rgba(240,200,66,.25);border-right:4px solid var(--yellow);border-radius:10px;padding:24px 28px;margin:20px 0}
+.warn-box h3{color:var(--yellow);font-size:17px;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.warn-box p{color:var(--text3);font-size:15px;margin-bottom:10px}
+.warn-box ul{color:var(--text3);font-size:15px;padding-right:20px}
+.warn-box ul li{margin-bottom:8px}
+.warn-box code{background:rgba(240,200,66,.1);color:var(--yellow);padding:2px 8px;border-radius:4px;font-family:'Fira Code',monospace;font-size:13px}
+.info-box{background:rgba(88,166,255,.05);border:1px solid rgba(88,166,255,.2);border-right:4px solid var(--blue);border-radius:10px;padding:24px 28px;margin:20px 0}
+.info-box h3{color:var(--blue);font-size:17px;margin-bottom:14px}
+.info-box p,.info-box li{color:var(--text3);font-size:15px;margin-bottom:8px}
+.info-box ul{padding-right:20px}
+.info-box code{background:rgba(88,166,255,.1);color:var(--blue);padding:2px 8px;border-radius:4px;font-family:'Fira Code',monospace;font-size:13px}
+.danger-box{background:rgba(248,113,113,.05);border:1px solid rgba(248,113,113,.25);border-right:4px solid var(--red);border-radius:10px;padding:24px 28px;margin:20px 0}
+.danger-box h3{color:var(--red);font-size:17px;margin-bottom:14px}
+.danger-box p,.danger-box li{color:var(--text3);font-size:15px;margin-bottom:8px}
+.danger-box ul{padding-right:20px}
+.danger-box code{background:rgba(248,113,113,.1);color:var(--red);padding:2px 8px;border-radius:4px;font-family:'Fira Code',monospace;font-size:13px}
+.doc-table{width:100%;border-collapse:collapse;margin:20px 0;font-size:14px}
+.doc-table thead tr{background:var(--surface2);border-bottom:2px solid var(--accent)}
+.doc-table th{padding:14px 18px;text-align:right;color:var(--accent);font-weight:600}
+.doc-table td{padding:13px 18px;border-bottom:1px solid var(--border);color:var(--text3);vertical-align:top}
+.doc-table tbody tr:hover{background:var(--surface)}
+.badge{display:inline-block;padding:3px 10px;border-radius:12px;font-size:12px;font-family:'Fira Code',monospace}
+.badge-green{background:rgba(52,211,153,.15);color:var(--green)}
+.badge-blue{background:rgba(88,166,255,.15);color:var(--blue)}
+.badge-yellow{background:rgba(240,200,66,.15);color:var(--yellow)}
+.badge-red{background:rgba(248,113,113,.15);color:var(--red)}
+.param-list{display:flex;flex-direction:column;gap:10px;margin:14px 0}
+.param-item{display:flex;align-items:flex-start;gap:12px;background:var(--surface2);border:1px solid var(--border);padding:12px 16px;border-radius:8px}
+.param-name{font-family:'Fira Code',monospace;color:var(--blue);font-size:13px;min-width:140px}
+.param-type{font-family:'Fira Code',monospace;color:var(--yellow);font-size:12px;min-width:80px}
+.param-desc{color:var(--text3);font-size:14px}
+.footer{border-top:1px solid var(--border);padding:32px;text-align:center;color:var(--text2);font-size:13px;margin-top:40px}
+.footer strong{color:var(--accent)}
+.flow-steps{display:flex;flex-direction:column;gap:0;margin:20px 0}
+.flow-step{display:flex;align-items:flex-start;gap:16px;padding:16px;background:var(--surface);border:1px solid var(--border);position:relative}
+.flow-step:not(:last-child)::after{content:'';position:absolute;bottom:-1px;right:28px;width:2px;height:1px;background:var(--accent)}
+.flow-step:first-child{border-radius:10px 10px 0 0}
+.flow-step:last-child{border-radius:0 0 10px 10px}
+.step-num{min-width:32px;height:32px;background:rgba(52,211,153,.15);border:1px solid rgba(52,211,153,.3);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--accent);font-weight:700;font-size:14px}
+.step-content{flex:1}
+.step-title{color:var(--accent);font-weight:600;font-size:15px;margin-bottom:4px}
+.step-desc{color:var(--text3);font-size:14px}
+.step-code{font-family:'Fira Code',monospace;font-size:12px;color:var(--blue);margin-top:4px}
+</style>
 </head>
 <body>
-<div class="container">
-    <header>
-        <h1><i class="fas fa-users" style="color: var(--accent-cyan);"></i> Client Model</h1>
-        <p>إدارة بيانات العملاء والديون والمدفوعات</p>
-    </header>
 
-    <div class="breadcrumbs no-print">
-        <a href="../home.html"><i class="fas fa-home"></i> الرئيسية</a> / <span>Models</span> / <span>Client.php</span>
+<nav class="topbar">
+  <a href="../index.html" class="back-btn">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+    العودة للفهرس
+  </a>
+  <span class="topbar-title">📁 models / <span>Client.php</span></span>
+</nav>
+
+<div class="hero">
+  <div class="hero-badge">Models Layer · نموذج البيانات</div>
+  <h1><span class="class-name">Client</span> <span class="extends">extends Model</span></h1>
+  <p>نموذج إدارة العملاء والديون. يُعالج منطق الدفع والائتمان الكامل للعملاء: من تسجيل الديون (credit)، وتسجيل المدفوعات، وجلب سجل المعاملات. يعمل مع جدولَي <code style="color:var(--accent);background:rgba(52,211,153,.1);padding:2px 8px;border-radius:4px">clients</code> و<code style="color:var(--accent);background:rgba(52,211,153,.1);padding:2px 8px;border-radius:4px">client_payments</code>.</p>
+  <div class="hero-meta">
+    <div class="meta-chip">📄 الملف: <strong>app/models/Client.php</strong></div>
+    <div class="meta-chip">🗄️ الجدول الأساسي: <strong>clients</strong></div>
+    <div class="meta-chip">🗄️ الجدول الثانوي: <strong>client_payments</strong></div>
+    <div class="meta-chip">⚙️ عدد الدوال: <strong>5</strong></div>
+  </div>
+</div>
+
+<div class="container">
+
+  <div class="section">
+    <h2 class="section-title"><span class="icon">📝</span> الكود الكامل</h2>
+    <div class="code-block">
+      <div class="code-header">
+        <span class="filename">app/models/Client.php</span>
+        <span class="lang-badge">PHP</span>
+      </div>
+      <div class="code-content">
+        <pre><span class="kw">class</span> <span class="cls">Client</span> <span class="kw">extends</span> <span class="cls">Model</span> {
+    <span class="kw">protected</span> <span class="var">$table</span> = <span class="str">'clients'</span>;
+    
+    <span class="kw">public function</span> <span class="fn">makePayment</span>(<span class="var">$clientId</span>, <span class="var">$amount</span>, <span class="var">$userId</span>, <span class="var">$method</span> = <span class="str">'cash'</span>, <span class="var">$note</span> = <span class="kw">null</span>) {
+        <span class="var">$client</span> = <span class="var">$this</span>-&gt;<span class="fn">getById</span>(<span class="var">$clientId</span>);
+        <span class="kw">if</span> (!<span class="var">$client</span>) <span class="kw">return false</span>;
+        <span class="var">$amount</span> = <span class="fn">min</span>(<span class="var">$amount</span>, <span class="fn">floatval</span>(<span class="var">$client</span>[<span class="str">'credit_balance'</span>]));
+        <span class="kw">if</span> (<span class="var">$amount</span> &lt;= <span class="num">0</span>) <span class="kw">return false</span>;
+        <span class="var">$sql1</span> = <span class="str">"UPDATE {<span class="var">$this</span>-&gt;table} SET credit_balance = credit_balance - ? WHERE id = ?"</span>;
+        <span class="var">$stmt1</span> = <span class="var">$this</span>-&gt;<span class="fn">query</span>(<span class="var">$sql1</span>, [<span class="var">$amount</span>, <span class="var">$clientId</span>]);
+        <span class="kw">if</span> (<span class="var">$stmt1</span>-&gt;<span class="fn">rowCount</span>() &gt; <span class="num">0</span>) {
+            <span class="var">$sql2</span> = <span class="str">"INSERT INTO client_payments (client_id, amount, payment_method, note, user_id, payment_date) VALUES (?, ?, ?, ?, ?, NOW())"</span>;
+            <span class="var">$this</span>-&gt;<span class="fn">query</span>(<span class="var">$sql2</span>, [<span class="var">$clientId</span>, <span class="var">$amount</span>, <span class="var">$method</span>, <span class="var">$note</span>, <span class="var">$userId</span>]);
+            <span class="kw">return true</span>;
+        }
+        <span class="kw">return false</span>;
+    }
+    
+    <span class="kw">public function</span> <span class="fn">getTotalUnpaidCredit</span>() {
+        <span class="var">$sql</span> = <span class="str">"SELECT COALESCE(SUM(credit_balance), 0) as total_unpaid FROM {<span class="var">$this</span>-&gt;table}"</span>;
+        <span class="var">$stmt</span> = <span class="var">$this</span>-&gt;<span class="fn">query</span>(<span class="var">$sql</span>);
+        <span class="var">$result</span> = <span class="var">$stmt</span>-&gt;<span class="fn">fetch</span>(<span class="cls">PDO</span>::<span class="prop">FETCH_ASSOC</span>);
+        <span class="kw">return</span> <span class="var">$result</span>[<span class="str">'total_unpaid'</span>];
+    }
+    
+    <span class="kw">public function</span> <span class="fn">addDebt</span>(<span class="var">$clientId</span>, <span class="var">$amount</span>) {
+        <span class="var">$sql</span> = <span class="str">"UPDATE {<span class="var">$this</span>-&gt;table} SET credit_balance = credit_balance + ? WHERE id = ?"</span>;
+        <span class="var">$stmt</span> = <span class="var">$this</span>-&gt;<span class="fn">query</span>(<span class="var">$sql</span>, [<span class="var">$amount</span>, <span class="var">$clientId</span>]);
+        <span class="kw">return</span> <span class="var">$stmt</span>-&gt;<span class="fn">rowCount</span>() &gt; <span class="num">0</span>;
+    }
+    
+    <span class="kw">public function</span> <span class="fn">getAll</span>() {
+        <span class="var">$sql</span> = <span class="str">"SELECT * FROM {<span class="var">$this</span>-&gt;table} ORDER BY id DESC"</span>;
+        <span class="var">$stmt</span> = <span class="var">$this</span>-&gt;<span class="fn">query</span>(<span class="var">$sql</span>);
+        <span class="kw">if</span> (<span class="var">$stmt</span>) <span class="kw">return</span> <span class="var">$stmt</span>-&gt;<span class="fn">fetchAll</span>(<span class="cls">PDO</span>::<span class="prop">FETCH_ASSOC</span>);
+        <span class="kw">return</span> [];
+    }
+    
+    <span class="kw">public function</span> <span class="fn">getClientTransactions</span>(<span class="var">$clientId</span>) {
+        <span class="var">$sql</span> = <span class="str">"SELECT * FROM client_payments WHERE client_id = ? ORDER BY payment_date DESC"</span>;
+        <span class="var">$stmt</span> = <span class="var">$this</span>-&gt;<span class="fn">query</span>(<span class="var">$sql</span>, [<span class="var">$clientId</span>]);
+        <span class="kw">if</span> (<span class="var">$stmt</span>) <span class="kw">return</span> <span class="var">$stmt</span>-&gt;<span class="fn">fetchAll</span>(<span class="cls">PDO</span>::<span class="prop">FETCH_ASSOC</span>);
+        <span class="kw">return</span> [];
+    }
+}</pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- ملخص الدوال -->
+  <div class="section">
+    <h2 class="section-title"><span class="icon">📊</span> ملخص الدوال</h2>
+    <table class="doc-table">
+      <thead>
+        <tr>
+          <th>اسم الدالة</th>
+          <th>المعاملات</th>
+          <th>القيمة المُرجعة</th>
+          <th>الوصف المختصر</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code style="color:#d2a8ff;font-family:'Fira Code',monospace">makePayment</code></td>
+          <td><span class="badge badge-blue">$clientId, $amount, $userId, $method, $note</span></td>
+          <td><span class="badge badge-yellow">bool</span></td>
+          <td>تُسجّل دفعة من عميل وتُخفّض رصيده</td>
+        </tr>
+        <tr>
+          <td><code style="color:#d2a8ff;font-family:'Fira Code',monospace">getTotalUnpaidCredit</code></td>
+          <td>—</td>
+          <td><span class="badge badge-blue">float</span></td>
+          <td>مجموع الديون غير المسددة لجميع العملاء</td>
+        </tr>
+        <tr>
+          <td><code style="color:#d2a8ff;font-family:'Fira Code',monospace">addDebt</code></td>
+          <td><span class="badge badge-blue">$clientId, $amount</span></td>
+          <td><span class="badge badge-yellow">bool</span></td>
+          <td>تُضيف مبلغاً إلى رصيد الدين الحالي للعميل</td>
+        </tr>
+        <tr>
+          <td><code style="color:#d2a8ff;font-family:'Fira Code',monospace">getAll</code></td>
+          <td>—</td>
+          <td><span class="badge badge-green">array</span></td>
+          <td>تُعيد قائمة كل العملاء مرتبة تنازلياً</td>
+        </tr>
+        <tr>
+          <td><code style="color:#d2a8ff;font-family:'Fira Code',monospace">getClientTransactions</code></td>
+          <td><span class="badge badge-blue">$clientId</span></td>
+          <td><span class="badge badge-green">array</span></td>
+          <td>سجل دفعات عميل معين من جدول client_payments</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- شرح الدوال -->
+  <div class="section">
+    <h2 class="section-title"><span class="icon">🔍</span> شرح الدوال بالتفصيل</h2>
+
+    <!-- makePayment -->
+    <div class="explain-box">
+      <h3>🔹 makePayment — الدالة الأكثر تعقيداً</h3>
+      <p>تُنفّذ عملية سداد دين عميل بخطوات منطقية محكمة قبل أي تعديل في قاعدة البيانات.</p>
     </div>
 
-    <section class="card">
-        <div class="card-header">
-            <i class="fas fa-cogs"></i>
-            <h2>توضيح الدوال</h2>
+    <div class="flow-steps">
+      <div class="flow-step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <div class="step-title">التحقق من وجود العميل</div>
+          <div class="step-desc">تستدعي <code style="color:var(--accent)">getById($clientId)</code> للتحقق من أن العميل موجود فعلاً. إذا لم يُوجد، تُعيد <code style="color:var(--red)">false</code> فوراً.</div>
         </div>
-        <div class="method-box">
-            <h4><span class="badge badge-public">public</span> makePayment($clientId, $amount, $userId, $method, $note)</h4>
-            <p><strong>تنفيذ عمليتين (Double-entry):</strong> عندما يدفع العميل جزءاً من دينه، يتم أولاً تقليل الديون <code>credit_balance = credit_balance - ?</code> في جدول <code>clients</code>. إذا نجح ذلك، يتم إدراج سجل السداد بالتفصيل في جدول <code>client_payments</code> لتسجيل وصل الدفع في الدفتر.</p>
+      </div>
+      <div class="flow-step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <div class="step-title">تأمين المبلغ — تجنب الدفع الزائد</div>
+          <div class="step-desc">تستخدم <code style="color:var(--blue)">min($amount, $client['credit_balance'])</code> لضمان أن المبلغ المدفوع لا يتجاوز الرصيد الفعلي المستحق.</div>
         </div>
-        <div class="method-box">
-            <h4><span class="badge badge-public">public</span> addDebt($clientId, $amount)</h4>
-            <p>ترفع رصيد ديون العميل <code>credit_balance + ?</code>. تستخدم من قبل نقطة البيع (POS) عند اختيار العميل طريقة الدفع بالأجل (Credit).</p>
+      </div>
+      <div class="flow-step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <div class="step-title">التحقق أن المبلغ موجب</div>
+          <div class="step-desc">إذا كان الرصيد صفراً أو سالباً (بعد min)، لا يُنفَّذ شيء وتُعاد <code style="color:var(--red)">false</code>.</div>
         </div>
-        <div class="method-box">
-            <h4><span class="badge badge-public">public</span> getTotalUnpaidCredit()</h4>
-            <p>تحسب إجمالي الديون غير المسددة المتواجدة في الخارج لصالح الصيدلية (تستخدم في الإحصائيات).</p>
+      </div>
+      <div class="flow-step">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <div class="step-title">تحديث رصيد العميل</div>
+          <div class="step-desc">يُنفَّذ <code style="color:var(--yellow)">UPDATE clients SET credit_balance = credit_balance - ?</code> لإنقاص الدين.</div>
         </div>
-    </section>
+      </div>
+      <div class="flow-step">
+        <div class="step-num">5</div>
+        <div class="step-content">
+          <div class="step-title">تسجيل الدفعة في client_payments</div>
+          <div class="step-desc">فقط إذا نجح التحديث (rowCount > 0)، يُسجَّل سجل الدفعة في <code style="color:var(--accent)">client_payments</code> مع التاريخ والموظف المسؤول.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="warn-box">
+      <h3>⚠️ غياب Transaction — نقطة ضعف محتملة</h3>
+      <p>هذه الدالة تُنفّذ عمليتَي SQL منفصلتين بدون <code>BEGIN TRANSACTION</code>. إذا فشل الـ <code>INSERT</code> الثاني بعد نجاح الـ <code>UPDATE</code>، سيُخفَّض رصيد العميل دون تسجيل الدفعة في السجل!</p>
+      <p><strong>الحل المقترح:</strong> استخدام PDO Transaction لضمان atomicity:</p>
+      <p><code>$this->pdo->beginTransaction()</code> → تنفيذ → <code>$this->pdo->commit()</code> أو <code>$this->pdo->rollBack()</code></p>
+    </div>
+
+    <div class="explain-box">
+      <h3>🔹 getTotalUnpaidCredit()</h3>
+      <p>تُعيد مجموع جميع الديون المتراكمة لكل العملاء. تُستخدم في لوحة التحكم لعرض إحصائية الديون الإجمالية.</p>
+      <ul>
+        <li>✅ <code>COALESCE(SUM(credit_balance), 0)</code> يضمن إرجاع <code>0</code> بدلاً من <code>NULL</code> إذا كان الجدول فارغاً</li>
+        <li>📊 تُستخدَم في بطاقة "إجمالي الديون" في Dashboard</li>
+      </ul>
+    </div>
+
+    <div class="explain-box">
+      <h3>🔹 addDebt($clientId, $amount)</h3>
+      <p>تزيد رصيد دين العميل عند تسجيل بيع بالآجل (credit). تُستدعى من Controller الفواتير عند إتمام بيع بطريقة الدفع credit.</p>
+      <ul>
+        <li>✅ <code>credit_balance = credit_balance + ?</code> تُجمع على الرصيد الحالي دون الكتابة فوقه</li>
+        <li>✅ تُعيد <code>true</code> فقط إذا تأثر صف واحد على الأقل</li>
+      </ul>
+    </div>
+
+    <div class="explain-box">
+      <h3>🔹 getAll()</h3>
+      <p>تُعيد كل العملاء مرتبين من الأحدث للأقدم. تُستخدم لعرض قائمة العملاء وعند اختيار عميل في نموذج الفاتورة.</p>
+    </div>
+
+    <div class="explain-box">
+      <h3>🔹 getClientTransactions($clientId)</h3>
+      <p>تُعيد تاريخ دفعات عميل محدد من جدول <code>client_payments</code>، مرتبةً بالأحدث أولاً. تُستخدم في صفحة تفاصيل العميل.</p>
+    </div>
+  </div>
+
+  <!-- بنية الجداول -->
+  <div class="section">
+    <h2 class="section-title"><span class="icon">🗄️</span> بنية الجداول المستخدمة</h2>
+    <table class="doc-table">
+      <thead><tr><th>الحقل</th><th>الجدول</th><th>النوع</th><th>الوصف</th></tr></thead>
+      <tbody>
+        <tr><td><code>id</code></td><td>clients</td><td><span class="badge badge-blue">INT PK</span></td><td>معرّف العميل</td></tr>
+        <tr><td><code>name</code></td><td>clients</td><td><span class="badge badge-green">VARCHAR</span></td><td>اسم العميل</td></tr>
+        <tr><td><code>credit_balance</code></td><td>clients</td><td><span class="badge badge-yellow">DECIMAL</span></td><td>الرصيد المستحق (الدين الحالي)</td></tr>
+        <tr><td><code>client_id</code></td><td>client_payments</td><td><span class="badge badge-blue">INT FK</span></td><td>مرجع لـ clients.id</td></tr>
+        <tr><td><code>amount</code></td><td>client_payments</td><td><span class="badge badge-yellow">DECIMAL</span></td><td>مبلغ الدفعة</td></tr>
+        <tr><td><code>payment_method</code></td><td>client_payments</td><td><span class="badge badge-green">VARCHAR</span></td><td>طريقة الدفع (cash, card, …)</td></tr>
+        <tr><td><code>user_id</code></td><td>client_payments</td><td><span class="badge badge-blue">INT FK</span></td><td>الموظف الذي سجّل الدفعة</td></tr>
+        <tr><td><code>payment_date</code></td><td>client_payments</td><td><span class="badge badge-yellow">DATETIME</span></td><td>تاريخ ووقت الدفع (NOW())</td></tr>
+      </tbody>
+    </table>
+  </div>
+
 </div>
+
+<div class="footer">
+  <p>توثيق مشروع <strong>7X Pharma Core</strong> · نموذج Client · تم إنشاؤه تلقائياً</p>
+</div>
+
 </body>
 </html>

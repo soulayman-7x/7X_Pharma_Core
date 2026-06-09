@@ -1,67 +1,129 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Credit Controller - 7X Pharma Core</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        :root { --primary-dark: #0f172a; --primary-light: #1e293b; --accent-cyan: #06b6d4; --accent-purple: #8b5cf6; --text-main: #334155; --bg-body: #f8fafc; --bg-card: #ffffff; --border-color: #e2e8f0; }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Cairo', sans-serif; }
-        body { background-color: var(--bg-body); color: var(--text-main); line-height: 1.8; }
-        @media print { body { background: #fff; color: #000; font-size: 11pt; } .no-print { display: none !important; } .card { border: 1px solid #000; box-shadow: none; break-inside: avoid; margin-bottom: 20px;} header { background: #fff !important; color: #000 !important; border: 1px solid #000; padding: 20px; } header * { color: #000 !important; text-shadow: none !important;} }
-        .container { max-width: 1140px; margin: 0 auto; padding: 20px; }
-        header { background: linear-gradient(135deg, var(--primary-dark), var(--primary-light)); color: white; padding: 30px; border-radius: 12px; margin-bottom: 30px; text-align: center; }
-        header h1 { font-size: 2.5rem; margin-bottom: 10px; }
-        .breadcrumbs { margin-bottom: 20px; padding: 15px; background: var(--bg-card); border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); font-weight: 600; }
-        .breadcrumbs a { color: var(--accent-purple); text-decoration: none; margin-left: 5px; margin-right: 5px;}
-        .card { background: var(--bg-card); border-radius: 10px; padding: 30px; margin-bottom: 30px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); border: 1px solid var(--border-color); }
-        .card-header { display: flex; align-items: center; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid var(--bg-body); }
-        .card-header i { font-size: 1.8rem; color: var(--accent-cyan); margin-left: 15px; }
-        .card-header h2 { font-size: 1.6rem; color: var(--primary-dark); }
-        p { margin-bottom: 15px; font-size: 1.1rem; text-align: justify; }
-        .method-box { background: var(--bg-body); border-right: 4px solid var(--accent-purple); padding: 15px; margin-bottom: 15px; border-radius: 4px; }
-        .method-box h4 { margin-bottom: 5px; color: var(--primary-dark); direction: ltr; text-align: left; font-family: monospace; font-size: 1.1rem;}
-        .badge { display: inline-block; padding: 3px 8px; border-radius: 4px; font-size: 0.85rem; font-weight: bold; margin-left: 5px; }
-        .badge-public { background: #dcfce7; color: #15803d; }
-    </style>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CreditController.php — توثيق 7X Pharma Core</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Fira+Code:wght@400;500&display=swap');
+  :root{--bg:#0d1117;--surface:#161b22;--surface2:#1f2937;--border:#30363d;--accent:#fb923c;--text:#e6edf3;--text2:#8b949e;--text3:#c9d1d9;--green:#3fb950;--yellow:#f0c842;--blue:#58a6ff;--red:#f87171}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Cairo',sans-serif;background:var(--bg);color:var(--text);line-height:1.7}
+  .topbar{background:var(--surface);border-bottom:1px solid var(--border);padding:1rem 2rem;display:flex;align-items:center;gap:1rem}
+  .back-btn{text-decoration:none;color:var(--accent);font-weight:600;padding:0.4rem 1rem;border:1px solid var(--accent);border-radius:8px;font-size:0.9rem}
+  .back-btn:hover{background:rgba(251,146,60,0.1)}
+  .breadcrumb{color:var(--text2);font-size:0.9rem}
+  .hero{background:linear-gradient(135deg,#1f1207,#0d1117);border-bottom:1px solid var(--border);padding:2.5rem 2rem}
+  .hero-content{max-width:900px;margin:0 auto}
+  .file-badge{display:inline-flex;align-items:center;gap:0.5rem;background:rgba(251,146,60,0.1);border:1px solid rgba(251,146,60,0.3);color:var(--accent);padding:0.4rem 1rem;border-radius:100px;font-size:0.85rem;margin-bottom:1rem}
+  h1{font-size:2.2rem;font-weight:900;margin-bottom:0.5rem}
+  .hero-desc{color:var(--text3);font-size:1.05rem}
+  .meta-row{display:flex;flex-wrap:wrap;gap:1rem;margin-top:1.5rem}
+  .meta-item{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:0.5rem 1rem;font-size:0.85rem;color:var(--text2)}
+  .meta-item strong{color:var(--text3)}
+  .container{max-width:900px;margin:2rem auto;padding:0 2rem}
+  .section{background:var(--surface);border:1px solid var(--border);border-radius:14px;margin-bottom:1.5rem;overflow:hidden}
+  .section-head{padding:1rem 1.5rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:0.8rem;background:var(--surface2)}
+  .section-head h2{font-size:1.1rem;font-weight:700}
+  .section-body{padding:1.5rem}
+  .code-block{background:#010409;border:1px solid var(--border);border-radius:10px;padding:1.2rem 1.5rem;font-family:'Fira Code',monospace;font-size:0.84rem;overflow-x:auto;margin:0.8rem 0;line-height:1.9}
+  .line{display:flex;gap:1rem}
+  .ln{color:#3d4451;min-width:28px;user-select:none;text-align:right}
+  .kw{color:#ff7b72}.fn{color:#d2a8ff}.str{color:#a5d6ff}.cm{color:#8b949e;font-style:italic}.var{color:#ffa657}.num{color:#79c0ff}.op{color:#ff7b72}.plain{color:#e6edf3}
+  .explain-box{background:rgba(88,166,255,0.05);border:1px solid rgba(88,166,255,0.2);border-radius:10px;padding:1.2rem 1.5rem;margin:0.8rem 0}
+  .explain-box h4{color:var(--blue);margin-bottom:0.5rem;font-size:0.95rem}
+  .explain-box p,.explain-box li{color:var(--text3);font-size:0.9rem;margin-bottom:0.3rem}
+  .explain-box ul{padding-right:1.2rem}
+  .warn-box{background:rgba(240,200,66,0.07);border:1px solid rgba(240,200,66,0.25);border-radius:10px;padding:1rem 1.5rem;margin:0.8rem 0}
+  .warn-box h4{color:var(--yellow);margin-bottom:0.4rem}.warn-box p{color:var(--text3);font-size:0.9rem}
+  table{width:100%;border-collapse:collapse;font-size:0.9rem}
+  th{background:var(--surface2);padding:0.7rem 1rem;text-align:right;color:var(--text2);font-weight:600;border:1px solid var(--border)}
+  td{padding:0.7rem 1rem;border:1px solid var(--border);color:var(--text3)}
+</style>
 </head>
 <body>
-
-<div class="container">
-    <header>
-        <h1><i class="fas fa-users" style="color: var(--accent-cyan);"></i> Credit Controller</h1>
-        <p>متحكم دفتر الديون وإدارة حسابات العملاء</p>
-    </header>
-
-    <div class="breadcrumbs no-print">
-        <a href="../home.html"><i class="fas fa-home"></i> الرئيسية</a> / <span>Controllers</span> / <span>CreditController.php</span>
-    </div>
-
-    <section class="card">
-        <div class="card-header">
-            <i class="fas fa-cogs"></i>
-            <h2>توضيح الدوال</h2>
-        </div>
-        
-        <div class="method-box">
-            <h4><span class="badge badge-public">public</span> index() / add()</h4>
-            <p>تجلب وتضيف العملاء من وإلى قاعدة البيانات (دفتر الكريدي).</p>
-        </div>
-
-        <div class="method-box">
-            <h4><span class="badge badge-public">public</span> pay()</h4>
-            <p>تسجل المبالغ التي يسددها العميل للصيدلية لتخفيض دينه (تسديد جزئي أو كلي) عبر استدعاء الموديل <code>makePayment()</code>. تستقبل القيمة، نوع الدفع، والملاحظات الإضافية وتمرر رقم الموظف المسؤول.</p>
-        </div>
-
-        <div class="method-box">
-            <h4><span class="badge badge-public">public</span> history($id)</h4>
-            <p>تفتح ملفاً شخصياً للعميل المحدد يعرض تاريخ الدفعات السابقة بالكامل وتحسب إجمالي المبالغ المسددة لتوضيح حركة الحساب بشكل شفاف.</p>
-        </div>
-    </section>
-
+<div class="topbar">
+  <a href="../index.html" class="back-btn">← الفهرس الرئيسي</a>
+  <span class="breadcrumb">📁 app/controllers / <strong>CreditController.php</strong></span>
 </div>
+<div class="hero">
+  <div class="hero-content">
+    <div class="file-badge">🎯 Controller</div>
+    <h1>💳 CreditController.php</h1>
+    <div class="hero-desc">يدير دفتر الديون: عرض العملاء، إضافة عملاء جدد، تسجيل المدفوعات، وعرض سجل معاملات كل عميل مع حساب الإجمالي.</div>
+    <div class="meta-row">
+      <div class="meta-item"><strong>المسار:</strong> app/controllers/CreditController.php</div>
+      <div class="meta-item"><strong>الحجم:</strong> 3,378 bytes</div>
+      <div class="meta-item"><strong>الدوال:</strong> 4</div>
+      <div class="meta-item"><strong>الصلاحيات:</strong> مستخدم مسجّل</div>
+    </div>
+  </div>
+</div>
+<div class="container">
 
+  <div class="section">
+    <div class="section-head"><span>💳</span><h2>pay() — تسجيل دفعة مالية</h2></div>
+    <div class="section-body">
+      <div class="code-block">
+        <div class="line"><span class="ln">49</span><span class="var">$clientId</span> <span class="op">=</span> <span class="fn">intval</span><span class="plain">(</span><span class="var">$_POST</span><span class="plain">[</span><span class="str">'client_id'</span><span class="plain">]);</span></div>
+        <div class="line"><span class="ln">50</span><span class="var">$amount</span>   <span class="op">=</span> <span class="fn">floatval</span><span class="plain">(</span><span class="var">$_POST</span><span class="plain">[</span><span class="str">'amount'</span><span class="plain">]);</span></div>
+        <div class="line"><span class="ln">51</span><span class="var">$userId</span>   <span class="op">=</span> <span class="var">$_SESSION</span><span class="plain">[</span><span class="str">'user_id'</span><span class="plain">];</span></div>
+        <div class="line"><span class="ln">53</span><span class="var">$method</span>   <span class="op">=</span> <span class="fn">strtolower</span><span class="plain">(</span><span class="var">$_POST</span><span class="plain">[</span><span class="str">'payment_method'</span><span class="plain">] ?? </span><span class="str">'cash'</span><span class="plain">);</span></div>
+        <div class="line"><span class="ln">54</span><span class="var">$note</span>     <span class="op">=</span> <span class="fn">trim</span><span class="plain">(</span><span class="var">$_POST</span><span class="plain">[</span><span class="str">'note'</span><span class="plain">] ?? </span><span class="str">''</span><span class="plain">);</span></div>
+        <div class="line"><span class="ln">55</span><span class="var">$note</span>     <span class="op">=</span> <span class="var">$note</span> <span class="op">===</span> <span class="str">''</span> <span class="op">?</span> <span class="kw">null</span> <span class="op">:</span> <span class="var">$note</span><span class="plain">;</span></div>
+        <div class="line"><span class="ln">60</span><span class="var">$redirectTo</span> <span class="op">=</span> <span class="var">$_POST</span><span class="plain">[</span><span class="str">'redirect_to'</span><span class="plain">] ?? </span><span class="str">'credit'</span><span class="plain">;</span></div>
+        <div class="line"><span class="ln">61</span><span class="kw">if</span> <span class="plain">(</span><span class="var">$success</span><span class="plain">) {</span></div>
+        <div class="line"><span class="ln">62</span><span class="plain">    </span><span class="kw">if</span> <span class="plain">(</span><span class="var">$redirectTo</span> <span class="op">===</span> <span class="str">'history'</span><span class="plain">) {</span></div>
+        <div class="line"><span class="ln">63</span><span class="plain">        </span><span class="var">$this</span><span class="op">-></span><span class="fn">redirect</span><span class="plain">(</span><span class="str">"credit/history/{$clientId}?status=payment_success"</span><span class="plain">);</span></div>
+        <div class="line"><span class="ln">65</span><span class="plain">    } </span><span class="kw">else</span> <span class="plain">{</span></div>
+        <div class="line"><span class="ln">66</span><span class="plain">        </span><span class="var">$this</span><span class="op">-></span><span class="fn">redirect</span><span class="plain">(</span><span class="str">'credit?status=payment_success'</span><span class="plain">);</span></div>
+        <div class="line"><span class="ln">67</span><span class="plain">    }</span></div>
+      </div>
+      <div class="explain-box">
+        <h4>💡 redirect_to — توجيه ذكي بعد الدفع:</h4>
+        <ul>
+          <li>الـ Form يحتوي على حقل مخفي <code>redirect_to</code></li>
+          <li>إذا الدفع تم من صفحة history العميل → يعود لـ history نفسها</li>
+          <li>إذا الدفع تم من صفحة credit الرئيسية → يعود للقائمة الرئيسية</li>
+          <li>هذا يُحسّن تجربة المستخدم بالعودة للمكان الصحيح</li>
+        </ul>
+      </div>
+      <div class="warn-box">
+        <h4>⚡ $note = $note === '' ? null : $note:</h4>
+        <p>إذا كان حقل الملاحظة فارغاً يُحوَّل لـ null بدلاً من string فارغة — أفضل في قاعدة البيانات (NULL يعني "لا ملاحظة" وليس ملاحظة فارغة).</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head"><span>📜</span><h2>history($id) — سجل معاملات العميل</h2></div>
+    <div class="section-body">
+      <div class="code-block">
+        <div class="line"><span class="ln">91</span><span class="var">$transactions</span> <span class="op">=</span> <span class="var">$clientModel</span><span class="op">-></span><span class="fn">getClientTransactions</span><span class="plain">(</span><span class="var">$id</span><span class="plain">);</span></div>
+        <div class="line"><span class="ln">93</span><span class="cm">// حساب إجمالي ما دفعه العميل</span></div>
+        <div class="line"><span class="ln">94</span><span class="var">$total_paid</span> <span class="op">=</span> <span class="num">0</span><span class="plain">;</span></div>
+        <div class="line"><span class="ln">95</span><span class="kw">foreach</span> <span class="plain">(</span><span class="var">$transactions</span> <span class="kw">as</span> <span class="var">$tx</span><span class="plain">) {</span></div>
+        <div class="line"><span class="ln">96</span><span class="plain">    </span><span class="var">$total_paid</span> <span class="op">+=</span> <span class="fn">floatval</span><span class="plain">(</span><span class="var">$tx</span><span class="plain">[</span><span class="str">'amount'</span><span class="plain">]);</span></div>
+        <div class="line"><span class="ln">97</span><span class="plain">}</span></div>
+      </div>
+      <div class="explain-box">
+        <h4>💡 لماذا حساب total_paid في PHP وليس SQL؟</h4>
+        <p>يمكن استخدام SUM() في SQL لكن هنا يُفضَّل PHP لأن المصفوفة $transactions مُجلَبة مسبقاً — لا داعي لاستعلام إضافي. floatval() يضمن أن القيم عددية لتجنب أخطاء الجمع.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head"><span>📊</span><h2>ملخص الـ Routes</h2></div>
+    <div class="section-body">
+      <table>
+        <tr><th>الدالة</th><th>الـ Route</th><th>Method</th><th>الغرض</th></tr>
+        <tr><td>index()</td><td>/credit</td><td>GET</td><td>عرض دفتر الديون</td></tr>
+        <tr><td>add()</td><td>/credit/add</td><td>POST</td><td>إضافة عميل جديد</td></tr>
+        <tr><td>pay()</td><td>/credit/pay</td><td>POST</td><td>تسجيل دفعة مالية</td></tr>
+        <tr><td>history($id)</td><td>/credit/history/3</td><td>GET</td><td>سجل معاملات عميل محدد</td></tr>
+      </table>
+    </div>
+  </div>
+</div>
 </body>
 </html>
