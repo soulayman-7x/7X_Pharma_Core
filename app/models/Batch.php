@@ -18,8 +18,7 @@ class Batch extends Model {
             'medicine_id' => $medicine_id,
             'batch_number' => $batch_number,
             'expiry_date' => $expiry_date,
-            'current_quantity' => $quantity,
-            'initial_quantity' => $quantity
+            'current_quantity' => $quantity
         ]);
     }
 

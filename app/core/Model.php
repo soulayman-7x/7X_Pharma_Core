@@ -16,6 +16,11 @@ class Model {
         return $stmt;
     }
 
+    // Expose the PDO connection for transaction management in controllers
+    public function getDb() {
+        return $this->db;
+    }
+
     // 1. Retrieve all data from the table
     public function getAll() {
         $sql = "SELECT * FROM {$this->table}";
