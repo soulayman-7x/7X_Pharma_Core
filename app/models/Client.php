@@ -3,6 +3,17 @@ class Client extends Model {
     protected $table = 'clients';
     // 1. function designed to record a payment and reduce the debt
     public function makePayment($clientId, $amount, $userId, $method = 'cash', $note = null) {
+        // Guard: prevent paying more than the actual debt
+        $client = $this->getById($clientId);
+        if (!$client) {
+            return false;
+        }
+
+        $amount = min($amount, floatval($client['credit_balance']));
+        if ($amount <= 0) {
+            return false; // Nothing to pay
+        }
+
         $sql1 = "UPDATE {$this->table} SET credit_balance = credit_balance - ? WHERE id = ?";
         $stmt1 = $this->query($sql1, [$amount, $clientId]);
 
@@ -11,7 +22,7 @@ class Client extends Model {
             $this->query($sql2, [$clientId, $amount, $method, $note, $userId]);
             return true;
         }
-        
+
         return false;
     }
 

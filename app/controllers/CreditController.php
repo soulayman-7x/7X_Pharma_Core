@@ -55,13 +55,17 @@ class CreditController extends Controller {
             $note = $note === '' ? null : $note;
 
             if($clientId > 0 && $amount > 0) {
-                $clientModel->makePayment($clientId, $amount, $userId, $method, $note); 
-                
+                $success = $clientModel->makePayment($clientId, $amount, $userId, $method, $note);
+
                 $redirectTo = $_POST['redirect_to'] ?? 'credit';
-                if ($redirectTo === 'history') {
-                    $this->redirect("credit/history/{$clientId}?status=payment_success");
+                if ($success) {
+                    if ($redirectTo === 'history') {
+                        $this->redirect("credit/history/{$clientId}?status=payment_success");
+                    } else {
+                        $this->redirect('credit?status=payment_success');
+                    }
                 } else {
-                    $this->redirect('credit?status=payment_success');
+                    $this->redirect('credit?status=overpayment');
                 }
             } else {
                 $this->redirect('credit?status=invalid_amount');
