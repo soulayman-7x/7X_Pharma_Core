@@ -1,9 +1,4 @@
-/* ==========================================================================
-   SSR NOTIFICATION DOT & PAGE - CYBERPUNK THEME
-   ========================================================================== */
-
-/* Navbar Dot */
-.btn-notification {
+﻿.btn-notification {
     position: relative;
     display: inline-flex;
     align-items: center;
@@ -51,7 +46,6 @@
     }
 }
 
-/* Full Page Notifications Layout */
 .notifications-page-container {
     width: 100%;
     margin: 0 auto;
@@ -79,7 +73,7 @@
 }
 
 .alert-card.alert-stock:hover {
-    box-shadow: 0 4px 15px rgba(0, 114, 255, 0.15); /* #0072FF */
+    box-shadow: 0 4px 15px rgba(108, 63, 214, 0.15); 
 }
 
 .alert-card.alert-expiry {
@@ -87,7 +81,7 @@
 }
 
 .alert-card.alert-expiry:hover {
-    box-shadow: 0 4px 15px rgba(239, 68, 68, 0.15); /* #EF4444 */
+    box-shadow: 0 4px 15px rgba(239, 68, 68, 0.15); 
 }
 
 .notification-icon {
@@ -101,7 +95,7 @@
 }
 
 .notification-icon.stock {
-    background-color: rgba(0, 114, 255, 0.1);
+    background-color: rgba(108, 63, 214, 0.1);
     color: var(--color-primary);
 }
 
@@ -133,9 +127,6 @@
     border: 1px dashed var(--color-border);
 }
 
-/* ==========================================================================
-   RESPONSIVE DESIGN (MOBILE/TABLET)
-   ========================================================================== */
 @media (max-width: 768px) {
     .notifications-page-container {
         padding: 0 var(--space-2);

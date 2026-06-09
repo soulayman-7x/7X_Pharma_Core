@@ -1,15 +1,13 @@
-.dashboard-layout {
+﻿.dashboard-layout {
     display: flex;
     min-height: 100vh;
 }
 
-/* ==========================================================================
-        SIDEBAR 
-   ========================================================================== */
 .sidebar {
     width: 76px;
     flex-shrink: 0;
     background-color: var(--color-bg-secondary);
+    background-image: linear-gradient(180deg, var(--color-bg-secondary) 0%, rgba(12, 15, 30, 0.98) 100%);
     border-right: 1px solid var(--color-border);
     display: flex;
     flex-direction: column;
@@ -23,10 +21,17 @@
     white-space: nowrap;
 }
 
+[data-theme="light"] .sidebar {
+    background-color: #FFFFFF;
+    background-image: none;
+    border-right: 1px solid var(--color-border);
+    box-shadow: 2px 0 12px rgba(108, 63, 214, 0.06);
+}
+
 @media (min-width: 769px) {
     .sidebar:hover {
         width: 240px;
-        box-shadow: 4px 0 25px rgba(0, 0, 0, 0.5);
+        box-shadow: 4px 0 40px rgba(0, 0, 0, 0.7), 2px 0 12px rgba(108, 63, 214, 0.08);
     }
 }
 
@@ -34,7 +39,7 @@
     display: flex;
     align-items: center;
     gap: var(--space-2);
-    /* padding: var(--space-3); */
+
     padding-top: 15px;
     padding-left: 20px;
     padding-bottom: 15px;
@@ -51,7 +56,6 @@
     max-width: 30px;
 }
 
-/* Hide text by default in 76px state */
 .nav-text {
     opacity: 0;
     visibility: hidden;
@@ -70,7 +74,6 @@
     }
 }
 
-/* Navigation sections */
 .sidebar-nav {
     flex: 1;
     padding: var(--space-3) 0;
@@ -111,7 +114,6 @@
     cursor: pointer;
 }
 
-/* FontAwesome Icon Targeting */
 .nav-item i {
     flex-shrink: 0;
     font-size: 1.25rem;
@@ -121,16 +123,19 @@
 }
 
 .nav-item:hover {
-    background-color: rgba(6, 182, 212, 0.08);
+    background-color: rgba(108, 63, 214, 0.1);
     border-left-color: var(--color-primary);
     color: var(--color-primary);
+    padding-left: 30px;
 }
 
 .nav-item.active {
-    background-color: rgba(6, 182, 212, 0.15);
+    background: linear-gradient(90deg, rgba(108, 63, 214, 0.2), rgba(108, 63, 214, 0.05));
     border-left-color: var(--color-primary);
+    border-left-width: 3px;
     font-weight: 600;
     color: var(--color-primary);
+    box-shadow: inset 0 0 20px rgba(108, 63, 214, 0.05);
 }
 
 @media (min-width: 769px) {
@@ -162,7 +167,6 @@
     }
 }
 
-/* Sidebar footer */
 .sidebar-footer {
     padding: var(--space-3) 0;
     border-top: 1px solid var(--color-border);
@@ -187,14 +191,15 @@
     width: 36px;
     height: 36px;
     border-radius: 50%;
-    background-color: rgba(6, 182, 212, 0.15);
-    color: var(--color-primary);
+    background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+    color: #fff;
     display: flex;
     align-items: center;
     justify-content: center;
     font-weight: 700;
     font-size: 0.9rem;
     flex-shrink: 0;
+    box-shadow: 0 0 12px rgba(108, 63, 214, 0.4);
 }
 
 .user-info {
@@ -222,9 +227,6 @@
     color: var(--color-text-secondary);
 }
 
-/* ==========================================================================
-    MAIN CONTENT AREA
-   ========================================================================== */
 .main-content {
     margin-left: 76px;
     flex: 1;
@@ -234,12 +236,11 @@
     background-color: var(--color-bg-primary);
 }
 
-/* ==========================================================================
-    TOP NAVBAR
-   ========================================================================== */
 .top-navbar {
     height: 60px;
-    background-color: var(--color-bg-secondary);
+    background-color: rgba(12, 15, 30, 0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
     border-bottom: 1px solid var(--color-border);
     display: flex;
     align-items: center;
@@ -251,13 +252,16 @@
     flex-shrink: 0;
 }
 
+[data-theme="light"] .top-navbar {
+    background-color: rgba(255, 255, 255, 0.85);
+}
+
 .navbar-left {
     display: flex;
     align-items: center;
     gap: var(--space-3);
 }
 
-/* mobile menu*/
 .btn-sidebar-toggle {
     display: none;
     background: transparent;
@@ -297,7 +301,6 @@
     margin-right: var(--space-1);
 }
 
-/* Notification bell */
 .btn-notification {
     position: relative;
     background: transparent;
@@ -327,9 +330,6 @@
     border: 1px solid var(--color-bg-secondary);
 }
 
-/* ==========================================================================
-    PAGE BODY
-   ========================================================================== */
 .page-body {
     padding: var(--space-4);
     display: flex;
@@ -337,9 +337,6 @@
     gap: var(--space-4);
 }
 
-/* ==========================================================================
-    STATS CARDS GRID
-   ========================================================================== */
 .stats-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -347,7 +344,7 @@
 }
 
 .stat-card {
-    background-color: var(--color-bg-secondary);
+    background: linear-gradient(145deg, var(--color-bg-secondary), rgba(16, 21, 40, 0.8));
     border: 1px solid var(--color-border);
     border-radius: var(--border-radius-lg);
     padding: var(--space-4);
@@ -356,7 +353,23 @@
     gap: var(--space-2);
     position: relative;
     overflow: hidden;
-    transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+    transition: transform var(--transition-speed), box-shadow var(--transition-speed), border-color var(--transition-speed);
+}
+
+[data-theme="light"] .stat-card {
+    background: #FFFFFF;
+    box-shadow: 0 1px 4px rgba(108, 63, 214, 0.06), 0 4px 12px rgba(0, 0, 0, 0.04);
+    border-color: var(--color-border);
+}
+
+.stat-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(var(--stat-rgb, 108, 63, 214), 0.4), transparent);
 }
 
 .stat-card::after {
@@ -366,12 +379,19 @@
     left: 0;
     width: 100%;
     height: 3px;
-    background-color: var(--stat-color, var(--color-primary));
+    background: linear-gradient(90deg, var(--stat-color, var(--color-primary)), transparent);
+    opacity: 0.8;
 }
 
 .stat-card:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-md);
+    transform: translateY(-3px);
+    border-color: rgba(var(--stat-rgb, 108, 63, 214), 0.3);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), 0 0 20px rgba(var(--stat-rgb, 108, 63, 214), 0.08);
+}
+
+[data-theme="light"] .stat-card {
+    background: #FFFFFF;
+    box-shadow: var(--shadow-sm);
 }
 
 .stat-card-header {
@@ -384,11 +404,17 @@
     width: 44px;
     height: 44px;
     border-radius: var(--border-radius-md);
-    background-color: rgba(var(--stat-rgb, 0, 114, 255), 0.12);
+    background-color: rgba(var(--stat-rgb, 108, 63, 214), 0.12);
     color: var(--stat-color, var(--color-primary));
     display: flex;
     align-items: center;
     justify-content: center;
+    box-shadow: 0 0 15px rgba(var(--stat-rgb, 108, 63, 214), 0.15);
+    transition: box-shadow var(--transition-speed);
+}
+
+.stat-card:hover .stat-card-icon {
+    box-shadow: 0 0 25px rgba(var(--stat-rgb, 108, 63, 214), 0.3);
 }
 
 .stat-card-trend {
@@ -429,15 +455,14 @@
     border-top: 1px solid var(--color-border);
 }
 
-/* Per-card accent colors */
 .stat-card.green {
-    --stat-color: #0072FF;
-    --stat-rgb: 0, 114, 255;
+    --stat-color: #6C3FD6;
+    --stat-rgb: 108, 63, 214;
 }
 
 .stat-card.blue {
-    --stat-color: #6A0DAD;
-    --stat-rgb: 106, 13, 173;
+    --stat-color: #818CF8;
+    --stat-rgb: 129, 140, 248;
 }
 
 .stat-card.yellow {
@@ -450,9 +475,6 @@
     --stat-rgb: 239, 68, 68;
 }
 
-/* ==========================================================================
-   CHART & TABLE ROW (2-column)
-   ========================================================================== */
 .dashboard-row {
     display: grid;
     gap: var(--space-3);
@@ -466,16 +488,30 @@
     grid-template-columns: 1fr;
 }
 
-/* ==========================================================================
-    PANEL (generic card used for chart, tables, alerts)
-   ========================================================================== */
 .panel {
-    background-color: var(--color-bg-secondary);
+    background: linear-gradient(145deg, var(--color-bg-secondary), rgba(12, 15, 30, 0.9));
     border: 1px solid var(--color-border);
     border-radius: var(--border-radius-lg);
     overflow: hidden;
     display: flex;
     flex-direction: column;
+    transition: border-color var(--transition-speed), box-shadow var(--transition-speed);
+}
+
+.panel:hover {
+    border-color: rgba(108, 63, 214, 0.2);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="light"] .panel {
+    background: #FFFFFF;
+    box-shadow: 0 1px 4px rgba(108, 63, 214, 0.06);
+    border-color: var(--color-border);
+}
+
+[data-theme="light"] .panel:hover {
+    box-shadow: 0 4px 16px rgba(108, 63, 214, 0.1);
+    border-color: rgba(108, 63, 214, 0.2);
 }
 
 .panel-header {
@@ -531,7 +567,6 @@
     flex: 1;
 }
 
-/* Chart Placeholder */
 .chart-placeholder {
     display: flex;
     flex-direction: column;
@@ -560,9 +595,6 @@
     opacity: 0.6;
 }
 
-/* ==========================================================================
-   DATA TABLE
-   ========================================================================== */
 .table-responsive {
     overflow-x: auto;
 }
@@ -596,7 +628,7 @@
 }
 
 .data-table tbody tr:hover {
-    background-color: rgba(0, 114, 255, 0.04);
+    background-color: rgba(108, 63, 214, 0.04);
 }
 
 .data-table tbody td {
@@ -605,7 +637,6 @@
     vertical-align: middle;
 }
 
-/* Status badges */
 .badge {
     display: inline-block;
     padding: 3px 10px;
@@ -635,21 +666,16 @@
     color: #3B82F6;
 }
 
-/* Payment method tag */
 .pay-tag {
     font-size: 0.78rem;
     color: var(--color-text-secondary);
 }
 
-/* Amount column */
 .amount-col {
     font-weight: 700;
     color: var(--color-primary);
 }
 
-/* ==========================================================================
-   LOW STOCK LIST (Right panel)
-   ========================================================================== */
 .stock-list {
     display: flex;
     flex-direction: column;
@@ -675,7 +701,7 @@
     width: 34px;
     height: 34px;
     border-radius: var(--border-radius-sm);
-    background-color: rgba(0, 114, 255, 0.1);
+    background-color: rgba(108, 63, 214, 0.1);
     color: var(--color-primary);
     display: flex;
     align-items: center;
@@ -713,11 +739,6 @@
     color: var(--color-danger);
 }
 
-/* ==========================================================================
-   RESPONSIVE — TABLET & MOBILE
-   ========================================================================== */
-
-/* Tablet: 2-col stats, sidebar collapses */
 @media (max-width: 1024px) {
     .stats-grid {
         grid-template-columns: repeat(2, 1fr);
@@ -732,14 +753,14 @@
     .sidebar {
         transform: translateX(-100%);
         width: 240px;
-        /* Restore width for mobile */
+
     }
 
     .sidebar.open {
         transform: translateX(0);
     }
 
-    /* Restore visibility on mobile */
+
     .sidebar-brand {
         padding: var(--space-4);
         color: var(--color-primary) !important;
@@ -805,7 +826,6 @@
     }
 }
 
-/* Overlay for mobile sidebar */
 .sidebar-overlay {
     display: none;
     position: fixed;

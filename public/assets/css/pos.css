@@ -1,7 +1,4 @@
-/* ==========================================================================
-   POS PAGE — 7X Brand Colors
-   ========================================================================== */
-.pos-wrapper {
+﻿.pos-wrapper {
     display: flex;
     height: 100vh;
     overflow: hidden;
@@ -14,7 +11,6 @@
     overflow: hidden;
 }
 
-/* NAVBAR */
 .pos-navbar {
     display: flex;
     align-items: center;
@@ -49,14 +45,12 @@
     gap: var(--space-2);
 }
 
-/* CONTENT SPLIT */
 .pos-content {
     display: flex;
     flex: 1;
     overflow: hidden;
 }
 
-/* ===== LEFT PANEL: PRODUCTS (60%) ===== */
 .pos-panel-products {
     flex: 1 1 60%;
     display: flex;
@@ -67,15 +61,11 @@
     border-right: 1px solid var(--color-border);
 }
 
-/* ==========================================================================
-(Search Bar)
-   ========================================================================== */
 .search-wrapper {
     position: relative;
     flex-shrink: 0;
     width: 100%;
 }
-
 
 .search-wrapper .search-icon,
 .search-wrapper i {
@@ -104,11 +94,10 @@
 #medicine-search:focus {
     outline: none;
     border-color: var(--color-primary);
-    box-shadow: 0 0 0 4px rgba(0, 114, 255, 0.15);
+    box-shadow: 0 0 0 4px rgba(108, 63, 214, 0.15);
     background-color: var(--color-bg-primary);
 }
 
-/* Category Tabs */
 .category-tabs {
     display: flex;
     gap: var(--space-2);
@@ -142,7 +131,6 @@
     color: #fff;
 }
 
-/* Medicine Grid */
 .medicine-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
@@ -152,7 +140,6 @@
     padding-right: 8px;
 }
 
-/* Medicine Card */
 .medicine-card {
     background-color: var(--color-bg-secondary);
     border: 1px solid var(--color-border);
@@ -183,7 +170,7 @@
 .medicine-card:hover {
     border-color: var(--color-primary);
     transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba(0, 114, 255, 0.15);
+    box-shadow: 0 8px 25px rgba(108, 63, 214, 0.15);
 }
 
 .medicine-card:hover::before {
@@ -201,7 +188,7 @@
     text-transform: uppercase;
     letter-spacing: 0.06em;
     color: var(--color-primary);
-    background-color: rgba(0, 114, 255, 0.1);
+    background-color: rgba(108, 63, 214, 0.1);
     padding: 2px 8px;
     border-radius: 999px;
     align-self: flex-start;
@@ -273,7 +260,6 @@
     transform: scale(0.95);
 }
 
-/* ===== RIGHT PANEL: CART (40%) ===== */
 .pos-panel-cart {
     flex: 0 0 40%;
     max-width: 420px;
@@ -342,7 +328,6 @@
     background-color: var(--color-bg-primary);
 }
 
-/* Cart Table */
 .cart-items-list {
     flex: 1;
     overflow-y: auto;
@@ -436,7 +421,6 @@
     font-size: 1rem;
 }
 
-/* Cart Footer */
 .cart-footer {
     flex-shrink: 0;
     border-top: 1px solid var(--color-border);
@@ -486,7 +470,6 @@
     flex: 1;
 }
 
-/* Payment Method Radio Buttons */
 .payment-methods {
     display: flex;
     gap: var(--space-2);
@@ -516,7 +499,7 @@
 .payment-methods label:has(input:checked) {
     border-color: var(--color-primary);
     color: var(--color-primary);
-    background-color: rgba(0, 114, 255, 0.08);
+    background-color: rgba(108, 63, 214, 0.08);
 }
 
 .payment-methods label:hover {
@@ -524,7 +507,6 @@
     color: var(--color-primary);
 }
 
-/* Checkout Button */
 .btn-checkout {
     width: 100%;
     padding: 0.9rem;
@@ -547,7 +529,7 @@
 
 .btn-checkout:hover {
     opacity: 0.9;
-    box-shadow: 0 4px 20px rgba(0, 114, 255, 0.4);
+    box-shadow: 0 4px 20px rgba(108, 63, 214, 0.4);
     transform: translateY(-1px);
 }
 
@@ -558,7 +540,6 @@
     box-shadow: none;
 }
 
-/* Receipt modal */
 .receipt {
     padding: var(--space-4);
     font-family: 'Courier New', monospace;
@@ -600,10 +581,6 @@
     font-size: 1rem;
 }
 
-
-/* ==========================================================================
-   RECEIPT MODAL (Clean CSS)
-   ========================================================================== */
 .modal-box.receipt-modal {
     background: var(--color-bg-secondary);
     border: 1px solid var(--color-border);
@@ -620,8 +597,8 @@
 }
 
 .receipt-title {
-    color: #06b6d4;
-    /* Cyan */
+    color: #6C3FD6;
+
 }
 
 .receipt-close {
@@ -660,7 +637,7 @@
 
 .receipt-row.total-row {
     font-weight: bold;
-    color: #06b6d4;
+    color: #6C3FD6;
     font-size: 1.1rem;
 }
 
@@ -675,7 +652,6 @@
     text-align: center;
 }
 
-/* ===== RESPONSIVE ===== */
 @media (max-width: 768px) {
     .pos-content {
         flex-direction: column;

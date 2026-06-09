@@ -90,10 +90,12 @@ class CreditController extends Controller {
         // جلب المدفوعات
         $transactions = $clientModel->getClientTransactions($id);
 
-        // حساب إجمالي ما دفعه العميل
+        // حساب إجمالي ما دفعه العميل (فقط المدفوعات وليس الديون)
         $total_paid = 0;
         foreach ($transactions as $tx) {
-            $total_paid += floatval($tx['amount']);
+            if (($tx['type'] ?? 'payment') === 'payment') {
+                $total_paid += floatval($tx['amount']);
+            }
         }
 
         $this->view('credit-history', [
