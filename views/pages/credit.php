@@ -328,6 +328,7 @@ if (!empty($clients)) {
                 if (status === 'client_added') showToast('Client added successfully!', 'success');
                 else if (status === 'payment_success') showToast('Payment recorded successfully!', 'success');
                 else if (status === 'invalid_amount') showToast('Invalid amount entered.', 'error');
+                else if (status === 'overpayment') showToast('Error: Payment amount exceeds the client\'s outstanding balance.', 'error');
                 else if (status === 'error') showToast('Error processing request.', 'error');
 
                 if (window.history.replaceState) {
