@@ -206,12 +206,17 @@
                                 </select>
                             </div>
 
+                            <!-- Credit-client warning -->
+                            <div id="credit-client-warning" style="display:none; color:var(--color-danger); font-size:.82rem; margin-bottom:.75rem; padding:.5rem .75rem; border:1px solid rgba(239,68,68,.3); border-radius:6px; background:rgba(239,68,68,.08);">
+                                <i class="fa-solid fa-triangle-exclamation"></i> Please select a client to use Store Credit.
+                            </div>
+
                             <div class="form-group" style="margin-bottom: 1.5rem;">
                                 <label class="form-label" for="pos-discount"><i class="fa-solid fa-tags"></i> Discount (%)</label>
                                 <input type="number" name="discount" id="pos-discount" class="form-control" min="0" max="100" value="0" placeholder="0%">
                             </div>
 
-                            <button type="submit" class="btn btn-primary" style="width: 100%; padding: 12px; font-size: 1.1rem; display: flex; justify-content: center; gap: 10px;" <?= empty($_SESSION['cart']) ? 'disabled' : '' ?>>
+                            <button type="submit" class="btn btn-primary" id="checkout-btn" style="width: 100%; padding: 12px; font-size: 1.1rem; display: flex; justify-content: center; gap: 10px;" <?= empty($_SESSION['cart']) ? 'disabled' : '' ?>>
                                 <i class="fa-solid fa-check-double"></i> Complete Sale
                             </button>
                         </form>
@@ -277,8 +282,57 @@
 
     <!-- Scripts -->
     <script src="<?= BASE_URL ?>/assets/js/theme.js"></script>
+    <script src="<?= BASE_URL ?>/assets/js/toast.js"></script>
     <script src="<?= BASE_URL ?>/assets/js/pos.js"></script>
+
+    <?php
+    // Display server-side flash messages (e.g. insufficient stock, credit without client)
+    $flash = null;
+    if (isset($_SESSION['error'])) {
+        $flash = $_SESSION['error'];
+        unset($_SESSION['error']);
+    }
+    ?>
+    <?php if ($flash): ?>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            if (typeof showToast === 'function') {
+                showToast(<?= json_encode($flash['message']) ?>, 'error');
+            }
+        });
+    </script>
+    <?php endif; ?>
+
+    <script>
+        // Wrapped in IIFE to avoid any variable collision with pos.js
+        (function () {
+            var pmEl   = document.getElementById('pos-payment-method');
+            var cliEl  = document.getElementById('pos-client');
+            var warn   = document.getElementById('credit-client-warning');
+            var form   = document.getElementById('checkout-form');
+
+            function checkCreditClient() {
+                if (!pmEl || !warn) return;
+                var needsClient = pmEl.value === 'credit' && (!cliEl || cliEl.value === '');
+                warn.style.display = needsClient ? 'block' : 'none';
+            }
+
+            if (pmEl)  pmEl.addEventListener('change', checkCreditClient);
+            if (cliEl) cliEl.addEventListener('change', checkCreditClient);
+
+            if (form) {
+                form.addEventListener('submit', function (e) {
+                    if (!pmEl || !cliEl) return;
+                    if (pmEl.value === 'credit' && cliEl.value === '') {
+                        e.preventDefault();
+                        checkCreditClient();
+                        cliEl.focus();
+                    }
+                });
+            }
+        })();
+    </script>
 
 </body>
 
-</html>
+</html>

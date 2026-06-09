@@ -270,6 +270,13 @@
                             <input type="number" id="med-price" name="price" class="form-control" min="0" step="0.01" placeholder="0.00" required>
                         </div>
                     </div>
+
+                    <div class="modal-form-row">
+                        <div class="form-group">
+                            <label class="form-label" for="med-cost-price">Cost Price (DH)</label>
+                            <input type="number" id="med-cost-price" name="cost_price" class="form-control" min="0" step="0.01" placeholder="0.00">
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-outline" id="cancel-add-modal">Cancel</button>
@@ -289,6 +296,8 @@
                     showToast('Medicine updated successfully!', 'success');
                 <?php elseif ($_GET['status'] === 'deleted'): ?>
                     showToast('Medicine deleted successfully!', 'success');
+                <?php elseif ($_GET['status'] === 'barcode_exists'): ?>
+                    showToast('Error: This barcode already exists. Please use a different barcode.', 'error');
                 <?php endif; ?>
 
                 if (window.history.replaceState) {
