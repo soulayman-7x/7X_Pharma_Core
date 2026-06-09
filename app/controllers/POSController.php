@@ -115,79 +115,127 @@ class POSController extends Controller {
     }
 
     // 3. Checkout Process
-   // 3. Checkout Process
     public function checkout() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_SESSION['cart'])) {
-            
-            $payment_method = strtolower($_POST['payment_method'] ?? 'cash');
+
+            $payment_method      = strtolower($_POST['payment_method'] ?? 'cash');
             $discount_percentage = floatval($_POST['discount'] ?? 0);
-            
-            // 🌟 الجديد: استقبال معرف العميل إذا تم اختياره
-            $client_id = !empty($_POST['client_id']) ? intval($_POST['client_id']) : null;
+            $client_id           = !empty($_POST['client_id']) ? intval($_POST['client_id']) : null;
+
+            // Validate: credit payment requires a client
+            if ($payment_method === 'credit' && !$client_id) {
+                $this->setFlash('error', 'Please select a client for credit payments.');
+                $this->redirect('pos');
+                return;
+            }
 
             $subtotal = 0;
             foreach ($_SESSION['cart'] as $item) {
                 $subtotal += ($item['price'] * $item['quantity']);
             }
             $discount_amount = $subtotal * ($discount_percentage / 100);
-            $total_amount = $subtotal - $discount_amount;
+            $total_amount    = $subtotal - $discount_amount;
 
-            $saleModel = $this->model('Sale');
-            $saleData = [
-                'user_id' => $_SESSION['user_id'],
-                'client_id' => $client_id, // 🌟 الآن أصبح ديناميكياً
-                'total_amount' => $total_amount,
-                'payment_method' => $payment_method
-            ];
+            // Use ONE shared model/connection for everything inside the transaction
+            $medicineModel = $this->model('Medicine');
+            $db            = $medicineModel->getDb(); // single PDO connection
 
-            // 1. General Invoice Entry
-            $sale_id = $saleModel->insert($saleData);
+            $db->beginTransaction();
 
-            if ($sale_id) {
-                $medicineModel = $this->model('Medicine');
-                $saleDetailModel = $this->model('SaleDetail'); 
-                
+            try {
+                // 1. Insert the sale header
+                $saleSql = "INSERT INTO sales (user_id, client_id, total_amount, payment_method)
+                            VALUES (?, ?, ?, ?)";
+                $db->prepare($saleSql)->execute([
+                    $_SESSION['user_id'],
+                    $client_id,
+                    $total_amount,
+                    $payment_method
+                ]);
+                $sale_id = $db->lastInsertId();
+
+                if (!$sale_id) {
+                    throw new Exception('Failed to create sale record.');
+                }
+
                 foreach ($_SESSION['cart'] as $med_id => $item) {
-                    // 2. Fetch oldest batch
+                    // 2. Fetch medicine info for the snapshot (read only — same connection, in transaction)
+                    $med      = $medicineModel->getById($med_id);
                     $batch_id = $medicineModel->getOldestBatchId($med_id);
 
+                    if (!$batch_id) {
+                        throw new Exception("No available batch for medicine: {$item['name']}.");
+                    }
+
+                    // 3. Unified snapshot
                     $snapshot = json_encode([
-                        'name' => $item['name'], 
-                        'price' => $item['price']
+                        'name'    => $item['name'],
+                        'price'   => $item['price'],
+                        'barcode' => $med['barcode'] ?? '',
+                        'dci'     => $med['dci']     ?? '',
                     ]);
 
-                    // 3. Record item details
-                    $saleDetailModel->insert([
-                        'sale_id' => $sale_id,
-                        'batch_id' => $batch_id,
-                        'quantity' => $item['quantity'],
-                        'unit_price' => $item['price'],
-                        'snapshot_data' => $snapshot
+                    // 4. Insert sale item — same connection = sale_id is visible, no FK violation
+                    $itemSql = "INSERT INTO sale_items (sale_id, batch_id, quantity, unit_price, snapshot_data)
+                                VALUES (?, ?, ?, ?, ?)";
+                    $db->prepare($itemSql)->execute([
+                        $sale_id,
+                        $batch_id,
+                        $item['quantity'],
+                        $item['price'],
+                        $snapshot
                     ]);
 
-                    // 4. Stock discount
-                    $medicineModel->deductStock($med_id, $item['quantity']);
+                    // 5. Deduct stock (FIFO) — uses same connection, auto-visible inside transaction
+                    $deducted = $medicineModel->deductStock($med_id, $item['quantity']);
+                    if (!$deducted) {
+                        throw new Exception("Insufficient stock for: {$item['name']}.");
+                    }
+
+                    // 6. Record inventory movement
+                    $moveSql = "INSERT INTO inventory_movements
+                                    (batch_id, movement_type, quantity, user_id, reference_id)
+                                VALUES (?, 'sale', ?, ?, ?)";
+                    $db->prepare($moveSql)->execute([
+                        $batch_id,
+                        $item['quantity'],
+                        $_SESSION['user_id'],
+                        $sale_id
+                    ]);
                 }
 
-                // 🌟 الجديد: تسجيل الدين في حساب العميل إذا كان الدفع "كريدي"
+                // 7. Register credit debt if applicable
                 if ($payment_method === 'credit' && $client_id) {
-                    $clientModel = $this->model('Client');
-                    $clientModel->addDebt($client_id, $total_amount);
+                    $db->prepare("UPDATE clients SET credit_balance = credit_balance + ? WHERE id = ?")
+                       ->execute([$total_amount, $client_id]);
                 }
+
+                // All good — commit
+                $db->commit();
 
                 $_SESSION['last_sale_id'] = $sale_id;
-                $_SESSION['cart'] = []; 
+                $_SESSION['cart']         = [];
 
-                // Generate a fake invoice number for display purposes only
-                $receipt_no = 'RX-' . str_pad($sale_id, 6, '0', STR_PAD_LEFT);
-                
+                $receipt_no  = 'RX-' . str_pad($sale_id, 6, '0', STR_PAD_LEFT);
                 $redirectUrl = "pos?receipt=1&receipt_no={$receipt_no}&method={$payment_method}&total=" . number_format($total_amount, 2);
                 $this->redirect($redirectUrl);
-            } else {
-                die("Critical Error: Could not save the sale to the database.");
+
+            } catch (Exception $e) {
+                if ($db->inTransaction()) {
+                    $db->rollBack();
+                }
+
+                // Log error
+                $logFile = ROOT_DIR . '/logs/checkout_errors.log';
+                $msg     = '[' . date('Y-m-d H:i:s') . '] CHECKOUT ERROR: ' . $e->getMessage() . PHP_EOL;
+                @file_put_contents($logFile, $msg, FILE_APPEND);
+
+                $this->setFlash('error', 'Sale failed: ' . $e->getMessage());
+                $this->redirect('pos');
             }
+
         } else {
             $this->redirect('pos');
         }
     }
-}
+}

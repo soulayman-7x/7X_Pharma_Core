@@ -102,7 +102,21 @@ class Medicine extends Model {
     }
 
     // =========================================================
-    // 5. Soft Delete
+    // 5. Check if barcode already exists (to prevent duplicate entry crash)
+    // =========================================================
+    public function barcodeExists($barcode, $excludeId = null) {
+        if ($excludeId) {
+            $sql = "SELECT id FROM {$this->table} WHERE barcode = ? AND id != ? AND deleted_at IS NULL LIMIT 1";
+            $stmt = $this->query($sql, [$barcode, $excludeId]);
+        } else {
+            $sql = "SELECT id FROM {$this->table} WHERE barcode = ? AND deleted_at IS NULL LIMIT 1";
+            $stmt = $this->query($sql, [$barcode]);
+        }
+        return $stmt->fetch(PDO::FETCH_ASSOC) !== false;
+    }
+
+    // =========================================================
+    // 6. Soft Delete
     // =========================================================
     public function delete($id) {
         $sql = "UPDATE {$this->table} SET deleted_at = NOW() WHERE id = ?";
