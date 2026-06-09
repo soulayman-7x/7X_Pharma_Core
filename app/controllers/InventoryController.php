@@ -33,13 +33,22 @@ class InventoryController extends Controller {
             $medicineModel = $this->model('Medicine');
             $batchModel = $this->model('Batch');
 
+            $barcode = trim($_POST['barcode']);
+
+            // Check for duplicate barcode before inserting
+            if ($medicineModel->barcodeExists($barcode)) {
+                $this->redirect('inventory?status=barcode_exists');
+                return;
+            }
+
             // Prepare the data matching our NEW database schema
             $data = [
-                'name' => trim($_POST['name']),
-                'barcode' => trim($_POST['barcode']),
-                'dci' => trim($_POST['dci'] ?? ''),
-                'category' => trim($_POST['category']),
-                'price' => $_POST['price'] 
+                'name'       => trim($_POST['name']),
+                'barcode'    => $barcode,
+                'dci'        => trim($_POST['dci'] ?? ''),
+                'category'   => trim($_POST['category']),
+                'price'      => floatval($_POST['price']),
+                'cost_price' => floatval($_POST['cost_price'] ?? 0)
             ];
 
             $med_id = $medicineModel->insert($data);
@@ -74,12 +83,21 @@ class InventoryController extends Controller {
         $medicineModel = $this->model('Medicine');
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $barcode = trim($_POST['barcode']);
+
+            // Check for duplicate barcode, excluding the current medicine being edited
+            if ($medicineModel->barcodeExists($barcode, $id)) {
+                $this->redirect('inventory?status=barcode_exists');
+                return;
+            }
+
             $data = [
-                'name' => trim($_POST['name']),
-                'barcode' => trim($_POST['barcode']),
-                'dci' => trim($_POST['dci']),
-                'category' => trim($_POST['category']),
-                'price' => $_POST['price']
+                'name'       => trim($_POST['name']),
+                'barcode'    => $barcode,
+                'dci'        => trim($_POST['dci']),
+                'category'   => trim($_POST['category']),
+                'price'      => floatval($_POST['price']),
+                'cost_price' => floatval($_POST['cost_price'] ?? 0)
             ];
 
             $medicineModel->update($id, $data);
