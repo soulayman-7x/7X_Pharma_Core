@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3307
--- Generation Time: May 11, 2026 at 12:59 AM
+-- Generation Time: Jun 10, 2026 at 03:34 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -41,20 +41,21 @@ CREATE TABLE `batches` (
 --
 
 INSERT INTO `batches` (`id`, `medicine_id`, `batch_number`, `expiry_date`, `current_quantity`, `created_at`) VALUES
-(1, 1, 'B-2024-001', '2026-12-31', 149, '2026-05-06 15:45:17'),
+(1, 1, 'B-2024-001', '2026-12-31', 147, '2026-05-06 15:45:17'),
 (2, 1, 'B-2024-002', '2027-05-15', 200, '2026-05-06 15:45:17'),
-(3, 2, 'AUG-9921', '2025-11-30', 44, '2026-05-06 15:45:17'),
+(3, 2, 'AUG-9921', '2025-11-30', 43, '2026-05-06 15:45:17'),
 (4, 3, 'LEX-442', '2026-08-20', 5, '2026-05-06 15:45:17'),
-(5, 4, 'SPA-001', '2028-01-10', 74, '2026-05-06 15:45:17'),
+(5, 4, 'SPA-001', '2028-01-10', 68, '2026-05-06 15:45:17'),
 (6, 5, 'SME-092', '2027-03-25', 120, '2026-05-06 15:45:17'),
 (7, 6, 'LEV-551', '2026-06-30', 60, '2026-05-06 15:45:17'),
-(8, 7, 'VOL-883', '2025-09-15', 30, '2026-05-06 15:45:17'),
-(9, 8, 'ASP-112', '2027-11-01', 90, '2026-05-06 15:45:17'),
-(10, 9, 'RHI-334', '2026-02-28', 25, '2026-05-06 15:45:17'),
+(8, 7, 'VOL-883', '2025-09-15', 29, '2026-05-06 15:45:17'),
+(9, 8, 'ASP-112', '2027-11-01', 89, '2026-05-06 15:45:17'),
+(10, 9, 'RHI-334', '2026-02-28', 0, '2026-05-06 15:45:17'),
 (11, 10, 'ZYR-775', '2028-05-15', 50, '2026-05-06 15:45:17'),
-(12, 14, '2022', '2026-05-01', 20, '2026-05-09 09:04:07'),
+(12, 14, '2022', '2026-05-01', 10, '2026-05-09 09:04:07'),
 (13, 15, '2022', '2026-05-01', 2, '2026-05-09 09:09:52'),
-(14, 16, '2022', '2026-02-01', 333, '2026-05-09 09:34:07');
+(14, 16, '2022', '2026-02-01', 333, '2026-05-09 09:34:07'),
+(15, 17, '2022', '2026-07-01', 333, '2026-06-08 17:32:02');
 
 -- --------------------------------------------------------
 
@@ -79,9 +80,10 @@ INSERT INTO `clients` (`id`, `name`, `phone`, `credit_balance`, `created_at`) VA
 (2, 'خديجة بنجلون', '0622222222', 0.00, '2026-05-06 15:45:17'),
 (3, 'محمد التازي', '0633333333', 450.50, '2026-05-06 15:45:17'),
 (4, 'سناء الإدريسي', '0644444444', 80.00, '2026-05-06 15:45:17'),
-(5, 'كريم العمراني', '0655555555', 1100.00, '2026-05-06 15:45:17'),
+(5, 'كريم العمراني', '0655555555', 1255.00, '2026-05-06 15:45:17'),
 (6, 'ali', '0613529669', 0.00, '2026-05-09 13:57:29'),
-(7, 'طابعة °1', '0613529669', 0.00, '2026-05-09 14:20:00');
+(7, 'طابعة °1', '0613529669', 574.00, '2026-05-09 14:20:00'),
+(8, 'ثث', '3333', 0.00, '2026-06-08 17:03:30');
 
 -- --------------------------------------------------------
 
@@ -104,11 +106,17 @@ CREATE TABLE `client_payments` (
 -- Dumping data for table `client_payments`
 --
 
-INSERT INTO `client_payments` (`id`, `client_id`, `amount`, `user_id`, `payment_date`) VALUES
-(1, 1, 50.00, 1, '2026-05-06 15:45:17'),
-(2, 3, 200.00, 2, '2026-05-06 15:45:17'),
-(3, 5, 500.00, 1, '2026-05-06 15:45:17'),
-(4, 4, 20.00, 3, '2026-05-06 15:45:17');
+INSERT INTO `client_payments` (`id`, `type`, `client_id`, `amount`, `payment_method`, `note`, `user_id`, `payment_date`) VALUES
+(1, 'payment', 1, 50.00, 'cash', NULL, 1, '2026-05-06 15:45:17'),
+(2, 'payment', 3, 200.00, 'cash', NULL, 2, '2026-05-06 15:45:17'),
+(3, 'payment', 5, 500.00, 'cash', NULL, 1, '2026-05-06 15:45:17'),
+(4, 'payment', 4, 20.00, 'cash', NULL, 3, '2026-05-06 15:45:17'),
+(5, 'payment', 7, 55.00, 'cash', NULL, 1, '2026-06-08 16:58:39'),
+(6, 'payment', 7, 333.00, 'cash', NULL, 1, '2026-06-08 16:59:14'),
+(7, 'payment', 7, 66.00, 'card', NULL, 1, '2026-06-08 16:59:25'),
+(8, 'debt', 7, 24.00, 'credit', NULL, 1, '2026-06-08 17:06:25'),
+(9, 'debt', 5, 133.00, 'credit', NULL, 1, '2026-06-08 20:52:39'),
+(10, 'debt', 5, 22.00, 'credit', NULL, 1, '2026-06-08 20:52:54');
 
 -- --------------------------------------------------------
 
@@ -154,7 +162,6 @@ CREATE TABLE `medicines` (
   `category` varchar(100) DEFAULT 'General',
   `price` decimal(10,2) NOT NULL,
   `cost_price` decimal(10,2) NOT NULL,
-
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -174,11 +181,12 @@ INSERT INTO `medicines` (`id`, `barcode`, `name`, `dci`, `category`, `price`, `c
 (8, '6111234567008', 'Aspegic 1000mg', 'Acide Acetylsalicylique', 'analgesic', 22.00, 14.50, '2026-05-06 15:45:17', NULL),
 (9, '6111234567009', 'Rhinocort 64µg', 'Budesonide', 'General', 65.00, 43.00, '2026-05-06 15:45:17', NULL),
 (10, '6111234567010', 'Zyrtec 10mg', 'Cetirizine', 'General', 45.00, 30.00, '2026-05-06 15:45:17', NULL),
-(11, '45678906', 'new', '500', 'vitamin', 100.00, 0.00, '2026-05-09 08:45:13', NULL),
-(12, '4567890644', 'جديد', '500', 'cardiac', 200.00, 0.00, '2026-05-09 08:59:41', NULL),
-(14, '45678906443', 'بميمم', '89', 'vitamin', 200.00, 0.00, '2026-05-09 09:04:07', NULL),
+(11, '45678906', 'new', '500', 'vitamin', 100.00, 0.00, '2026-05-09 08:45:13', '2026-06-08 18:45:17'),
+(12, '4567890644', 'جديد', '500', 'cardiac', 200.00, 0.00, '2026-05-09 08:59:41', '2026-06-08 18:45:23'),
+(14, '45678906443', 'بميمم', '89', 'vitamin', 200.00, 0.00, '2026-05-09 09:04:07', '2026-06-08 17:01:38'),
 (15, 'يسبسش', 'يسب', '500', 'analgesic', 77.00, 0.00, '2026-05-09 09:09:52', '2026-05-09 09:18:17'),
-(16, 'يسشبسش', 'سيبسيشب', '333', 'derma', 333.00, 0.00, '2026-05-09 09:34:06', '2026-05-09 09:34:16');
+(16, 'يسشبسش', 'سيبسيشب', '333', 'derma', 333.00, 0.00, '2026-05-09 09:34:06', '2026-05-09 09:34:16'),
+(17, '3423432', 'قثصفق', '44', 'antibiotic', 333.00, 0.00, '2026-06-08 17:32:01', '2026-06-08 18:45:28');
 
 -- --------------------------------------------------------
 
@@ -217,7 +225,17 @@ INSERT INTO `sales` (`id`, `user_id`, `client_id`, `total_amount`, `payment_meth
 (14, 1, NULL, 79.00, 'credit', '2026-05-09 14:00:29', NULL),
 (15, 1, NULL, 48.00, 'cash', '2026-05-09 14:12:00', NULL),
 (16, 1, NULL, 24.00, 'card', '2026-05-09 14:12:46', NULL),
-(17, 1, NULL, 24.00, 'cash', '2026-05-09 14:12:53', NULL);
+(17, 1, NULL, 24.00, 'cash', '2026-05-09 14:12:53', NULL),
+(18, 1, NULL, 24.00, 'cash', '2026-06-08 16:31:40', NULL),
+(19, 1, 7, 24.00, 'credit', '2026-06-08 16:53:02', NULL),
+(20, 1, NULL, 24.00, 'credit', '2026-06-08 16:56:33', NULL),
+(21, 1, 7, 600.00, 'credit', '2026-06-08 16:57:23', NULL),
+(22, 1, 7, 1000.00, 'cash', '2026-06-08 16:57:36', NULL),
+(23, 1, 7, 400.00, 'credit', '2026-06-08 16:59:45', NULL),
+(24, 1, 7, 24.00, 'credit', '2026-06-08 17:06:25', NULL),
+(25, 1, NULL, 1691.00, 'cash', '2026-06-08 18:46:10', NULL),
+(26, 1, 5, 133.00, 'credit', '2026-06-08 20:52:39', NULL),
+(27, 1, 5, 22.00, 'credit', '2026-06-08 20:52:54', NULL);
 
 -- --------------------------------------------------------
 
@@ -256,7 +274,21 @@ INSERT INTO `sale_items` (`id`, `sale_id`, `batch_id`, `quantity`, `unit_price`,
 (15, 14, 3, 1, 79.00, '{\"name\":\"Augmentin 1g\\/125mg\",\"price\":\"79.00\"}'),
 (16, 15, 5, 2, 24.00, '{\"name\":\"Spasfon 80mg\",\"price\":\"24.00\"}'),
 (17, 16, 5, 1, 24.00, '{\"name\":\"Spasfon 80mg\",\"price\":\"24.00\"}'),
-(18, 17, 5, 1, 24.00, '{\"name\":\"Spasfon 80mg\",\"price\":\"24.00\"}');
+(18, 17, 5, 1, 24.00, '{\"name\":\"Spasfon 80mg\",\"price\":\"24.00\"}'),
+(19, 18, 5, 1, 24.00, '{\"name\":\"Spasfon 80mg\",\"price\":\"24.00\"}'),
+(20, 19, 5, 1, 24.00, '{\"name\":\"Spasfon 80mg\",\"price\":\"24.00\"}'),
+(21, 20, 5, 1, 24.00, '{\"name\":\"Spasfon 80mg\",\"price\":\"24.00\"}'),
+(22, 21, 12, 3, 200.00, '{\"name\":\"\\u0628\\u0645\\u064a\\u0645\\u0645\",\"price\":\"200.00\"}'),
+(23, 22, 12, 5, 200.00, '{\"name\":\"\\u0628\\u0645\\u064a\\u0645\\u0645\",\"price\":\"200.00\"}'),
+(24, 23, 12, 2, 200.00, '{\"name\":\"\\u0628\\u0645\\u064a\\u0645\\u0645\",\"price\":\"200.00\"}'),
+(25, 24, 5, 1, 24.00, '{\"name\":\"Spasfon 80mg\",\"price\":\"24.00\"}'),
+(26, 25, 5, 1, 24.00, '{\"name\":\"Spasfon 80mg\",\"price\":\"24.00\"}'),
+(27, 25, 10, 25, 65.00, '{\"name\":\"Rhinocort 64\\u00b5g\",\"price\":\"65.00\"}'),
+(28, 25, 8, 1, 42.00, '{\"name\":\"Voltaren 50mg\",\"price\":\"42.00\"}'),
+(29, 26, 5, 1, 24.00, '{\"name\":\"Spasfon 80mg\",\"price\":\"24.00\"}'),
+(30, 26, 3, 1, 79.00, '{\"name\":\"Augmentin 1g\\/125mg\",\"price\":\"79.00\"}'),
+(31, 26, 1, 2, 15.00, '{\"name\":\"Doliprane 1000mg\",\"price\":\"15.00\"}'),
+(32, 27, 9, 1, 22.00, '{\"name\":\"Aspegic 1000mg\",\"price\":\"22.00\"}');
 
 -- --------------------------------------------------------
 
@@ -357,19 +389,19 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `batches`
 --
 ALTER TABLE `batches`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `clients`
 --
 ALTER TABLE `clients`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `client_payments`
 --
 ALTER TABLE `client_payments`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `inventory_movements`
@@ -381,19 +413,19 @@ ALTER TABLE `inventory_movements`
 -- AUTO_INCREMENT for table `medicines`
 --
 ALTER TABLE `medicines`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `sales`
 --
 ALTER TABLE `sales`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT for table `sale_items`
 --
 ALTER TABLE `sale_items`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT for table `users`
