@@ -52,7 +52,7 @@
                         <i class="fa-solid fa-magnifying-glass"></i>
                         <input type="search" name="q" id="medicine-search"
                             value="<?= htmlspecialchars($_GET['q'] ?? '') ?>"
-                            placeholder="Search by name or barcode... (Press F3)"
+                            placeholder="Search by name or barcode..."
                             autocomplete="off" aria-label="Search medicines">
                         <?php if (isset($_GET['category'])): ?>
                             <input type="hidden" name="category" value="<?= htmlspecialchars($_GET['category']) ?>">
@@ -335,4 +335,4 @@
 
 </body>
 
-</html>
+</html>
