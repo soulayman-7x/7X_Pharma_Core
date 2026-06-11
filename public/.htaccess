@@ -1,4 +1,8 @@
-Options -Indexes
+
+#Prevents the server from displaying the file list.
+Options -Indexes 
+
+#Activate the link rewriting engine
 RewriteEngine On
 
 RewriteBase /7X_PHARMA_CORE/public/
