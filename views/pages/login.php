@@ -1,7 +1,6 @@
 <?php 
 require_once '../app/config/constants.php';
-// echo password_hash('123456', PASSWORD_DEFAULT);
-// exit();
+
 ?>
 
 <!DOCTYPE html>
@@ -66,7 +65,6 @@ require_once '../app/config/constants.php';
                         required
                         autocomplete="current-password"
                     >
-                    <a href="#" class="forgot-password">Forgot password?</a>
                 </div>
 
 
