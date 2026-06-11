@@ -122,5 +122,42 @@ class InventoryController extends Controller {
         }
         $this->redirect('inventory?status=deleted');
     }
+    // 5. add new batch
+    // link: /inventory/addBatch
+    public function addBatch() {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $batchModel = $this->model('Batch');
+            $movementModel = $this->model('InventoryMovement');
+
+            $medicine_id = $_POST['medicine_id'];
+            $batch_number = trim($_POST['batch']);
+            $expiry_date = trim($_POST['expiry_date']);
+            $quantity = intval($_POST['quantity']);
+
+            if (strlen($expiry_date) === 7) {
+                $expiry_date .= '-01';
+            }
+
+            $batch_id = $batchModel->insert([
+                'medicine_id' => $medicine_id,
+                'batch_number' => $batch_number,
+                'expiry_date' => $expiry_date,
+                'current_quantity' => $quantity
+            ]);
+
+            if ($batch_id) {
+                $movementModel->insert([
+                    'batch_id' => $batch_id,
+                    'movement_type' => 'in',
+                    'quantity' => $quantity,
+                    'user_id' => $_SESSION['user_id']
+                ]);
+            }
+
+            $this->redirect('inventory?status=batch_added');
+        } else {
+            $this->redirect('inventory');
+        }
+    }
 }
 ?>

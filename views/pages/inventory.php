@@ -188,6 +188,7 @@
                                             <?php if ($_SESSION['role'] === 'admin'): ?>
                                             <td>
                                                 <button class="btn-table-action btn-edit"><i class="fa-solid fa-pen-to-square"></i> Edit</button>
+                                                <button class="btn-table-action btn-add-batch" data-id="<?= $med['id'] ?>" data-name="<?= htmlspecialchars($med['name']) ?>"><i class="fa-solid fa-plus"></i> Add Batch</button>
                                                 <a href="<?= BASE_URL ?>/inventory/delete/<?= $med['id'] ?>"
                                                     class="btn-table-action btn-del"
                                                     style="text-decoration: none; display: inline-block;"
@@ -285,6 +286,42 @@
             </form>
         </div>
     </div>
+
+    <!-- Add Batch Modal -->
+    <div class="modal-overlay" id="add-batch-modal" style="display:none;" role="dialog" aria-modal="true" aria-labelledby="add-batch-title">
+        <div class="modal-box" style="max-width:500px;">
+            <div class="modal-header">
+                <h2 id="add-batch-title">Add Batch: <span id="batch-medicine-name" style="color:var(--color-primary)"></span></h2>
+                <button class="modal-close" id="close-batch-modal" aria-label="Close">&times;</button>
+            </div>
+            <form id="add-batch-form" method="POST" action="<?= BASE_URL ?>/inventory/addBatch">
+                <input type="hidden" id="batch-medicine-id" name="medicine_id" value="">
+                <div class="modal-form">
+                    <div class="modal-form-row">
+                        <div class="form-group">
+                            <label class="form-label" for="new-batch-number">Batch Number *</label>
+                            <input type="text" id="new-batch-number" name="batch" class="form-control" placeholder="e.g. BT-2026-002" required>
+                        </div>
+                    </div>
+                    <div class="modal-form-row">
+                        <div class="form-group">
+                            <label class="form-label" for="new-batch-expiry">Expiry Date *</label>
+                            <input type="month" id="new-batch-expiry" name="expiry_date" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="new-batch-qty">Quantity *</label>
+                            <input type="number" id="new-batch-qty" name="quantity" class="form-control" min="1" placeholder="0" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline" id="cancel-batch-modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary"><i class="fa-solid fa-plus"></i> Add Batch</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <script src="<?= BASE_URL ?>/assets/js/toast.js"></script>
 
     <?php if (isset($_GET['status'])): ?>
@@ -298,6 +335,8 @@
                     showToast('Medicine deleted successfully!', 'success');
                 <?php elseif ($_GET['status'] === 'barcode_exists'): ?>
                     showToast('Error: This barcode already exists. Please use a different barcode.', 'error');
+                <?php elseif ($_GET['status'] === 'batch_added'): ?>
+                    showToast('Batch added successfully!', 'success');
                 <?php endif; ?>
 
                 if (window.history.replaceState) {
@@ -322,6 +361,25 @@
         });
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') modal.style.display = 'none';
+        });
+
+        // Add Batch Modal Logic
+        const batchModal = document.getElementById('add-batch-modal');
+        const addBatchButtons = document.querySelectorAll('.btn-add-batch');
+        addBatchButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.getElementById('batch-medicine-id').value = btn.dataset.id;
+                document.getElementById('batch-medicine-name').textContent = btn.dataset.name;
+                batchModal.style.display = 'flex';
+            });
+        });
+        document.getElementById('close-batch-modal')?.addEventListener('click', () => batchModal.style.display = 'none');
+        document.getElementById('cancel-batch-modal')?.addEventListener('click', () => batchModal.style.display = 'none');
+        batchModal?.addEventListener('click', (e) => {
+            if (e.target === batchModal) batchModal.style.display = 'none';
+        });
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') batchModal.style.display = 'none';
         });
     </script>
 
