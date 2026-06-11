@@ -6,7 +6,7 @@ class Database {
 
     public function __construct() {
         $host = '127.0.0.1';
-        $port = '3307'; 
+        $port = '3306'; 
         $db_name = 'pharma_core';
         $username = 'root';
         $password = '';
