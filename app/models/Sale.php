@@ -26,18 +26,12 @@ class Sale extends Model {
 
     // 3. Recent Sales
     public function getRecentSales($limit = 5) {
-        /*
-         * - LPAD: يحول الـ id رقم 1 إلى RX-000001 ليظهر كرقم فاتورة احترافي.
-         * - COALESCE: إذا لم يكن هناك عميل (Client)، يكتب 'Walk-in Customer'.
-         * - Subquery: يحسب مجموع كمية الأدوية من جدول sale_items لكل فاتورة.
-         * - CASE: يحدد حالة الفاتورة (Paid أو Pending) بناءً على طريقة الدفع.
-         */
 
         $limit = (int) $limit;
-
+        // CONCAT('RX-', LPAD(sales.id, 6, '0')) = RX-000014
         $sql = "SELECT 
                     sales.id,
-                    CONCAT('RX-', LPAD(sales.id, 6, '0')) as receipt_number,
+                    CONCAT('RX-', LPAD(sales.id, 6, '0')) as receipt_number,  
                     sales.created_at,
                     COALESCE(clients.name, 'Walk-in Customer') as client_name,
                     (SELECT COALESCE(SUM(quantity), 0) FROM sale_items WHERE sale_id = sales.id) as items_count,
