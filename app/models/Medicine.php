@@ -19,7 +19,7 @@ class Medicine extends Model {
             $params[] = "%{$searchQuery}%";
         }
 
-        // ida khtar chi 7aja mn 4ir "all" 
+        // ida khtar category mn 4ir "all" 
         if ($category !== 'all') {
             $sql .= " AND LOWER(medicines.category) = LOWER(?)";
             $params[] = trim($category);
@@ -45,11 +45,17 @@ class Medicine extends Model {
         foreach ($availableBatches as $batch) {
             if ($remainingToDeduct <= 0) break; 
 
+            /* If the quantity of medicine in the batch is greater than the required quantity, 
+            the process is completed successfully and the cycle is finished. */
             if ($batch['current_quantity'] >= $remainingToDeduct) {
                 $updateSql = "UPDATE batches SET current_quantity = current_quantity - ? WHERE id = ?";
                 $this->query($updateSql, [$remainingToDeduct, $batch['id']]);
                 $remainingToDeduct = 0;
             } else {
+
+            /* If, for example, the required quantity is 3 and only 1 remains in the batch, 
+            the batch will be reset to zero, leaving 2 in the variable, 
+            and the loop will continue with another batch.*/
                 $updateSql = "UPDATE batches SET current_quantity = 0 WHERE id = ?";
                 $this->query($updateSql, [$batch['id']]);
                 $remainingToDeduct -= $batch['current_quantity'];
@@ -59,7 +65,7 @@ class Medicine extends Model {
         return $remainingToDeduct == 0;
     }
 
-    // 3. جلب دواء واحد مع كميته الإجمالية
+    // 3. get one medicine along with its total quantity
     public function getById($id) {
         $sql = "SELECT medicines.*, 
                 COALESCE(SUM(batches.current_quantity), 0) as current_quantity
@@ -101,9 +107,7 @@ class Medicine extends Model {
         return $batch ? $batch['id'] : 0;
     }
 
-    // =========================================================
     // 5. Check if barcode already exists (to prevent duplicate entry crash)
-    // =========================================================
     public function barcodeExists($barcode, $excludeId = null) {
         if ($excludeId) {
             $sql = "SELECT id FROM {$this->table} WHERE barcode = ? AND id != ? AND deleted_at IS NULL LIMIT 1";
@@ -115,9 +119,7 @@ class Medicine extends Model {
         return $stmt->fetch(PDO::FETCH_ASSOC) !== false;
     }
 
-    // =========================================================
     // 6. Soft Delete
-    // =========================================================
     public function delete($id) {
         $sql = "UPDATE {$this->table} SET deleted_at = NOW() WHERE id = ?";
         $stmt = $this->query($sql, [$id]);
