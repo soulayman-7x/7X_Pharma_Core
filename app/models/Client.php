@@ -3,12 +3,12 @@ class Client extends Model {
     protected $table = 'clients';
     // 1. function designed to record a payment and reduce the debt
     public function makePayment($clientId, $amount, $userId, $method = 'cash', $note = null) {
-        // Guard: prevent paying more than the actual debt
+
         $client = $this->getById($clientId);
         if (!$client) {
             return false;
         }
-
+        // Guard: prevent paying more than the actual debt ميخلصش كتر من داكشي لي عليه
         $amount = min($amount, floatval($client['credit_balance']));
         if ($amount <= 0) {
             return false; // Nothing to pay
@@ -17,6 +17,7 @@ class Client extends Model {
         $sql1 = "UPDATE {$this->table} SET credit_balance = credit_balance - ? WHERE id = ?";
         $stmt1 = $this->query($sql1, [$amount, $clientId]);
 
+        // Ensuring that the debt reduction step was successfully completed
         if ($stmt1->rowCount() > 0) {
             $sql2 = "INSERT INTO client_payments (type, client_id, amount, payment_method, note, user_id, payment_date) VALUES ('payment', ?, ?, ?, ?, ?, NOW())";
             $this->query($sql2, [$clientId, $amount, $method, $note, $userId]);
@@ -36,10 +37,12 @@ class Client extends Model {
         return $result['total_unpaid'];
     }
 
+    // Add Debt function
     public function addDebt($clientId, $amount, $userId = null, $note = null) {
         $sql = "UPDATE {$this->table} SET credit_balance = credit_balance + ? WHERE id = ?";
         $stmt = $this->query($sql, [$amount, $clientId]);
         
+        // Confirm that the addition was successful
         if ($stmt->rowCount() > 0) {
             // Record the debt entry in transaction history
             $uid = $userId ?? ($_SESSION['user_id'] ?? null);
