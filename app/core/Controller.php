@@ -39,7 +39,7 @@ class Controller {
         }
     }
 
-    // 3. Redirect function
+    // 3. Redirect function 
     public function redirect($url) {
         header("Location: " . BASE_URL . "/" . $url);
         exit();
