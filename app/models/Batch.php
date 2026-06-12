@@ -3,7 +3,7 @@
 class Batch extends Model {
     protected $table = 'batches';
 
-    // Bring all the payments for a specific drug
+    // Bring all the payments for a specific Medicine
     public function getBatchesByMedicineId($medicine_id) {
         $sql = "SELECT * FROM {$this->table} 
                 WHERE medicine_id = ? 
@@ -12,7 +12,7 @@ class Batch extends Model {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // Adding a new batch (new stock of an existing drug)
+    // Adding a new batch (new stock of an existing Medicine)
     public function addStock($medicine_id, $batch_number, $expiry_date, $quantity) {
         return $this->insert([
             'medicine_id' => $medicine_id,
