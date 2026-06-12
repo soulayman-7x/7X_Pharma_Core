@@ -43,7 +43,7 @@ class Router {
             // Remove the slash from the end of the link
             $url = rtrim($_GET['url'], '/');
 
-            $url = filter_var($url, FILTER_SANITIZE_URL);
+            $url = filter_var($url, FILTER_SANITIZE_URL); // Clean the link of strange symbols
 
             // Splitting the link based on the slash into an array
             $url = explode('/', $url);
