@@ -184,9 +184,8 @@ $statusText = $balance > 0 ? 'Has Debt' : 'Cleared';
                                             </td>
                                             <td>
                                                 <?php
-                                                // 🌟 موزع الأيقونات (Icon Dispatcher)
                                                 $method = strtolower($tx['payment_method'] ?? 'cash');
-                                                $icon = 'fa-wallet'; // الأيقونة الافتراضية
+                                                $icon = 'fa-wallet';
 
                                                 if ($method === 'cash') {
                                                     $icon = 'fa-money-bill-wave';
