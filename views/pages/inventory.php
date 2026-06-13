@@ -29,10 +29,12 @@
 
             <nav class="sidebar-nav" aria-label="Sidebar navigation">
                 <p class="nav-section-label">Main</p>
-                <a href="<?= BASE_URL ?>/dashboard" class="nav-item" aria-current="page">
-                    <i class="fa-solid fa-table-cells-large fa-fw"></i>
-                    <span class="nav-text">Dashboard</span>
-                </a>
+                <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
+                    <a href="<?= BASE_URL ?>/dashboard" class="nav-item" aria-current="page">
+                        <i class="fa-solid fa-table-cells-large fa-fw"></i>
+                        <span class="nav-text">Dashboard</span>
+                    </a>
+                <?php endif; ?>
 
                 <a href="<?= BASE_URL ?>/pos" class="nav-item">
                     <i class="fa-solid fa-cash-register fa-fw"></i>
