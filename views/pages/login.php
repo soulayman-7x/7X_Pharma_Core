@@ -1,20 +1,26 @@
-<?php 
+<?php
 require_once '../app/config/constants.php';
 
 ?>
 
 <!DOCTYPE html>
 <html lang="en" data-theme="dark">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login — 7X Pharma Nexus</title>
+    <title>Login — <?= APP_NAME ?></title>
     <meta name="description" content="Secure login for 7X Pharma Nexus pharmacy management system.">
+
+    <!-- FONTAWESOM CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="<?= BASE_URL?>/assets/css/global.css">
-    <link rel="stylesheet" href="<?= BASE_URL?>/assets/css/login.css">
-    <link rel="shortcut icon" href="<?= BASE_URL?>/assets/images/logo/7X-PHARMA-ICO.png" type="image/x-icon">
+    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/global.css">
+    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/login.css">
+    <link rel="shortcut icon" href="<?= BASE_URL ?>/assets/images/logo/7X-PHARMA-ICO.png" type="image/x-icon">
 </head>
+
 <body>
 
     <!-- Theme Toggle -->
@@ -29,7 +35,7 @@ require_once '../app/config/constants.php';
 
             <div class="login-header">
                 <div class="logo-wrapper">
-                    <img src="<?= BASE_URL?>/assets/images/logo/7X-PHARMA-ICO.png" alt="7x pharma logo">
+                    <img src="<?= BASE_URL ?>/assets/images/logo/7X-PHARMA-ICO.png" alt="7x pharma logo">
                 </div>
                 <h1 class="login-title">7X Pharma Nexus</h1>
                 <p class="login-subtitle">Sign in to your pharmacy dashboard</p>
@@ -50,8 +56,7 @@ require_once '../app/config/constants.php';
                         placeholder="Enter your username"
                         required
                         autofocus
-                        autocomplete="username"
-                    >
+                        autocomplete="username">
                 </div>
 
                 <div class="form-group">
@@ -63,17 +68,16 @@ require_once '../app/config/constants.php';
                         class="form-control"
                         placeholder="••••••••"
                         required
-                        autocomplete="current-password"
-                    >
+                        autocomplete="current-password">
                 </div>
 
 
                 <button type="submit" class="btn btn-primary btn-block" id="btn-login">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+                    <i class="fas fa-sign-in-alt"></i>
                     Sign In
                 </button>
             </form>
-    
+
             <div class="login-footer">
                 <p>&copy; 2026 7X Pharma Nexus. All rights reserved.</p>
             </div>
@@ -87,9 +91,10 @@ require_once '../app/config/constants.php';
     <?php if (isset($toast) && $toast !== null): ?>
         <script>
             document.addEventListener('DOMContentLoaded', () => {
-                    showToast("<?= htmlspecialchars($toast['message']) ?>", "<?= htmlspecialchars($toast['type']) ?>");
+                showToast("<?= htmlspecialchars($toast['message']) ?>", "<?= htmlspecialchars($toast['type']) ?>");
             });
         </script>
     <?php endif; ?>
 </body>
+
 </html>
