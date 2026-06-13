@@ -173,14 +173,14 @@
                                         }
                                         ?>
                                         <tr>
-                                            <td class="barcode-cell"><?= htmlspecialchars($med['barcode'] ?? 'N/A') ?></td>
-                                            <td>
+                                            <td class="barcode-cell" data-label="Barcode"><?= htmlspecialchars($med['barcode'] ?? 'N/A') ?></td>
+                                            <td data-label="Medicine Name">
                                                 <strong><?= htmlspecialchars($med['name']) ?></strong><br>
                                                 <small style="color:var(--color-text-secondary)"><?= htmlspecialchars($med['dci'] ?? '') ?></small>
                                             </td>
-                                            <td><span class="badge badge-info"><?= htmlspecialchars(ucfirst($med['category'] ?? 'General')) ?></span></td>
+                                            <td data-label="Category"><span class="badge badge-info"><?= htmlspecialchars(ucfirst($med['category'] ?? 'General')) ?></span></td>
 
-                                            <td>
+                                            <td data-label="Quantity">
                                                 <div class="qty-bar-wrap">
                                                     <span><?= $qty ?></span>
                                                     <div class="qty-bar-bg">
@@ -188,10 +188,10 @@
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td class="amount-col"><?= number_format($med['price'], 2) ?> DH</td>
-                                            <td><span class="badge <?= $statusClass ?>"><?= $statusText ?></span></td>
+                                            <td class="amount-col" data-label="Unit Price"><?= number_format($med['price'], 2) ?> DH</td>
+                                            <td data-label="Status"><span class="badge <?= $statusClass ?>"><?= $statusText ?></span></td>
                                             <?php if ($_SESSION['role'] === 'admin'): ?>
-                                            <td>
+                                            <td data-label="Actions" class="mobile-actions">
                                                 <button class="btn-table-action btn-edit"><i class="fa-solid fa-pen-to-square"></i> Edit</button>
                                                 <button class="btn-table-action btn-add-batch" data-id="<?= $med['id'] ?>" data-name="<?= htmlspecialchars($med['name']) ?>"><i class="fa-solid fa-plus"></i> Add Batch</button>
                                                 <a href="<?= BASE_URL ?>/inventory/delete/<?= $med['id'] ?>"
