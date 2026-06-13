@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - 7X Pharma Nexus</title>
+    <title>Dashboard - <?= APP_NAME ?></title>
     <meta name="description" content="7X Pharma Nexus Admin Dashboard - Sales analytics and inventory overview">
 
     <link rel="icon" type="image/png" href="<?= BASE_URL ?>/assets/images/logo/7X-PHARMA-ICO.png">
@@ -90,7 +90,7 @@
                     <span class="navbar-clock" id="navbar-clock"></span>
                     <a href="<?= BASE_URL ?>/notification" class="btn-notification" aria-label="Notifications">
                         <i class="fa-regular fa-bell"></i>
-                            <span class="notification-dot active"></span>
+                        <span class="notification-dot active"></span>
                     </a>
                     <button id="theme-toggle" class="btn-icon" aria-label="Toggle Theme">
                         <span id="theme-icon"></span>
@@ -180,7 +180,9 @@
                                 <?php if (isset($low_stock_items) && count($low_stock_items) > 0): ?>
                                     <?php foreach ($low_stock_items as $item): ?>
                                         <div class="stock-item">
-                                            <div class="stock-item-icon">💊</div>
+                                            <div class="stock-item-icon">
+                                                <i class="fa-solid fa-pills"></i>
+                                            </div>
                                             <div class="stock-item-info">
                                                 <div class="stock-item-name"><?= htmlspecialchars($item['name']) ?></div>
                                                 <div class="stock-item-category"><?= htmlspecialchars($item['category'] ?? 'Medicine') ?></div>
