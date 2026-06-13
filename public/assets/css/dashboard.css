@@ -1,4 +1,4 @@
-﻿.dashboard-layout {
+.dashboard-layout {
     display: flex;
     min-height: 100vh;
 }
@@ -779,12 +779,19 @@
         color: var(--color-primary) !important;
     }
 
+    .nav-text {
+        opacity: 1;
+        visibility: visible;
+    }
+
     .nav-section-label {
         opacity: 1;
+        visibility: visible;
     }
 
     .nav-badge {
         opacity: 1;
+        visibility: visible;
     }
 
     .sidebar-user {
@@ -793,6 +800,7 @@
 
     .user-info {
         opacity: 1;
+        visibility: visible;
     }
 
     .main-content {

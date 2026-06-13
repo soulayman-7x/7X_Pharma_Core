@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>توثيق نظام الجافا سكربت - 7X Pharma Core</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --card-bg: #1e293b;
+            --accent-color: #3b82f6;
+            --border-color: #334155;
+            --code-bg: #0b1120;
+            --hover-color: #2563eb;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        h1 {
+            color: var(--accent-color);
+            margin-bottom: 10px;
+            font-size: 2.5rem;
+        }
+
+        .subtitle {
+            color: #94a3b8;
+            font-size: 1.1rem;
+        }
+
+        h2 {
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 10px;
+            margin-top: 0;
+            color: #60a5fa;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 30px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: #475569;
+        }
+
+        .card h3 {
+            margin-top: 20px;
+            color: #93c5fd;
+        }
+
+        code {
+            background-color: var(--code-bg);
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-family: 'Courier New', Courier, monospace;
+            color: #34d399;
+            font-size: 0.9em;
+        }
+
+        ul {
+            padding-right: 20px;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+
+        .file-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .file-item {
+            background-color: var(--bg-color);
+            margin-bottom: 20px;
+            padding: 20px;
+            border-radius: 10px;
+            border-right: 4px solid var(--accent-color);
+            transition: all 0.2s ease;
+        }
+
+        .file-item:hover {
+            border-right-color: #60a5fa;
+            background-color: #162032;
+        }
+
+        .file-name {
+            font-weight: bold;
+            font-size: 1.3rem;
+            color: #bfdbfe;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .file-description {
+            margin-bottom: 8px;
+        }
+
+        .highlight {
+            color: #fcd34d;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>توثيق نظام الواجهة الأمامية</h1>
+        <div class="subtitle">شرح تفصيلي لملفات الجافا سكربت في مشروع 7X Pharma Core</div>
+    </div>
+
+    <div class="card">
+        <h2>💡 الوضع الفاتح والداكن (Light & Dark Mode)</h2>
+        <p>يتم التحكم في مظهر النظام بشكل أساسي عن طريق ملف <code>theme.js</code>. يعتمد المشروع على خاصية <code>data-theme</code> التي يتم تطبيقها على جذر المستند <code>&lt;html&gt;</code> للتبديل بين الألوان.</p>
+        <h3>طريقة العمل برمجياً:</h3>
+        <ul>
+            <li><strong>عند التحميل الأولي:</strong> يقوم السكربت بفحص الذاكرة المحلية للمتصفح (<code>localStorage</code>) للبحث عن مفتاح <code>theme</code>. إذا لم يكن موجوداً، يقوم باختيار <strong>الوضع الداكن (dark)</strong> كوضع افتراضي.</li>
+            <li><strong>تطبيق الثيم:</strong> بناءً على التفضيل المحفوظ، يقوم بإضافة السمة <code>data-theme="light"</code> أو <code>data-theme="dark"</code> لعنصر الـ html.</li>
+            <li><strong>التبديل بين الأوضاع:</strong> عند الضغط على زر التبديل (الذي يحمل المعرف <code>#theme-toggle</code>)، يقوم النظام بقراءة الوضع الحالي وعكسه، ثم يقوم بحفظ التفضيل الجديد في <code>localStorage</code>، ويقوم بتغيير الأيقونة المرئية من شمس ☀️ إلى قمر 🌙 والعكس.</li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <h2>🔔 نظام الإشعارات المنبثقة (Toast Notifications)</h2>
+        <p>يستخدم النظام ملف <code>toast.js</code> لإنشاء رسائل تنبيهية سريعة تظهر على الشاشة وتختفي تلقائياً، وتعد مثالية لعرض رسائل النجاح أو الأخطاء دون مقاطعة عمل المستخدم.</p>
+        <h3>طريقة العمل برمجياً:</h3>
+        <ul>
+            <li>يتم تنفيذها من خلال استدعاء الدالة العامة <code>showToast(message, type)</code>.</li>
+            <li><strong>الإنشاء الديناميكي (DOM Manipulation):</strong> تقوم الدالة بإنشاء عنصر <code>&lt;div&gt;</code> جديد، وتعطيه الفئات الأساسية <code>toast-notification</code> بالإضافة لفئة النوع (مثل <code>error</code> أو <code>success</code>)، ثم تضع النص المطلوب بداخله.</li>
+            <li><strong>العرض والإخفاء:</strong> يتم إلحاق هذا العنصر بجسم الصفحة ليظهر للمستخدم، وباستخدام <code>setTimeout</code>، يتم الانتظار لمدة 3 ثوانٍ قبل تقليل شفافية العنصر إلى الصفر (تأثير Fade out)، وبعد نصف ثانية إضافية يتم حذفه تماماً من الـ DOM لتحرير الذاكرة.</li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <h2>📂 ملفات الجافا سكربت (JavaScript Files & Roles)</h2>
+        <p>يحتوي المجلد <code>public/assets/js/</code> على أربعة ملفات رئيسية تشكل منطق الواجهة الأمامية للمشروع، وهي كالتالي:</p>
+        <ul class="file-list">
+            <li class="file-item">
+                <div class="file-name">📄 theme.js</div>
+                <div class="file-description"><strong>الدور الأساسي:</strong> إدارة تفضيلات المظهر (الثيم الفاتح/الداكن).</div>
+                <div><strong>طريقة العمل:</strong> يقرأ ويحفظ التفضيلات في الـ Local Storage، يستمع لنقرات زر التبديل، ويقوم بتحديث أيقونة المظهر وتعديل خصائص <code>data-theme</code>. يعمل هذا الملف فور تحميل الصفحة لضمان عدم حدوث وميض في الألوان.</div>
+            </li>
+            <li class="file-item">
+                <div class="file-name">📄 toast.js</div>
+                <div class="file-description"><strong>الدور الأساسي:</strong> عرض الإشعارات المنبثقة التفاعلية.</div>
+                <div><strong>طريقة العمل:</strong> يوفر دالة <code>showToast</code> قابلة للاستدعاء من أي مكان في النظام لبناء إشعار مرئي، وإضافته لـ HTML، ثم إزالته تلقائياً وتدريجياً باستخدام المؤقتات الزمنية.</div>
+            </li>
+            <li class="file-item">
+                <div class="file-name">📄 dashboard.js</div>
+                <div class="file-description"><strong>الدور الأساسي:</strong> إدارة تفاعلات صفحة لوحة التحكم الرئيسية (Dashboard).</div>
+                <div><strong>طريقة العمل:</strong> 
+                    <ul>
+                        <li>يقوم بتفعيل <span class="highlight">ساعة حية</span> تعمل بالثواني في الشريط العلوي عن طريق تحديث عنصر <code>#navbar-clock</code> برمجياً كل 1000 جزء من الثانية (ثانية واحدة).</li>
+                        <li>يدير سلوك <span class="highlight">القائمة الجانبية (Sidebar)</span> في الأجهزة المحمولة، عبر إضافة أو إزالة فئة <code>open</code> للقائمة وطبقة التغطية (Overlay)، مما يسمح بظهورها واختفائها عند النقر.</li>
+                    </ul>
+                </div>
+            </li>
+            <li class="file-item">
+                <div class="file-name">📄 pos.js</div>
+                <div class="file-description"><strong>الدور الأساسي:</strong> التحكم في التفاعلات الخاصة بشاشة نقاط البيع (POS).</div>
+                <div><strong>طريقة العمل:</strong> لتجنب تداخل المتغيرات، يستخدم دالة التفعيل الفوري (IIFE) لإنشاء وتشغيل <span class="highlight">ساعة حية مستقلة</span> مخصصة لشاشة البيع <code>#pos-clock</code>، لضمان استمرار عرض الوقت الدقيق أثناء قيام المستخدم بعمليات البيع دون الحاجة لإعادة تحميل الصفحة.</div>
+            </li>
+        </ul>
+    </div>
+</div>
+
+</body>
+</html>
