@@ -37,7 +37,7 @@ require_once '../app/config/constants.php';
                 <div class="logo-wrapper">
                     <img src="<?= BASE_URL ?>/assets/images/logo/7X-PHARMA-ICO.png" alt="7x pharma logo">
                 </div>
-                <h1 class="login-title">7X Pharma Nexus</h1>
+                <h1 class="login-title"><?= APP_NAME ?></h1>
                 <p class="login-subtitle">Sign in to your pharmacy dashboard</p>
             </div>
 
@@ -79,7 +79,7 @@ require_once '../app/config/constants.php';
             </form>
 
             <div class="login-footer">
-                <p>&copy; 2026 7X Pharma Nexus. All rights reserved.</p>
+                <p>&copy; 2026 <?= APP_NAME ?>. All rights reserved.</p>
             </div>
 
         </div>
