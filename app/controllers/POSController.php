@@ -11,6 +11,7 @@ class POSController extends Controller {
 
     //  1. Displaying the POS screen (Medicines, Search, Filtering)
     public function index() {
+        // Call the Models
         $medicineModel = $this->model('Medicine');
         $clientModel = $this->model('Client');
 
@@ -134,12 +135,13 @@ class POSController extends Controller {
                 $subtotal += ($item['price'] * $item['quantity']);
             }
             $discount_amount = $subtotal * ($discount_percentage / 100);
-            $total_amount    = $subtotal - $discount_amount;
+            $total_amount = $subtotal - $discount_amount;
 
             // Use ONE shared model/connection for everything inside the transaction
             $medicineModel = $this->model('Medicine');
-            $db            = $medicineModel->getDb(); // single PDO connection
+            $db = $medicineModel->getDb(); // single PDO connection
 
+            // I will perform several interconnected operations. Either they all succeed together, or they all fail together.
             $db->beginTransaction();
 
             try {
@@ -160,7 +162,7 @@ class POSController extends Controller {
 
                 foreach ($_SESSION['cart'] as $med_id => $item) {
                     // 2. Fetch medicine info for the snapshot (read only — same connection, in transaction)
-                    $med      = $medicineModel->getById($med_id);
+                    $med = $medicineModel->getById($med_id);
                     $batch_id = $medicineModel->getOldestBatchId($med_id);
 
                     if (!$batch_id) {
@@ -169,10 +171,10 @@ class POSController extends Controller {
 
                     // 3. Unified snapshot
                     $snapshot = json_encode([
-                        'name'    => $item['name'],
-                        'price'   => $item['price'],
+                        'name' => $item['name'],
+                        'price' => $item['price'],
                         'barcode' => $med['barcode'] ?? '',
-                        'dci'     => $med['dci']     ?? '',
+                        'dci' => $med['dci'] ?? '',
                     ]);
 
                     // 4. Insert sale item — same connection = sale_id is visible, no FK violation
@@ -214,7 +216,7 @@ class POSController extends Controller {
                 $db->commit();
 
                 $_SESSION['last_sale_id'] = $sale_id;
-                $_SESSION['cart']         = [];
+                $_SESSION['cart'] = [];
 
                 $receipt_no  = 'RX-' . str_pad($sale_id, 6, '0', STR_PAD_LEFT);
                 $redirectUrl = "pos?receipt=1&receipt_no={$receipt_no}&method={$payment_method}&total=" . number_format($total_amount, 2);
@@ -238,4 +240,4 @@ class POSController extends Controller {
             $this->redirect('pos');
         }
     }
-}
+}

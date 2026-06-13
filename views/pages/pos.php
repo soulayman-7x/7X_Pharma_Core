@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>POS — 7X Pharma Nexus</title>
+    <title>POS — <?= APP_NAME ?></title>
     <meta name="description" content="7X Pharma Nexus Point of Sale — Fast pharmacy billing.">
 
     <link rel="icon" type="image/png" href="<?= BASE_URL ?>/assets/images/logo/7X-PHARMA-ICO.png">
@@ -26,7 +26,7 @@
             <nav class="pos-navbar">
                 <div class="brand">
                     <img src="<?= BASE_URL ?>/assets/images/logo/7X-PHARMA-ICO.png" alt="7x pharma logo">
-                    7X Pharma Nexus &nbsp;<span style="font-size:.75rem;font-weight:400;color:var(--color-text-secondary);">POS</span>
+                    <?= APP_NAME ?> &nbsp;<span style="font-size:.75rem;font-weight:400;color:var(--color-text-secondary);">POS</span>
                 </div>
                 <div class="pos-nav-actions">
                     <span id="pos-clock" style="font-size:.8rem;color:var(--color-text-secondary);"></span>
@@ -117,7 +117,7 @@
                 </section>
 
                 <!-- ================================================
-                     RIGHT PANEL — CART 
+                        RIGHT PANEL — CART 
                 ================================================ -->
                 <aside class="pos-panel-cart" aria-label="Shopping cart">
 
@@ -228,7 +228,7 @@
     </div>
 
     <!-- =====================================================
-     RECEIPT MODAL 
+        RECEIPT MODAL 
      ===================================================== -->
     <?php if (isset($_GET['receipt'])): ?>
         <div class="modal-overlay" id="receipt-modal" style="display:flex;" role="dialog" aria-modal="true" aria-labelledby="receipt-title">
@@ -241,7 +241,7 @@
 
                 <div class="receipt-body">
                     <div class="receipt-brand-text">
-                        <h3>7X Pharma Nexus</h3>
+                        <h3><?= APP_NAME ?></h3>
                         <p>Thank you for your visit!</p>
                     </div>
 
@@ -286,7 +286,7 @@
     <script src="<?= BASE_URL ?>/assets/js/pos.js"></script>
 
     <?php
-    // Display server-side flash messages (e.g. insufficient stock, credit without client)
+    // Display server-side flash messages
     $flash = null;
     if (isset($_SESSION['error'])) {
         $flash = $_SESSION['error'];
@@ -294,39 +294,54 @@
     }
     ?>
     <?php if ($flash): ?>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            if (typeof showToast === 'function') {
-                showToast(<?= json_encode($flash['message']) ?>, 'error');
-            }
-        });
-    </script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                if (typeof showToast === 'function') {
+                    showToast(<?= json_encode($flash['message']) ?>, 'error');
+                }
+            });
+        </script>
     <?php endif; ?>
 
     <script>
-        // Wrapped in IIFE to avoid any variable collision with pos.js
-        (function () {
-            var pmEl   = document.getElementById('pos-payment-method');
-            var cliEl  = document.getElementById('pos-client');
-            var warn   = document.getElementById('credit-client-warning');
-            var form   = document.getElementById('checkout-form');
+        (function() {
 
-            function checkCreditClient() {
-                if (!pmEl || !warn) return;
-                var needsClient = pmEl.value === 'credit' && (!cliEl || cliEl.value === '');
-                warn.style.display = needsClient ? 'block' : 'none';
+            // 1. Get the HTML elements from the page
+            var paymentBox = document.getElementById('pos-payment-method');
+            var clientBox = document.getElementById('pos-client');
+            var warningText = document.getElementById('credit-client-warning');
+            var saleForm = document.getElementById('checkout-form');
+
+            // 2. This function checks if we need to show the warning message
+            function checkWarning() {
+                // If we cannot find the elements on the page, stop
+                if (!paymentBox || !warningText) return;
+
+                // Is the payment "credit" AND is the client box empty?
+                var needsClient = paymentBox.value === 'credit' && (!clientBox || clientBox.value === '');
+
+                // If yes, show the warning (block). If no, hide it (none).
+                warningText.style.display = needsClient ? 'block' : 'none';
             }
 
-            if (pmEl)  pmEl.addEventListener('change', checkCreditClient);
-            if (cliEl) cliEl.addEventListener('change', checkCreditClient);
+            // 3. Listen for changes. If the user changes payment or client, run the check
+            if (paymentBox) paymentBox.addEventListener('change', checkWarning);
+            if (clientBox) clientBox.addEventListener('change', checkWarning);
 
-            if (form) {
-                form.addEventListener('submit', function (e) {
-                    if (!pmEl || !cliEl) return;
-                    if (pmEl.value === 'credit' && cliEl.value === '') {
-                        e.preventDefault();
-                        checkCreditClient();
-                        cliEl.focus();
+            // 4. Listen for when the user clicks the submit button (Complete Sale)
+            if (saleForm) {
+                saleForm.addEventListener('submit', function(event) {
+
+                    // If elements are missing, stop
+                    if (!paymentBox || !clientBox) return;
+
+                    // If payment is credit BUT no client is selected:
+                    if (paymentBox.value === 'credit' && clientBox.value === '') {
+
+                        event.preventDefault(); // Stop the form from sending
+                        checkWarning(); // Show the warning message
+                        clientBox.focus(); // Put the mouse cursor inside the client box
+
                     }
                 });
             }
