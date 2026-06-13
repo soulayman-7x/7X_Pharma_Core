@@ -90,10 +90,12 @@
                     <button id="theme-toggle" class="btn-icon" aria-label="Toggle Theme">
                         <span id="theme-icon"></span>
                     </button>
-                    <button class="btn btn-primary btn-sm" id="btn-open-add-modal" aria-label="Add new medicine">
-                        <i class="fa-solid fa-plus"></i>
-                        Add Medicine
-                    </button>
+                    <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
+                        <button class="btn btn-primary btn-sm" id="btn-open-add-modal" aria-label="Add new medicine">
+                            <i class="fa-solid fa-plus"></i>
+                            Add Medicine
+                        </button>
+                    <?php endif; ?>
                 </div>
             </header>
 
