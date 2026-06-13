@@ -1,4 +1,4 @@
-// Live clock (PHP cannot update live time without reloading)
+// Live clock
 (function () {
     const el = document.getElementById('pos-clock');
     function tick() {
