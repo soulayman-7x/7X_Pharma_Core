@@ -16,7 +16,7 @@ class Controller {
     public function view($view, $data = [] ) {
         // استخراج المصفوفة وتحويل مفاتيحها الى متغيرات
         if (!empty($data)) {
-            extract($data); // like : ['users' => $data] = $users
+            extract($data); // like : ['toast' => $data] = $toast
         }
 
         $viewFile = ROOT_DIR . '/views/pages/' . $view .'.php';
