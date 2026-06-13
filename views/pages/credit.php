@@ -36,7 +36,7 @@ if (!empty($clients)) {
         <aside class="sidebar" id="sidebar" aria-label="Main navigation">
             <div class="sidebar-brand">
                 <img src="<?= BASE_URL ?>/assets/images/logo/7X-PHARMA-ICO.png" alt="7x pharma logo">
-                <span class="nav-text">7X Pharma Nexus</span>
+                <span class="nav-text"><?= APP_NAME ?></span>
             </div>
 
             <nav class="sidebar-nav" aria-label="Sidebar navigation">
@@ -55,13 +55,12 @@ if (!empty($clients)) {
 
                 <p class="nav-section-label">Management</p>
 
-                <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
+                
                     <a href="<?= BASE_URL ?>/inventory" class="nav-item">
                         <i class="fa-solid fa-boxes-stacked fa-fw"></i>
                         <span class="nav-text">Inventory</span>
                         <span class="nav-badge"><?= $low_stock_count ?? 0 ?></span>
                     </a>
-                <?php endif; ?>
 
                 <a href="<?= BASE_URL ?>/credit" class="nav-item active">
                     <i class="fa-solid fa-hand-holding-dollar fa-fw"></i>
@@ -98,7 +97,7 @@ if (!empty($clients)) {
                     </button>
                     <div>
                         <div class="page-title">Client Credit Ledger</div>
-                        <div class="breadcrumb">7X Pharma Nexus &rsaquo; <span>Credit Management</span></div>
+                        <div class="breadcrumb"><?= APP_NAME ?> &rsaquo; <span>Credit Management</span></div>
                     </div>
                 </div>
                 <div class="navbar-right">
@@ -180,7 +179,6 @@ if (!empty($clients)) {
                                         <?php
                                         $balance = floatval($client['credit_balance']);
                                         $debtClass = $balance > 500 ? 'high' : ($balance > 0 ? 'medium' : 'low');
-                                        // Changed from green/yellow to custom strictly blue/purple logic
                                         $statusBadge = $balance > 0 ? '<span class="badge badge-debt">Has Debt</span>' : '<span class="badge badge-cleared">Cleared</span>';
                                         ?>
                                         <tr>

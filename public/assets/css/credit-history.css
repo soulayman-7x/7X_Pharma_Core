@@ -237,6 +237,8 @@
     gap: var(--space-2);
 }
 
+
+
 @media (max-width: 768px) {
     .ch-profile-card {
         flex-direction: column;

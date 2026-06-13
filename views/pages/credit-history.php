@@ -30,15 +30,17 @@ $statusText = $balance > 0 ? 'Has Debt' : 'Cleared';
         <aside class="sidebar" id="sidebar" aria-label="Main navigation">
             <div class="sidebar-brand">
                 <img src="<?= BASE_URL ?>/assets/images/logo/7X-PHARMA-ICO.png" alt="7x pharma logo">
-                <span class="nav-text">7X Pharma Nexus</span>
+                <span class="nav-text"><?= APP_NAME ?></span>
             </div>
 
             <nav class="sidebar-nav" aria-label="Sidebar navigation">
                 <p class="nav-section-label">Main</p>
-                <a href="<?= BASE_URL ?>/dashboard" class="nav-item" aria-current="page">
-                    <i class="fa-solid fa-table-cells-large fa-fw"></i>
-                    <span class="nav-text">Dashboard</span>
-                </a>
+                <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
+                    <a href="<?= BASE_URL ?>/dashboard" class="nav-item" aria-current="page">
+                        <i class="fa-solid fa-table-cells-large fa-fw"></i>
+                        <span class="nav-text">Dashboard</span>
+                    </a>
+                <?php endif; ?>
 
                 <a href="<?= BASE_URL ?>/pos" class="nav-item">
                     <i class="fa-solid fa-cash-register fa-fw"></i>
@@ -86,7 +88,7 @@ $statusText = $balance > 0 ? 'Has Debt' : 'Cleared';
                     <div>
                         <div class="page-title">Credit History</div>
                         <div class="breadcrumb">
-                            7X Pharma Nexus &rsaquo;
+                            <?= APP_NAME ?> &rsaquo;
                             <a href="<?= BASE_URL ?>/credit" style="color: inherit; text-decoration: none;">Credit Management</a> &rsaquo;
                             <span><?= htmlspecialchars($client['name']) ?></span>
                         </div>

@@ -87,10 +87,10 @@ class CreditController extends Controller {
             $this->redirect('credit');
         }
 
-        // جلب المدفوعات
+        // Get batches
         $transactions = $clientModel->getClientTransactions($id);
 
-        // حساب إجمالي ما دفعه العميل (فقط المدفوعات وليس الديون)
+        // (فقط المدفوعات وليس الديون)
         $total_paid = 0;
         foreach ($transactions as $tx) {
             if (($tx['type'] ?? 'payment') === 'payment') {
