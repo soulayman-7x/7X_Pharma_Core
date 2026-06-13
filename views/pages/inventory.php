@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inventory — 7X Pharma Nexus</title>
+    <title>Inventory — <?= APP_NAME ?></title>
     <meta name="description" content="Medicine inventory, batches, and expiry date management.">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -24,7 +24,7 @@
         <aside class="sidebar" id="sidebar" aria-label="Main navigation">
             <div class="sidebar-brand">
                 <img src="<?= BASE_URL ?>/assets/images/logo/7X-PHARMA-ICO.png" alt="7x pharma logo">
-                <span class="nav-text">7X Pharma Nexus</span>
+                <span class="nav-text"><?= APP_NAME ?></span>
             </div>
 
             <nav class="sidebar-nav" aria-label="Sidebar navigation">
@@ -80,7 +80,7 @@
                     </button>
                     <div>
                         <div class="page-title">Inventory</div>
-                        <div class="breadcrumb">7X Pharma Nexus &rsaquo; <span>Medicines & Batches</span></div>
+                        <div class="breadcrumb"><?= APP_NAME ?> &rsaquo; <span>Medicines & Batches</span></div>
                     </div>
                 </div>
                 <div class="navbar-right">
@@ -352,33 +352,61 @@
     <script src="<?= BASE_URL ?>/assets/js/dashboard.js"></script>
 
     <script>
-        // Add Medicine Modal Logic
+        // --- Add Medicine Modal Logic ---
         const modal = document.getElementById('add-medicine-modal');
+        
+        // Open the window when the "Add" button is clicked
         document.getElementById('btn-open-add-modal')?.addEventListener('click', () => modal.style.display = 'flex');
+        
+        // Close the window when the "X" button is clicked
         document.getElementById('close-add-modal')?.addEventListener('click', () => modal.style.display = 'none');
+        
+        // Close the window when the "Cancel" button is clicked
         document.getElementById('cancel-add-modal')?.addEventListener('click', () => modal.style.display = 'none');
+        
+        // Close the window if the user clicks anywhere outside the box
         modal?.addEventListener('click', (e) => {
             if (e.target === modal) modal.style.display = 'none';
         });
+        
+        // Close the window if the user presses the "Escape" (Esc) key on the keyboard
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') modal.style.display = 'none';
         });
 
-        // Add Batch Modal Logic
+        // --- Add Batch Modal Logic ---
+        
         const batchModal = document.getElementById('add-batch-modal');
+        
+        // Find all "Add Batch" buttons in the table/list
         const addBatchButtons = document.querySelectorAll('.btn-add-batch');
+        
+        // For each button, do this when clicked:
         addBatchButtons.forEach(btn => {
             btn.addEventListener('click', () => {
+                // Set the medicine ID inside the hidden input
                 document.getElementById('batch-medicine-id').value = btn.dataset.id;
+                
+                // Show the medicine name as text inside the window
                 document.getElementById('batch-medicine-name').textContent = btn.dataset.name;
+                
+                // Open the window
                 batchModal.style.display = 'flex';
             });
         });
+        
+        // Close the window when the "X" button is clicked
         document.getElementById('close-batch-modal')?.addEventListener('click', () => batchModal.style.display = 'none');
+        
+        // Close the window when the "Cancel" button is clicked
         document.getElementById('cancel-batch-modal')?.addEventListener('click', () => batchModal.style.display = 'none');
+        
+        // Close the window if the user clicks outside the box
         batchModal?.addEventListener('click', (e) => {
             if (e.target === batchModal) batchModal.style.display = 'none';
         });
+        
+        // Close the window if the user presses the "Escape" (Esc) key
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') batchModal.style.display = 'none';
         });
