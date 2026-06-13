@@ -23,7 +23,7 @@
         <aside class="sidebar" id="sidebar" aria-label="Main navigation">
             <div class="sidebar-brand">
                 <img src="<?= BASE_URL ?>/assets/images/logo/7X-PHARMA-ICO.png" alt="7x pharma logo">
-                <span class="nav-text">7X Pharma Nexus</span>
+                <span class="nav-text"><?= APP_NAME ?></span>
             </div>
             <nav class="sidebar-nav" aria-label="Sidebar navigation">
                 <p class="nav-section-label">Main</p>
@@ -64,7 +64,7 @@
                     </button>
                     <div>
                         <div class="page-title">System Alerts</div>
-                        <div class="breadcrumb">7X Pharma Nexus &rsaquo; <span>Notifications</span></div>
+                        <div class="breadcrumb"><?= APP_NAME ?> &rsaquo; <span>Notifications</span></div>
                     </div>
                 </div>
                 <div class="navbar-right">
